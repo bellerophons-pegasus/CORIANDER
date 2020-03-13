@@ -89,7 +89,7 @@ function plot(dd){
           y.push(dd[i][p]);
         }
 
-    return {x,y, visible: i ===0};
+    return {x,y, visible: i ===0, type: 'bar'};
   }
   // let trace1 = {
   //   x: [],
