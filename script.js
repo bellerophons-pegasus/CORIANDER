@@ -156,8 +156,12 @@ function plot(dd){
           x.push(p);
           y.push(dd[p]);
         }
-
-    Plotly.newPlot('graph', [{x,y,  type:'bar'}] );
+    if (x.length > 0) {
+      document.getElementById("graph").innerHTML="";
+      Plotly.newPlot('graph', [{x,y,  type:'bar'}] );
+    } else {
+      document.getElementById("graph").innerHTML="<h1>No data available for this year!</h1>";
+  }
 
 }
 
