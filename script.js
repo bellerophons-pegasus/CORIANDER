@@ -1,6 +1,46 @@
-//let jsondata;
 
-// var url = 'https://dhcr.clarin-dariah.eu/api/v1/courses/index?recent';
+
+
+
+
+
+
+
+
+
+
+
+
+// Slider functions
+
+
+
+
+
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+
+var selYear = slider.value;
+
+generatePlot()
+
+output.innerHTML = slider.value; // Display the default slider value
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output.innerHTML = this.value;
+  selYear = this.value;
+  // console.log(selYear);
+  generatePlot()
+
+}
+
+
+
+
+
+
 
 
 function readTextFile(file, callback) {
@@ -17,32 +57,49 @@ function readTextFile(file, callback) {
 
 //usage:
 
-readTextFile("index.json", function(text){
-    var data = JSON.parse(text);
-    console.log(data);
+function generatePlot() {
 
-    usedata(data);
+  readTextFile("index.json", function(text){
+      var data = JSON.parse(text);
+      // console.log(data);
 
+      // console.log(getItems(data));
+      //
+      // getItems(data);
 
-    console.log(getItems(data));
-    plot(getItems(data));
-});
-
-
-
-
-function usedata(data) {
-
-
-  // document.write(data[0].start_date);
-
+      plot(getItems(data));
+  });
 
 }
 
 
 
+
+
 function getItems(input) {
-  var arr = input, fin = [], dis = {}, obj = {}, teq = {} ;
+  // var arr = input;
+  var arr = [];
+
+  // console.log(selYear,'test');
+  // console.log( (new Date(parseInt(selYear)+1,8-1,31)));
+
+  for (var i = 0; i < input.length; i++) {
+    sd = (input[i].start_date).split(";")[0].split("-")
+
+    // console.log(new Date(sd[0],sd[1]-1,sd[2]), new Date(selYear,9-1,1) );
+    //
+    // console.log((new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) ));
+    // console.log((new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYear)+1,8-1,31)));
+    if ( (new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) )  &&  (new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYear)+1,8-1,31)) ) {
+
+      arr.push(input[i])
+    }
+
+  };
+
+
+
+  var fin = [], dis = {}, obj = {}, teq = {} ;
   for (var i = 0; i < arr.length; i++) {
 
     for (var j = 0; j < arr[i].disciplines.length; j++) {
@@ -76,10 +133,16 @@ function getItems(input) {
 
 
 
+
+
+
+
 function plot(dd){
 
 
   function makePlotData(i) {
+
+// 0:disciplines, 1:objects, 2:techniques
 
     let x = [];
     let y = [];
@@ -89,41 +152,50 @@ function plot(dd){
           y.push(dd[i][p]);
         }
 
-    return {x,y, visible: i ===0, type: 'bar'};
+    return {x,y, visible: i === 0, type:'bar'};
   }
-  // let trace1 = {
-  //   x: [],
-  //   y: [],
-  //   name: 'Disciplines'
-  // };
-  // let trace2 = {
-  //   x: [],
-  //   y: [],
-  //   name: 'Objects'
-  // };
-  // let trace3 = {
-  //   x: [],
-  //   y: [],
-  //   name: 'Techniques'
-  // };
-  //
-  // for (var p in dd[0]) {
-  //       trace1.x.push(p);
-  //       trace1.y.push(dd[p]);
-  //   }
-  // for (var p in dd[1]) {
-  //       trace2.x.push(p);
-  //       trace2.y.push(dd[p]);
-  //   }
-  // for (var p in dd[2]) {
-  //       trace3.x.push(p);
-  //       trace3.y.push(dd[p]);
-  //   }
-
-// [trace1,trace2,trace3]
 
 
     Plotly.newPlot('graph', [0,1,2].map(makePlotData), {
+
+       // sliders: [{
+       //       pad: {t: 30},
+       //       x: 0.05,
+       //       y: -1,
+       //       len: 0.95,
+       //       currentvalue: {
+       //         xanchor: 'right',
+       //         prefix: 'Academic year starting in September of ',
+       //         font: {
+       //           color: '#888',
+       //           size: 20
+       //         }
+       //       },
+       //
+       //       steps: [{
+       //         label: '1999',
+       //         method: 'restyle',
+       //         args: [['red'], {
+       //           mode: 'immediate',
+       //           frame: {redraw: false}
+       //         }]
+       //       }, {
+       //         label: '2000',
+       //         method: 'restyle',
+       //         args: [['green'], {
+       //           mode: 'immediate',
+       //           frame: {redraw: false}
+       //         }]
+       //       }, {
+       //         label: '2001',
+       //         method: 'restyle',
+       //         args: [['blue'], {
+       //           mode: 'immediate',
+       //           frame: {redraw: false}
+       //         }]
+       //       }]
+       //     }],
+
       updatemenus: [ {
           y: 1,
           yanchor: 'top',
