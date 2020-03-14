@@ -185,6 +185,7 @@ function plot(dd, courselist){
     } else {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{data: [],  type:'bar'}] , plotlayoutempty, );
+      document.getElementById("courselist").innerHTML="";
   }
 
 }
