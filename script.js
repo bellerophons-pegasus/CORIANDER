@@ -2,15 +2,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
 // Slider functions
 
 
@@ -40,9 +31,17 @@ tdSelector.appendChild(tdOption);
 
 var selValue = tdSelector.value;
 
-
-
-
+// layout options for bar chart
+var plotlayout = {
+  title: ''.concat('Number of courses per ',selValue),
+  xaxis: {
+    tickangle: 45
+  },
+  yaxis: {
+    gridwidth: 1
+  },
+  bargap :0.05
+};
 
 output.innerHTML = slider.value; // Display the default slider value
 
@@ -56,12 +55,6 @@ slider.oninput = function() {
 }
 
 tdSelector.addEventListener('change', generatePlot, false);
-
-
-
-
-
-
 
 function readTextFile(file, callback) {
     var rawFile = new XMLHttpRequest();
@@ -93,9 +86,6 @@ function generatePlot() {
 }
 
 
-
-
-
 function getItems(input) {
 
   selValue = tdSelector.value
@@ -110,8 +100,6 @@ function getItems(input) {
     }
 
   };
-
-
 
   var fin = {} ;
 
@@ -140,15 +128,7 @@ function getItems(input) {
 }
 
 
-
-
-
-
-
 function plot(dd){
-
-
-
     let x = [];
     let y = [];
 
@@ -157,7 +137,7 @@ function plot(dd){
           y.push(dd[p]);
         }
 
-    Plotly.newPlot('graph', [{x,y,  type:'bar'}] );
+    Plotly.newPlot('graph', [{x,y,  type:'bar'}], plotlayout );
 
 }
 
