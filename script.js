@@ -202,7 +202,7 @@ function plot(dd, courselist){
           x.push(p);
           y.push(dd[p]);
         }
-    if (x.length > 0) {
+    if (courselist.length > 0) {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{x,y,  type:'bar'}] , plotlayout);
       document.getElementById("courselist").innerHTML="";
