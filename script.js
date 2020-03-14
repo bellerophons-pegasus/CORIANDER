@@ -11,6 +11,7 @@
 
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
+var tdPlot = document.getElementById('graph');
 
 var selYear = slider.value;
 if ( slider.value > 1999) {
@@ -19,6 +20,9 @@ if ( slider.value > 1999) {
   var selYearp1 = 2100;
 }
 
+
+
+var selCats = [];
 
 
 var innerContainer = document.querySelector('[data-num="0"');
@@ -74,7 +78,6 @@ slider.oninput = function() {
   if ( slider.value > 1999) {
     output.innerHTML = this.value; // Display the default slider value
     selYearp1 = parseInt(this.value)+1;
-    console.log(selYearp1);
   } else {
     output.innerHTML = 'Complete Data';
     selYearp1 = 2100;
@@ -106,13 +109,23 @@ function generatePlot() {
 
   readTextFile("index.json", function(text){
       var data = JSON.parse(text);
-      // console.log(data);
 
-      // console.log(getItems(data));
-      //
-      // getItems(data);
+
       plotdata=getItems(data);
       plot(plotdata[0], plotdata[1] );
+
+      tdPlot.on('plotly_click', function(data){
+        if (selCats.includes(Object.keys(plotdata[0])[data.points[0].pointIndex])) {
+          selCats = selCats.filter(e => e !== Object.keys(plotdata[0])[data.points[0].pointIndex])
+          generatePlot()
+        } else {
+          selCats.push(Object.keys(plotdata[0])[data.points[0].pointIndex])
+          generatePlot()
+        }
+      });
+
+
+
   });
 
 }
@@ -180,6 +193,12 @@ function getItems(input) {
       }
   };
 
+
+  // hier wird jetzt noch das arr angepasst, je nach dem welche werte in selCats sind...
+
+
+
+
   return [fin, arr];
 
 }
@@ -217,10 +236,30 @@ function plot(dd, courselist){
     for (var p in dd) {
           x.push(p);
           y.push(dd[p]);
+        };
+    var plotcolors = [];
+
+    for (var i = 0; i < x.length; i++) {
+      if (selCats.includes(x[i])) {
+        plotcolors.push('#C54C82')
+      } else {
+        plotcolors.push('#000000')
+
+      }
+    };
+
+    var plotdata = [{
+      x,
+      y,
+      type:'bar',
+      marker: {
+        color:plotcolors
         }
+    }];
+
     if (courselist.length > 0) {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', [{x,y,  type:'bar'}] , plotlayout);
+      Plotly.newPlot('graph', plotdata , plotlayout);
       document.getElementById("courselist").innerHTML="";
       document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
@@ -230,5 +269,8 @@ function plot(dd, courselist){
   }
 
 }
+
+
+
 
 generatePlot()
