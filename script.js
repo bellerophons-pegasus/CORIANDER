@@ -107,6 +107,42 @@ function getItems(input) {
   selValue = tdSelector.value
 
   var arr = [];
+  var fin = {};
+
+  if (selValue == 'Disciplines') {
+    var selGr = 'disciplines'
+  } else if (selValue == 'Objects') {
+    var selGr = 'tadirah_objects'
+  } else if (selValue == 'Techniques') {
+    var selGr = 'tadirah_techniques'
+  }
+
+  for (var i = 0; i < input.length; i++) {
+    for (var j = 0; j < input[i][selGr].length; j++) {
+        if (!fin[input[i][selGr][j].name]) {
+          fin[input[i][selGr][j].name] = 0;
+        }
+      }
+  };
+  // sort the dist alphabetically
+  function sortOnKeys(dict) {
+
+    var sorted = [];
+    for(var key in dict) {
+        sorted[sorted.length] = key;
+    }
+    sorted.sort();
+
+    var tempDict = {};
+    for(var i = 0; i < sorted.length; i++) {
+        tempDict[sorted[i]] = dict[sorted[i]];
+    }
+
+    return tempDict;
+}
+
+  fin = sortOnKeys(fin);
+
 
   for (var i = 0; i < input.length; i++) {
     sd = (input[i].start_date).split(";")[0].split("-")
@@ -117,25 +153,14 @@ function getItems(input) {
 
   };
 
-  var fin = {} ;
+
 //  var courselist = {};
 
-  if (selValue == 'Disciplines') {
-    var selGr = 'disciplines'
-  } else if (selValue == 'Objects') {
-    var selGr = 'tadirah_objects'
-  } else if (selValue == 'Techniques') {
-    var selGr = 'tadirah_techniques'
 
-  }
 
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < arr[i][selGr].length; j++) {
-        if (!fin[arr[i][selGr][j].name]) {
-          fin[arr[i][selGr][j].name] = 1;
-        } else if (fin[arr[i][selGr][j].name]) {
           fin[arr[i][selGr][j].name] += 1;
-        }
       }
   };
 
