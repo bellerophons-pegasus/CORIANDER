@@ -13,6 +13,12 @@ var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
 
 var selYear = slider.value;
+if ( slider.value > 1999) {
+  var selYearp1 = parseInt(slider.value)+1;
+} else {
+  var selYearp1 = 2100;
+}
+
 
 
 var innerContainer = document.querySelector('[data-num="0"');
@@ -39,8 +45,8 @@ var plotlayout = {
     range: [-1,36]
   },
   yaxis: {
-    gridwidth: 1,
-    range: [0,30]
+     gridwidth: 1
+    // range: [0,30]
   },
   bargap :0.05
 };
@@ -54,18 +60,28 @@ var plotlayoutempty = {
     showticklabels: false
   },
   yaxis: {
-    range: [0,30]
+    range: [0,1]
   },
 };
 
-
-output.innerHTML = slider.value; // Display the default slider value
-
+if ( slider.value > 1999) {
+  output.innerHTML = slider.value; // Display the default slider value
+} else {
+  output.innerHTML = 'Complete Data';
+}
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
-  output.innerHTML = this.value;
+  if ( slider.value > 1999) {
+    output.innerHTML = this.value; // Display the default slider value
+    selYearp1 = parseInt(this.value)+1;
+    console.log(selYearp1);
+  } else {
+    output.innerHTML = 'Complete Data';
+    selYearp1 = 2100;
+
+  }
   selYear = this.value;
-  // console.log(selYear);
+
   generatePlot()
 
 }
@@ -139,7 +155,7 @@ function getItems(input) {
     }
 
     return tempDict;
-}
+  }
 
   fin = sortOnKeys(fin);
 
@@ -147,7 +163,7 @@ function getItems(input) {
   for (var i = 0; i < input.length; i++) {
     sd = (input[i].start_date).split(";")[0].split("-")
 
-    if ( (new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) )  &&  (new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYear)+1,8-1,31)) ) {
+    if ( (new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) )  &&  (new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYearp1),8-1,31)) ) {
       arr.push(input[i])
     }
 
