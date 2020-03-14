@@ -35,13 +35,16 @@ var selValue = tdSelector.value;
 var plotlayout = {
   title: ''.concat('Number of courses per ',selValue),
   xaxis: {
-    tickangle: 45
+    tickangle: 45,
+    range: [-1,35]
   },
   yaxis: {
-    gridwidth: 1
+    gridwidth: 1,
+    range: [0,30]
   },
   bargap :0.05
 };
+
 
 output.innerHTML = slider.value; // Display the default slider value
 
