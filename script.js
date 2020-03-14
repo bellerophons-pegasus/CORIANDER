@@ -95,8 +95,8 @@ function generatePlot() {
       // console.log(getItems(data));
       //
       // getItems(data);
-
-      plot(getItems(data));
+      plotdata=getItems(data);
+      plot(plotdata[0], plotdata[1] );
   });
 
 }
@@ -118,6 +118,7 @@ function getItems(input) {
   };
 
   var fin = {} ;
+  var courselist = {};
 
   if (selValue == 'Disciplines') {
     var selGr = 'disciplines'
@@ -139,12 +140,12 @@ function getItems(input) {
       }
   };
 
-  return fin;
+  return [fin, courselist];
 
 }
 
 
-function plot(dd){
+function plot(dd, courselist){
     let x = [];
     let y = [];
 
