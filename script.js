@@ -155,8 +155,12 @@ function printcourses(courselist){
     // Create the list item:
     var item = document.createElement('li');
     // Set its contents:
-    console.log(courselist[i].name)
     item.appendChild(document.createTextNode(courselist[i].name));
+    item.appendChild(document.createTextNode(' ('));
+    item.appendChild(document.createTextNode(courselist[i].course_type.name));
+    item.appendChild(document.createTextNode(') '));
+    item.appendChild(document.createTextNode(courselist[i].institution.name));
+    item.setAttribute("id", ''.concat('cid-', courselist[i].id));
     // Add it to the list:
     courselisthtml.appendChild(item);
   }
