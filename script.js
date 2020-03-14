@@ -89,7 +89,8 @@ slider.oninput = function() {
 
 }
 
-tdSelector.addEventListener('change', generatePlot, false);
+// tdSelector.addEventListener('change', generatePlot, false);
+tdSelector.addEventListener('change', function(){selCats = []; generatePlot()}, false);
 
 function readTextFile(file, callback) {
     var rawFile = new XMLHttpRequest();
@@ -115,6 +116,7 @@ function generatePlot() {
       plot(plotdata[0], plotdata[1] );
 
       tdPlot.on('plotly_click', function(data){
+
         if (selCats.includes(Object.keys(plotdata[0])[data.points[0].pointIndex])) {
           selCats = selCats.filter(e => e !== Object.keys(plotdata[0])[data.points[0].pointIndex])
           generatePlot()
