@@ -130,7 +130,6 @@ function getItems(input) {
   }
 
   for (var i = 0; i < arr.length; i++) {
-
     for (var j = 0; j < arr[i][selGr].length; j++) {
         if (!fin[arr[i][selGr][j].name]) {
           fin[arr[i][selGr][j].name] = 1;
@@ -143,6 +142,13 @@ function getItems(input) {
   return [fin, courselist];
 
 }
+
+// info_url
+// name
+// id
+// institution -> name
+// course_type -> name
+
 
 
 function plot(dd, courselist){
