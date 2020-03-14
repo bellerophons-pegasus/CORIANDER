@@ -36,7 +36,7 @@ var plotlayout = {
   title: ''.concat('Number of courses per ',selValue),
   xaxis: {
     tickangle: 45,
-    range: [-1,35]
+    range: [-1,36]
   },
   yaxis: {
     gridwidth: 1,
@@ -49,7 +49,7 @@ var plotlayout = {
 var plotlayoutempty = {
   title: 'No courses for this year',
   xaxis: {
-    range: [-1,35],
+    range: [-1,36],
     ticks: '',
     showticklabels: false
   },
