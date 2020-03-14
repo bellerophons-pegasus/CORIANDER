@@ -155,6 +155,7 @@ function plot(dd){
     if (x.length > 0) {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{x,y,  type:'bar'}] , plotlayout);
+      document.getElementById("courselist").innerHTML="<p>Courses available!</p>"
     } else {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{data: [],  type:'bar'}] , plotlayoutempty, );
