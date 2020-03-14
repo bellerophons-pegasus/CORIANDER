@@ -118,7 +118,7 @@ function getItems(input) {
   };
 
   var fin = {} ;
-  var courselist = {};
+//  var courselist = {};
 
   if (selValue == 'Disciplines') {
     var selGr = 'disciplines'
@@ -139,7 +139,7 @@ function getItems(input) {
       }
   };
 
-  return [fin, courselist];
+  return [fin, arr];
 
 }
 
@@ -149,6 +149,20 @@ function getItems(input) {
 // institution -> name
 // course_type -> name
 
+function printcourses(courselist){
+  var courselisthtml = document.createElement('ul');
+  for (var i = 0; i < courselist.length; i++){
+    // Create the list item:
+    var item = document.createElement('li');
+    // Set its contents:
+    console.log(courselist[i].name)
+    item.appendChild(document.createTextNode(courselist[i].name));
+    // Add it to the list:
+    courselisthtml.appendChild(item);
+  }
+//  return "<p>Courses available!</p>";
+  return courselisthtml;
+}
 
 
 function plot(dd, courselist){
@@ -162,7 +176,7 @@ function plot(dd, courselist){
     if (x.length > 0) {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{x,y,  type:'bar'}] , plotlayout);
-      document.getElementById("courselist").innerHTML="<p>Courses available!</p>"
+      document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{data: [],  type:'bar'}] , plotlayoutempty, );
