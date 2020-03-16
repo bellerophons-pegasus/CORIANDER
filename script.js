@@ -6,7 +6,7 @@
 
 
 
-
+var data;
 
 
 var slider = document.getElementById("myRange");
@@ -122,7 +122,7 @@ function readTextFile(file, callback) {
 function generatePlot() {
 
   readTextFile("index.json", function(text){
-      var data = JSON.parse(text);
+      data = JSON.parse(text);
 
 
       plotdata=getItems(data);
@@ -263,14 +263,109 @@ function printcourses(courselist){
     item.appendChild(document.createTextNode(courselist[i].course_type.name));
     item.appendChild(document.createTextNode(') '));
     item.appendChild(document.createTextNode(courselist[i].institution.name));
+    item.appendChild(document.createTextNode(' more...'));
     item.setAttribute("id", ''.concat('cid-', courselist[i].id));
+    item.setAttribute("class", 'courseEntry');
+    item.setAttribute("onclick", ''.concat( 'openCourseModul(',courselist[i].id,')' )  );
     // Add it to the list:
     courselisthtml.appendChild(item);
   }
   return courselisthtml;
 }
 
+function openCourseModul(courseID) {
 
+
+  console.log(courseID);
+  var modal = document.getElementById("myModal");
+  var modalInfo = document.getElementById("modal_info");
+  var modalTD_dis = document.getElementById("modal_td_dis");
+  var modalTD_obj = document.getElementById("modal_td_obj");
+  var modalTD_teq = document.getElementById("modal_td_teq");
+  var modalLit = document.getElementById("modal_add_lit");
+
+  var span = document.getElementsByClassName("close")[0];
+  modal.style.display = "block";
+
+  var item_info = document.createElement('p');
+  var item_td_dis = document.createElement('p');
+  var item_td_obj = document.createElement('p');
+  var item_td_teq = document.createElement('p');
+  var item_add_lit = document.createElement('p');
+
+  // for loop to find entry in data
+  for (var i=0; i<data.length;i++) {
+
+    if ( data[i].id ==courseID) {
+      item_info.appendChild(document.createTextNode(data[i].name));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createTextNode(data[i].description));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createTextNode('Institution: '));
+      item_info.appendChild(document.createTextNode(data[i].institution.name));
+      item_info.appendChild(document.createTextNode('  ,    started in:  '));
+      item_info.appendChild(document.createTextNode(data[i].start_date));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createTextNode('Link: '));
+      item_info.appendChild(document.createTextNode(data[i].info_url));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createTextNode('Contact: '));
+      item_info.appendChild(document.createTextNode(data[i].contact_name));
+      item_info.appendChild(document.createTextNode('  ,  '));
+      item_info.appendChild(document.createTextNode(data[i].contact_mail));
+      item_info.appendChild(document.createElement("br"));
+      item_info.appendChild(document.createElement("br"));
+
+      // here are the respective tadirah entries: disciplines, objects, techniques
+
+      item_td_dis.appendChild(document.createTextNode('TADIRAH Disciplines: '));
+      for (var j = 0; j<data[i].disciplines.length;j++) {
+        item_td_dis.appendChild(document.createElement("br"));
+        item_td_dis.appendChild(document.createTextNode(data[i].disciplines[j].name));
+      }
+
+      item_td_obj.appendChild(document.createTextNode('TADIRAH Objects: '));
+      for (var j = 0; j<data[i].tadirah_objects.length;j++) {
+        item_td_obj.appendChild(document.createElement("br"));
+        item_td_obj.appendChild(document.createTextNode(data[i].tadirah_objects[j].name));
+      }
+
+      item_td_teq.appendChild(document.createTextNode('TADIRAH Techniques: '));
+      for (var j = 0; j<data[i].tadirah_techniques.length;j++) {
+        item_td_teq.appendChild(document.createElement("br"));
+        item_td_teq.appendChild(document.createTextNode(data[i].tadirah_techniques[j].name));
+      }
+
+
+      // here are the additional literatures and infos from the other APIs
+
+
+      item_add_lit.appendChild(document.createTextNode('Additional Literature:'));
+      item_add_lit.appendChild(document.createElement("br"));
+      item_add_lit.appendChild(document.createElement("br"));
+
+    };
+
+  }
+
+  modalInfo.appendChild(item_info);
+  modalTD_dis.appendChild(item_td_dis);
+  modalTD_obj.appendChild(item_td_obj);
+  modalTD_teq.appendChild(item_td_teq);
+  modalLit.appendChild(item_add_lit);
+
+  span.onclick = function() {
+    modalInfo.removeChild(item_info);
+    modalTD_dis.removeChild(item_td_dis);
+    modalTD_obj.removeChild(item_td_obj);
+    modalTD_teq.removeChild(item_td_teq);
+    modalLit.removeChild(item_add_lit);
+    modal.style.display = "none";
+  }
+}
 
 
 
