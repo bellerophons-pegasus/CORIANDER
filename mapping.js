@@ -1,0 +1,1 @@
+var mapping = [{"Artifacts": {"zotero": "obj_artifacts", "wikidata": "123454"}, "Data": {"zotero": "obj_data", "wikidata": "987654"}}]

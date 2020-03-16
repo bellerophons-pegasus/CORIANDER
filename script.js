@@ -2,16 +2,9 @@
 
 
 
-// Slider functions
-
-
-
-var data;
-
-
 var slider = document.getElementById("myRange");
 var output = document.getElementById("demo");
-var tdPlot = document.getElementById('graph');
+var tdPlot = document.getElementById("graph");
 
 var selYear = slider.value;
 if ( slider.value > 1999) {
@@ -117,12 +110,10 @@ function readTextFile(file, callback) {
 
 
 
-//usage:
-
 function generatePlot() {
 
-  readTextFile("index.json", function(text){
-      data = JSON.parse(text);
+
+
 
 
       plotdata=getItems(data);
@@ -152,7 +143,6 @@ function generatePlot() {
 
 
 
-  });
 
 }
 
@@ -321,7 +311,7 @@ function openCourseModul(courseID) {
 
       // here are the respective tadirah entries: disciplines, objects, techniques
 
-      item_td_dis.appendChild(document.createTextNode('TADIRAH Disciplines: '));
+      item_td_dis.appendChild(document.createTextNode('Disciplines: '));
       for (var j = 0; j<data[i].disciplines.length;j++) {
         item_td_dis.appendChild(document.createElement("br"));
         item_td_dis.appendChild(document.createTextNode(data[i].disciplines[j].name));
@@ -443,8 +433,6 @@ function plot(dd, courselist){
 
 
 generatePlot()
-
-
 
 
 
