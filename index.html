@@ -13,15 +13,18 @@
   <div id="graph"></div>
 
   <div class="slidecontainer">
-  <input type="range" min="1999" max="2020" value="1999" class="slider" id="myRange">
+  <input type="range" min="1999" max="2020" step="1" value="1999" class="slider" id="myRange">
   <p>Value: <span id="demo"></span></p>
   </div>
+
 
 
   <div class="control-row">
     TADIRAH Group: <select class="tddata">
     </select>
   </div>
+
+  <button id="buttonSel" onclick="buttonFunc()">Deselect</button>
 
   <div id="courselist"></div>
 </div>

@@ -84,10 +84,19 @@ slider.oninput = function() {
 
   }
   selYear = this.value;
-
   generatePlot()
-
 }
+
+
+
+function buttonFunc() {
+  selCats = [];
+  generatePlot();
+}
+
+
+
+
 
 // tdSelector.addEventListener('change', generatePlot, false);
 tdSelector.addEventListener('change', function(){selCats = []; generatePlot()}, false);
@@ -104,6 +113,10 @@ function readTextFile(file, callback) {
     rawFile.send(null);
 }
 
+
+
+
+
 //usage:
 
 function generatePlot() {
@@ -113,7 +126,18 @@ function generatePlot() {
 
 
       plotdata=getItems(data);
-      plot(plotdata[0], plotdata[1] );
+      plot(plotdata[0], plotdata[2] );
+
+
+
+      var but = document.getElementById("buttonSel");
+      if (selCats.length > 0) {
+        but.style.display = "block";
+      } else {
+        but.style.display = "none";
+      }
+
+
 
       tdPlot.on('plotly_click', function(data){
 
@@ -155,7 +179,7 @@ function getItems(input) {
         }
       }
   };
-  // sort the dist alphabetically
+  // sort the dict alphabetically
   function sortOnKeys(dict) {
 
     var sorted = [];
@@ -179,13 +203,13 @@ function getItems(input) {
     sd = (input[i].start_date).split(";")[0].split("-")
 
     if ( (new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) )  &&  (new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYearp1),8-1,31)) ) {
+
+
       arr.push(input[i])
+
     }
 
   };
-
-
-//  var courselist = {};
 
 
 
@@ -198,10 +222,21 @@ function getItems(input) {
 
   // hier wird jetzt noch das arr angepasst, je nach dem welche werte in selCats sind...
 
-
-
-
-  return [fin, arr];
+  // select only the entries which are selected in the plot..if nothing is selected then use all data that fits the year.
+  var arrSel = [];
+  if (selCats.length > 0) {
+    for (var i = 0; i< arr.length; i++) {
+      for (var j = 0; j < arr[i][selGr].length; j++) {
+            if (selCats.includes(arr[i][selGr][j].name) ) {
+              arrSel.push(arr[i]);
+              break;
+            }
+        }
+    }
+  } else {
+    arrSel = arr;
+  }
+  return [fin, arr, arrSel];
 
 }
 
@@ -212,7 +247,13 @@ function getItems(input) {
 // course_type -> name
 
 function printcourses(courselist){
+
+
+
   var courselisthtml = document.createElement('ul');
+
+
+
   for (var i = 0; i < courselist.length; i++){
     // Create the list item:
     var item = document.createElement('li');
@@ -226,9 +267,38 @@ function printcourses(courselist){
     // Add it to the list:
     courselisthtml.appendChild(item);
   }
-//  return "<p>Courses available!</p>";
   return courselisthtml;
 }
+
+
+
+
+
+
+function printcourselisttitle(){
+
+  var courselisttitle = document.createElement('h3');
+
+  if (selCats.length >0 ) {
+
+    courselisttitle.appendChild(document.createTextNode('Courses matching the selection: '));
+    for (var i = 0; i<selCats.length; i++) {
+      if (i==0) {
+        courselisttitle.appendChild(document.createTextNode(selCats[i]));
+      } else {
+        courselisttitle.appendChild(document.createTextNode(', '));
+        courselisttitle.appendChild(document.createTextNode(selCats[i]));
+
+      };
+    };
+  } else {
+    courselisttitle.appendChild(document.createTextNode('Showing all Courses for this year:'));
+  }
+  return courselisttitle;
+}
+
+
+
 
 
 function plot(dd, courselist){
@@ -263,11 +333,13 @@ function plot(dd, courselist){
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', plotdata , plotlayout);
       document.getElementById("courselist").innerHTML="";
+      document.getElementById("courselist").appendChild(printcourselisttitle());
       document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', [{data: [],  type:'bar'}] , plotlayoutempty, );
       document.getElementById("courselist").innerHTML="";
+
   }
 
 }
@@ -276,3 +348,15 @@ function plot(dd, courselist){
 
 
 generatePlot()
+
+
+
+
+
+
+
+
+
+
+
+// test area
