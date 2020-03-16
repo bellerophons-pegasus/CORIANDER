@@ -13,17 +13,17 @@ import json
 
 data =  []
 csvmap = {}
-with open('mapping.csv') as csv_file:
+with open('tadirah-mapping.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
+    next(csv_reader)
     for row in csv_reader:
             
             csvmap2 = {}
             
-            csvmap2['zotero'] = row[1]
-            csvmap2['wikidata']=row[2]
+            csvmap2['zotero'] = row[7]
+            csvmap2['wikidata']=row[4]
             
-            csvmap[row[0]] = csvmap2
+            csvmap[row[3]] = csvmap2
     data.append(csvmap)
 
 
