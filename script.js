@@ -496,7 +496,7 @@ generatePlot()
 
 
 
-
+console.log(dat_zot[0]);
 
 
 
