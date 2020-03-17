@@ -21,6 +21,7 @@ with open('tadirah-mapping.csv') as csv_file:
             csvmap2 = {}
             
             csvmap2['zotero'] = row[7]
+            csvmap2['new_zotero'] = row[12]
             csvmap2['wikidata']=row[4]
             
             csvmap[row[3]] = csvmap2

@@ -315,18 +315,77 @@ function openCourseModul(courseID) {
       for (var j = 0; j<data[i].disciplines.length;j++) {
         item_td_dis.appendChild(document.createElement("br"));
         item_td_dis.appendChild(document.createTextNode(data[i].disciplines[j].name));
+        item_td_dis.appendChild(document.createTextNode('   '));
+
+        // check if there is a Zotero mapping for the current disicpline
+        if (mapping[0][data[i].disciplines[j].name.trim()]['zotero'] != '') {
+            var zot_link = document.createElement('a');
+            zot_link.setAttribute("class", 'zot_link');
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].disciplines[j].name.trim()]['zotero'] ,'/'));
+            zot_link.appendChild(document.createTextNode('Z'));
+            item_td_dis.appendChild(zot_link);
+          };
+          item_td_dis.appendChild(document.createTextNode('   '));
+          // check if there is a Scholia mapping for the current disicpline
+          if (mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] != '') {
+              var sco_link = document.createElement('a');
+              sco_link.setAttribute("class", 'sco_link');
+              sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
+              sco_link.appendChild(document.createTextNode('S'));
+              item_td_dis.appendChild(sco_link);
+            };
       }
 
       item_td_obj.appendChild(document.createTextNode('TADIRAH Objects: '));
       for (var j = 0; j<data[i].tadirah_objects.length;j++) {
         item_td_obj.appendChild(document.createElement("br"));
         item_td_obj.appendChild(document.createTextNode(data[i].tadirah_objects[j].name));
+        item_td_obj.appendChild(document.createTextNode('   '));
+
+        // check if there is a Zotero mapping for the current object
+        console.log(data[i].tadirah_objects[j].name.trim());
+        if (mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero'] != '') {
+            var zot_link = document.createElement('a');
+            zot_link.setAttribute("class", 'zot_link');
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero'] ,'/'));
+            zot_link.appendChild(document.createTextNode('Z'));
+            item_td_obj.appendChild(zot_link);
+          };
+        item_td_obj.appendChild(document.createTextNode('   '));
+        // check if there is a Scholia mapping for the current object
+        if (mapping[0][data[i].tadirah_objects[j].name.trim()]['wikidata'] != '') {
+            var sco_link = document.createElement('a');
+            sco_link.setAttribute("class", 'sco_link');
+            sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].tadirah_objects[j].name.trim()]['wikidata'] ));
+            sco_link.appendChild(document.createTextNode('S'));
+            item_td_obj.appendChild(sco_link);
+          };
+
       }
 
       item_td_teq.appendChild(document.createTextNode('TADIRAH Techniques: '));
       for (var j = 0; j<data[i].tadirah_techniques.length;j++) {
         item_td_teq.appendChild(document.createElement("br"));
         item_td_teq.appendChild(document.createTextNode(data[i].tadirah_techniques[j].name));
+        item_td_teq.appendChild(document.createTextNode('   '));
+
+        // check if there is a Zotero mapping for the current technique
+        if (mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] != '') {
+            var zot_link = document.createElement('a');
+            zot_link.setAttribute("class", 'zot_link');
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] ,'/'));
+            zot_link.appendChild(document.createTextNode('Z'));
+            item_td_teq.appendChild(zot_link);
+          };
+        item_td_teq.appendChild(document.createTextNode('   '));
+        // check if there is a Scholia mapping for the current technique
+        if (mapping[0][data[i].tadirah_techniques[j].name.trim()]['wikidata'] != '') {
+            var sco_link = document.createElement('a');
+            sco_link.setAttribute("class", 'sco_link');
+            sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['wikidata'] ));
+            sco_link.appendChild(document.createTextNode('S'));
+            item_td_teq.appendChild(sco_link);
+          };
       }
 
 
