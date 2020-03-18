@@ -237,12 +237,7 @@ function getItems(input) {
 // course_type -> name
 
 function printcourses(courselist){
-
-
-
   var courselisthtml = document.createElement('ul');
-
-
 
   for (var i = 0; i < courselist.length; i++){
     // Create the list item:
@@ -263,9 +258,20 @@ function printcourses(courselist){
   return courselisthtml;
 }
 
+// concatenate list of zotero tags
+function createZoteroArgument(keyList) {
+  var linkargument = '';
+  for (var i = 0; i<keyList.length;i++){
+    if (linkargument == '') {
+      linkargument = keyList[i].trim();
+    } else {
+      linkargument = ''.concat(linkargument,' || ',keyList[i].trim(),);
+    };
+  };
+  return linkargument;
+}
+
 function openCourseModul(courseID) {
-
-
   console.log(courseID);
   var modal = document.getElementById("myModal");
   var modalInfo = document.getElementById("modal_info");
@@ -311,6 +317,7 @@ function openCourseModul(courseID) {
 
       // here are the respective tadirah entries: disciplines, objects, techniques
 
+      // DISCIPLINES
       item_td_dis.appendChild(document.createTextNode('Disciplines: '));
       for (var j = 0; j<data[i].disciplines.length;j++) {
         item_td_dis.appendChild(document.createElement("br"));
@@ -321,21 +328,22 @@ function openCourseModul(courseID) {
         if (mapping[0][data[i].disciplines[j].name.trim()]['zotero'] != '') {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
-            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].disciplines[j].name.trim()]['zotero'] ,'/'));
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
             zot_link.appendChild(document.createTextNode('Z'));
             item_td_dis.appendChild(zot_link);
           };
-          item_td_dis.appendChild(document.createTextNode('   '));
-          // check if there is a Scholia mapping for the current disicpline
-          if (mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] != '') {
-              var sco_link = document.createElement('a');
-              sco_link.setAttribute("class", 'sco_link');
-              sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
-              sco_link.appendChild(document.createTextNode('S'));
-              item_td_dis.appendChild(sco_link);
-            };
+        item_td_dis.appendChild(document.createTextNode('   '));
+        // check if there is a Wikidata/Scholia mapping for the current disicpline
+        if (mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] != '') {
+            var sco_link = document.createElement('a');
+            sco_link.setAttribute("class", 'sco_link');
+            sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
+            sco_link.appendChild(document.createTextNode('S'));
+            item_td_dis.appendChild(sco_link);
+          };
       }
 
+      // OBJECTS
       item_td_obj.appendChild(document.createTextNode('TADIRAH Objects: '));
       for (var j = 0; j<data[i].tadirah_objects.length;j++) {
         item_td_obj.appendChild(document.createElement("br"));
@@ -343,11 +351,11 @@ function openCourseModul(courseID) {
         item_td_obj.appendChild(document.createTextNode('   '));
 
         // check if there is a Zotero mapping for the current object
-        console.log(data[i].tadirah_objects[j].name.trim());
+        //console.log(data[i].tadirah_objects[j].name.trim());
         if (mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero'] != '') {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
-            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero'] ,'/'));
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero']) ,'/'));
             zot_link.appendChild(document.createTextNode('Z'));
             item_td_obj.appendChild(zot_link);
           };
@@ -373,7 +381,9 @@ function openCourseModul(courseID) {
         if (mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] != '') {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
-            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] ,'/'));
+            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero']) ,'/'));
+
+//            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] ,'/'));
             zot_link.appendChild(document.createTextNode('Z'));
             item_td_teq.appendChild(zot_link);
           };
@@ -496,7 +506,7 @@ generatePlot()
 
 
 
-console.log(dat_zot[0]);
+//console.log(dat_zot[0]);
 
 
 
