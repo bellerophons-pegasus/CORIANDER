@@ -1,26 +1,26 @@
 TaDiRAH Kategorie,machine label (from readme on github),label EN (from tadirah.dariah.eu/vocab),label EN (course registry),QID,tema number,related research activity (tema number),Mapping DH Zotero,Mapping Custom Zotero,used in *****,Not matched from Zotero
-Research Objects,artifacts,Artifacts,Artifacts,Q8205328,56,,obj_Artefacts; obj_Object,obj_Artefacts,,*****
+Research Objects,artifacts,Artifacts,Artifacts,Q8205328,56,,obj_Artefacts; obj_Object,obj_Artefacts; obj_Object,,*****
 Research Objects,bibliographic_listings,Bibliographic Listings,BibliographicListings,Q1631107,57,,,obj_BibliographicListing,,act_Conceptualizing
 Research Objects,computers,Computers,Computers,Q68,58,,,obj_Computers,X,act_Query/Retrieve
 Research Objects,curricula,Curricula,Curricula,Q207137,59,,,obj_Curricula,,activity: Collect
-Research Objects,digital_humanities,Digital Humanities,DigitalHumanities,Q1026962,61,,obj_DigitalHumanities; Object: Digital Humanities,obj_DigitalHumanities,X,activity: Compare
-Research Objects,data,Data,Data,Q42848,60,,obj_Data; Object: Data,obj_Data,X,AnalyzeQualitatively
+Research Objects,digital_humanities,Digital Humanities,DigitalHumanities,Q1026962,61,,obj_DigitalHumanities; Object: Digital Humanities,obj_DigitalHumanities; Object: Digital Humanities,X,activity: Compare
+Research Objects,data,Data,Data,Q42848,60,,obj_Data; Object: Data,obj_Data; Object: Data,X,AnalyzeQualitatively
 Research Objects,file,File,File,Q82753,62,,,obj_File,X,AnalyzeStatistically
 Research Objects,images,Images,Images,Q478798,63,,obj_Images,obj_Images,X,Aristoteles
 Research Objects,images_3D,Images (3D),Images(3D),Q189177,64,,,obj_Images(3D),,bigdata
-Research Objects,infrastructure,Infrastructure,Infrastructure,Q121359,65,,obj_Infrastructures; object: Infrastructure; Object: Infrastructures,obj_Infrastructures,X,bigdata~
+Research Objects,infrastructure,Infrastructure,Infrastructure,Q121359,65,,obj_Infrastructures; object: Infrastructure; Object: Infrastructures,obj_Infrastructures; object: Infrastructure; Object: Infrastructures,X,bigdata~
 Research Objects,interaction,Interaction,Interaction,Q52948,66,,,obj_Interaction,,Erschließungsverfahren
-Research Objects,language,Language,Language,Q315,67,,obj_Language; Object: Language,obj_Language,X,Facebook
+Research Objects,language,Language,Language,Q315,67,,obj_Language; Object: Language,obj_Language; Object: Language,X,Facebook
 Research Objects,link,Link,Link,Q102014,68,,,obj_Link,X,Google Inc.
 Research Objects,literature,Literature,Literature,Q8242,69,,obj_Literature,obj_Literature,X,ISIN_US30303M1027
 Research Objects,manuscript,Manuscript,Manuscript,Q87167,70,,obj_Manuscripts,obj_Manuscripts,,ISIN_US38259P5089
 Research Objects,map,Map,Map,Q4006,71,,obj_Maps,obj_Maps,,meta_Advocating
-Research Objects,metadata,Metadata,Metadata,Q180160,72,,obj_Metadata; Object: Metadata,obj_Metadata,X,meta_DefinePolicy
+Research Objects,metadata,Metadata,Metadata,Q180160,72,,obj_Metadata; Object: Metadata,obj_Metadata; Object: Metadata,X,meta_DefinePolicy
 Research Objects,methods,Methods,Methods,Q2695280,73,,obj_Methods,obj_Methods,X,Narratology
 Research Objects,multimedia,Multimedia,Multimedia,Q131765,74,,,obj_Multimedia,X,obj_ANTHROPOLOGY
 Research Objects,multimodal,Multimodal,Multimodal,Q1952416,75,,,obj_Multimodal,X,obj_AnyObject
 Research Objects,named_entities,Named Entities,NamedEntities,Q25047676,76,,obj_NamedEntities,obj_NamedEntities,X,obj_ArchaeologicalSites
-Research Objects,persons,Persons,Persons,Q215627,77,,obj_People; Object: People,obj_People,X,obj_Architecture
+Research Objects,persons,Persons,Persons,Q215627,77,,obj_People; Object: People,obj_People; Object: People,X,obj_Architecture
 Research Objects,projects,Projects,Projects,Q170584,78,,obj_Project,obj_Project,X,obj_Comics
 Research Objects,research,Research,Research,Q42240,79,,obj_Research,obj_Research,X,obj_Data/Databases
 Research Objects,research_process,Research Process,ResearchProcess,,80,,,obj_ResearchProcess,X,obj_Databases
@@ -30,13 +30,13 @@ Research Objects,software,Software,Software,Q7397,83,,obj_Software,obj_Software,
 Research Objects,sound,Sound,Sound,Q11461,84,,obj_Audio,obj_Audio,X,obj_Letters
 Missing in TaDiRAH,,,Speech,Q52946,,,,obj_Speech,,obj_Music
 Research Objects,standards,Standards,Standards,Q317623,85,,obj_Standards,obj_Standards,X,obj_Network science
-Research Objects,text,Text,Text,Q234460,86,,obj_Text; Object: Texts,obj_Text,X,obj_NewMedia
+Research Objects,text,Text,Text,Q234460,86,,obj_Text; Object: Texts,obj_Text; Object: Texts,X,obj_NewMedia
 Research Objects,text_bearing_objects,Text Bearing Objects,TextBearingObjects,,87,,,obj_TextBearingObjects,,obj_OnlineContent
 Research Objects,tools,Tools,Tools,Q1077784,88,,obj_Tools,obj_Tools,X,obj_Relational archaeology
 Research Objects,video,Video,Video,Q34508,89,,obj_Video,obj_Video,,obj_Variants
 Research Objects,visualization,???,Visualization,Q451553,,,,obj_Visualization,X,Object: Archives
 Research Objects,VREs,VREs,VREs,Q1674651,91,,obj_VREs,obj_VREs,X,object: Data/Databases
-Research Objects,???,Code,,Q188889,128,,obj_Code; Object: Code,obj_Code,,object: Knowledge
+Research Objects,???,Code,,Q188889,128,,obj_Code; Object: Code,obj_Code; Object: Code,,object: Knowledge
 Research Activities,1 - capture,Capture,Capture,Q843958,7,,goal_Capture,goal_Capture,,Open Access
 Research Activities,conversion,Conversion,Conversion,Q1783551,8,,act_Conversion,act_Conversion,,Stephen Marche
 Research Activities,data_recognition,Data Recognition,Data Recognition,,9,,act_DataRecognition,act_DataRecognition,,t_Blogging
@@ -45,46 +45,46 @@ Research Activities,gathering,Gathering,Gathering,,11,,activity: Gather,activity
 Research Activities,imaging,Imaging,Imaging,Q6002851,12,,,act_Imaging,X,t_Interoperability
 Research Activities,recording,Recording,Recording,Q13557414,13,,,act_Recording,,t_MarkovChains
 Research Activities,transcription,Transcription,Transcription,Q207714,14,,act_Transcription,act_Transcription,,t_Narratology
-Research Activities,2 - creation,Creation,Creation,Q11398090,15,,goal_Creation; goal_Create,goal_Creation,,t_OpenAccess
+Research Activities,2 - creation,Creation,Creation,Q11398090,15,,goal_Creation; goal_Create,goal_Creation; goal_Create,,t_OpenAccess
 Research Activities,designing,Designing,Designing,Q82604,16,,,act_Designing,X,t_Stemmatology
 Research Activities,programming,Programming,Programming,Q80006,17,,,act_Programming,X,t_Sustainability
 Research Activities,translation,Translation,Translation,Q7553,18,,,act_Translation,,t_Usability
 Research Activities,web_development,Web development,Web development,Q386275,19,,,act_WebDevelopmet,X,t_XML
 Research Activities,writing,Writing,Writing,Q37260,20,,,act_Writing,X,x_astree
-Research Activities,3 - enrichment,Enrichment,Enrichment,,21,,goal_Enrichment; activity: Enrich,goal_Enrichment,X,X-CHECK
-Research Activities,annotating,Annotating,Annotating,,22,,act_Annotating; Activity: Annotate,act_Annotating,X,
+Research Activities,3 - enrichment,Enrichment,Enrichment,,21,,goal_Enrichment; activity: Enrich,goal_Enrichment; activity: Enrich,X,X-CHECK
+Research Activities,annotating,Annotating,Annotating,,22,,act_Annotating; Activity: Annotate,act_Annotating; Activity: Annotate,X,
 Research Activities,cleanup,Cleanup,Cleanup,,23,,,act_Cleanup,,
 Research Activities,editing,Editing,Editing,Q194105,24,,act_Editing,act_Editing,X,
 Research Activities,4 - analysis,Analysis,Analysis,Q217602,25,,goal_Analysis,goal_Analysis,X,
 Research Activities,content_analysis,Content Analysis,Content Analysis,Q653137,26,,act_ContentAnalysis,act_ContentAnalysis,X,
-Research Activities,network_analysis,Network Analysis,Network Analysis,Q4417999,27,,act_NetworkAnalysis; t_NetworkAnalysis,act_NetworkAnalysis,X,
+Research Activities,network_analysis,Network Analysis,Network Analysis,Q4417999,27,,act_NetworkAnalysis; t_NetworkAnalysis,act_NetworkAnalysis; t_NetworkAnalysis,X,
 Research Activities,relational_analysis,Relational Analysis,Relational Analysis,,28,,act_RelationalAnalysis,act_RelationalAnalysis,X,
 Research Activities,spatial_analysis,Spatial Analysis,Spatial Analysis,Q1938983,29,,,act_SpatialAnalysis,,
 Research Activities,structural_analysis,Structural Analysis,Structural Analysis,,30,,act_StructuralAnalysis,act_StructuralAnalysis,X,
-Research Activities,stylistic_analysis,Stylistic Analysis,Stylistic Analysis,Q11873636,31,,act_StylisticAnalysis; t_Stylometry,act_StylisticAnalysis,X,
+Research Activities,stylistic_analysis,Stylistic Analysis,Stylistic Analysis,Q11873636,31,,act_StylisticAnalysis; t_Stylometry,act_StylisticAnalysis; t_Stylometry,X,
 Research Activities,visualization,Visualization,Visualization,Q451553,32,,act_Visualizing,act_Visualizing,X,
 Research Activities,5 - interpretation,Interpretation,Interpretation,Q280221,33,,goal_Interpretation,goal_Interpretation,X,
 Research Activities,contextualizing,Contextualizing,Contextualizing,,34,,,act_Contextualizing,X,
 Research Activities,modeling,Modeling,Modeling,Q1116876,35,,act_Modeling,act_Modeling,X,
-Research Activities,theorizing,Theorizing,Theorizing,,36,,act_Theorizing; meta_Theorizing; Meta: Theorizing,act_Theorizing,X,
+Research Activities,theorizing,Theorizing,Theorizing,,36,,act_Theorizing; meta_Theorizing; Meta: Theorizing,act_Theorizing; meta_Theorizing; Meta: Theorizing,X,
 Research Activities,6 - storage,Storage,Storage,Q57515336,37,,goal_Storage,goal_Storage,X,
 Research Activities,archiving,Archiving,Archiving,,38,,act_Archiving,act_Archiving,X,
 Research Activities,identifying,Identifying,Identifying,Q3265221,39,,act_Identifying,act_Identifying,,
 Research Activities,organizing,Organizing,Organizing,Q2920728,40,,act_Organizing,act_Organizing,X,
 Research Activities,preservation,Preservation,Preservation,Q632897,41,,act_Preservation,act_Preservation,X,
 Research Activities,7 - dissemination,Dissemination,Dissemination,Q840576,42,,goal_Dissemination,goal_Dissemination,X,
-Research Activities,collaboration,Collaboration,Collaboration,Q1145523,43,,act_Collaborating; activity: Collaborate; goal_Collaboration; meta_Collaborating,act_Collaborating,x,
+Research Activities,collaboration,Collaboration,Collaboration,Q1145523,43,,act_Collaborating; activity: Collaborate; goal_Collaboration; meta_Collaborating,act_Collaborating; activity: Collaborate; goal_Collaboration; meta_Collaborating,x,
 Research Activities,commenting,Commenting,Commenting,Q58897583,44,,,act_Commenting,,
 Research Activities,communicating,Communicating,Communicating,,45,,act_Communicating,act_Communicating,X,
 Research Activities,crowdsourcing,Crowdsourcing,Crowdsourcing,Q275969,46,,act_Crowdsourcing,act_Crowdsourcing,,
 Research Activities,publishing,Publishing,Publishing,Q3972943,47,,act_Publishing,act_Publishing,X,
 Research Activities,sharing,Sharing,Sharing,Q5227350,48,,act_Sharing,act_Sharing,X,
 Research Activities,meta_activities,Meta-Activities,Meta-Activities,,49,,,,,
-Research Activities,assessing,Meta: Assessing,Meta: Assessing,,50,,meta_Assessing; activity: Assess,meta_Assessing,X,
+Research Activities,assessing,Meta: Assessing,Meta: Assessing,,50,,meta_Assessing; activity: Assess,meta_Assessing; activity: Assess,X,
 Research Activities,community_building,Meta: Community Building,Meta: Community Building,Q5154924,51,,,meta_CommunityBuilding,,
 Research Activities,give_overview,Meta: Give Overview,Meta: Give Overview,,52,,meta_GiveOverview,meta_GiveOverview,x,
 Research Activities,project_management,Meta: Project Management,Meta: Project Management,Q179012,53,,meta_ProjectManagement,meta_ProjectManagement,,
-Research Activities,teaching_and_learning,Meta: Teaching / Learning,Meta: Teaching / Learning,,54,,meta_Teaching/Learning; act_Teaching/Learning; meta_Teaching,meta_Teaching/Learning,X,
+Research Activities,teaching_and_learning,Meta: Teaching / Learning,Meta: Teaching / Learning,,54,,meta_Teaching/Learning; act_Teaching/Learning; meta_Teaching,meta_Teaching/Learning; act_Teaching/Learning; meta_Teaching,X,
 Research Techniques,bit_stream_preservation > storage - preservation,Bit Stream Preservation,Bit Stream Preservation,,93,41,,t_BitStreamPreservation,,
 Research Techniques,brainstorming,Brainstorming,Brainstorming,Q191183,94,,,t_Brainstorming,,
 Research Techniques,browsing,Browsing,Browsing,Q516508,95,,,t_Browsing,,
