@@ -1,0 +1,207 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #dfecdf;
+}
+
+#bodycontent {
+  max-width: 1500px;
+  margin: auto;
+  background-color: #fff;
+  padding: 1em;
+  position: relative;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.header {
+  border-bottom: 2px solid #006500;
+  margin-bottom: 0.5em;
+/* not not working
+  transition: padding 2s ease;*/
+}
+
+#coriander {
+  font-size: 3em;
+  margin-bottom: 0.1em;
+  margin-left: -0.05em;
+}
+
+#logowrapper {
+  position: absolute;
+  width: 100px;
+  top: 1em;
+  right: 1em;
+}
+
+#coriander-logo {
+  position: fixed;
+  width: 100px;
+}
+
+.header p{
+  margin-top: 0;
+}
+
+/* nice styling for slider */
+#slidercontainer{
+  width: 80%;
+  margin: auto;
+}
+
+#myRange {
+  width: 100%;
+  margin: auto;
+}
+
+/* track and thumb styling generated with http://danielstern.ca/range.css/?ref=css-tricks#/ */
+input[type=range].myRange {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: -0.5px 0;
+}
+input[type=range].myRange:focus {
+  outline: none;
+}
+input[type=range].myRange::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 9px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #ffffff, 0px 0px 0px #ffffff;
+  background: #bfd8bf;
+  border-radius: 23.7px;
+  border: 0px solid #ffffff;
+}
+input[type=range].myRange::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #006500, 0px 0px 0px #007f00;
+  border: 0px solid #006500;
+  height: 9px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(0, 101, 0, 0.93);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: 0.5px;
+}
+input[type=range].myRange:focus::-webkit-slider-runnable-track {
+  background: #d8e7d8;
+}
+input[type=range].myRange::-moz-range-track {
+  width: 100%;
+  height: 9px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #ffffff, 0px 0px 0px #ffffff;
+  background: #bfd8bf;
+  border-radius: 23.7px;
+  border: 0px solid #ffffff;
+}
+input[type=range].myRange::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #006500, 0px 0px 0px #007f00;
+  border: 0px solid #006500;
+  height: 9px;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(0, 101, 0, 0.93);
+  cursor: pointer;
+}
+input[type=range].myRange::-ms-track {
+  width: 100%;
+  height: 9px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range].myRange::-ms-fill-lower {
+  background: #a6c9a6;
+  border: 0px solid #ffffff;
+  border-radius: 47.4px;
+  box-shadow: 0px 0px 0px #ffffff, 0px 0px 0px #ffffff;
+}
+input[type=range].myRange::-ms-fill-upper {
+  background: #bfd8bf;
+  border: 0px solid #ffffff;
+  border-radius: 47.4px;
+  box-shadow: 0px 0px 0px #ffffff, 0px 0px 0px #ffffff;
+}
+input[type=range].myRange::-ms-thumb {
+  box-shadow: 0px 0px 0px #006500, 0px 0px 0px #007f00;
+  border: 0px solid #006500;
+  width: 13px;
+  border-radius: 50px;
+  background: rgba(0, 101, 0, 0.93);
+  cursor: pointer;
+  height: 9px;
+}
+input[type=range].myRange:focus::-ms-fill-lower {
+  background: #bfd8bf;
+}
+input[type=range].myRange:focus::-ms-fill-upper {
+  background: #d8e7d8;
+}
+
+/* different color to mark progress in FF */
+/*input[type="range"].myRange::-moz-range-progress {
+  background-color: #bfd8bf;
+  border: 2px solid #bfd8bf;
+  border-radius: 23.7px;
+}
+input[type="range"].myRange::-moz-range-track {
+  background-color: #dfecdf;
+}*/
+
+
+
+/* The Modal Window (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  max-height: calc(100vh - 210px);
+  overflow-y: auto;
+}
+
+/* Modal Window - Content */
+#modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* Close Button of Modal Window*/
+.close {
+  color: #609f60;
+  float: right;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #006500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* FOOTER */
+.footer {
+  border-top: 2px solid #006500;
+  height: 6em;
+  padding-top: 1em;
+}
+
+#coriander-logo-footer {
+  width: 100px;
+  transform: scale(-1,1);
+}

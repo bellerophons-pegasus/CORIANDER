@@ -3,7 +3,7 @@
 
 
 var slider = document.getElementById("myRange");
-var output = document.getElementById("demo");
+var output = document.getElementById("sliderOutput");
 var tdPlot = document.getElementById("graph");
 
 var selYear = slider.value;
@@ -45,21 +45,19 @@ var plotlayout = {
      gridwidth: 1
     // range: [0,30]
   },
-  bargap :0.05
+  bargap :0.05,
+  plot_bgcolor: "rgba(255, 255, 255, 0)",
+  paper_bgcolor: "rgba(255, 255, 255, 0)"
 };
 
-// layout options for empty bar chart
-var plotlayoutempty = {
-  title: 'No courses for this year',
-  xaxis: {
-    range: [-1,36],
-    ticks: '',
-    showticklabels: false
-  },
-  yaxis: {
-    range: [0,1]
-  },
-};
+// function to update layout options for empty bar chart
+function emptyLayout(plotlayout){
+  var plotlayoutempty = JSON.parse(JSON.stringify(plotlayout));
+  plotlayoutempty.title = 'No courses for this year';
+  plotlayoutempty.xaxis.ticks = '';
+  plotlayoutempty.xaxis.showticklabels = false;
+  return plotlayoutempty;
+}
 
 if ( slider.value > 1999) {
   output.innerHTML = slider.value; // Display the default slider value
@@ -111,9 +109,6 @@ function readTextFile(file, callback) {
 
 
 function generatePlot() {
-
-
-
 
 
       plotdata=getItems(data);
@@ -176,7 +171,14 @@ function getItems(input) {
     for(var key in dict) {
         sorted[sorted.length] = key;
     }
-    sorted.sort();
+    // sorting regardless of upper- or lowercase characters
+    sorted.sort(function(a,b) {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        if (a == b) return 0;
+        if (a > b) return 1;
+        return -1;
+    });
 
     var tempDict = {};
     for(var i = 0; i < sorted.length; i++) {
@@ -435,7 +437,7 @@ function printcourselisttitle(){
 
   if (selCats.length >0 ) {
 
-    courselisttitle.appendChild(document.createTextNode('Courses matching the selection: '));
+    courselisttitle.appendChild(document.createTextNode('Courses matching the selection "'));
     for (var i = 0; i<selCats.length; i++) {
       if (i==0) {
         courselisttitle.appendChild(document.createTextNode(selCats[i]));
@@ -445,12 +447,12 @@ function printcourselisttitle(){
 
       };
     };
+    courselisttitle.appendChild(document.createTextNode('"'));
   } else {
-    courselisttitle.appendChild(document.createTextNode('Showing all Courses for this year:'));
+    courselisttitle.appendChild(document.createTextNode('Complete course list for this year:'));
   }
   return courselisttitle;
 }
-
 
 
 
@@ -467,9 +469,9 @@ function plot(dd, courselist){
 
     for (var i = 0; i < x.length; i++) {
       if (selCats.includes(x[i])) {
-        plotcolors.push('#C54C82')
+        plotcolors.push('#c54c82')
       } else {
-        plotcolors.push('#000000')
+        plotcolors.push('#609f60')
 
       }
     };
@@ -491,10 +493,9 @@ function plot(dd, courselist){
       document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , plotlayoutempty, );
+      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , emptyLayout(plotlayout));
       document.getElementById("courselist").innerHTML="";
-
-  }
+    }
 
 }
 
@@ -508,7 +509,16 @@ generatePlot()
 
 //console.log(dat_zot[0]);
 
+// Further functionality; e.g. for layout
+// When the user scrolls down 90px from the top of the document, resize the logo
+window.onscroll = function() {scrollFunction()};
 
-
-
-// test area
+function scrollFunction() {
+  if (document.body.scrollTop > 65 || document.documentElement.scrollTop > 65) {
+    document.getElementById("logowrapper").style.width = "50px";
+    document.getElementById("coriander-logo").style.width = "50px";
+  } else {
+    document.getElementById("logowrapper").style.width = "100px";
+    document.getElementById("coriander-logo").style.width = "100px";
+  }
+}

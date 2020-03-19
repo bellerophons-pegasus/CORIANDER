@@ -1,0 +1,10 @@
+main green (coriander): #006500
+
+https://htmlcolorcodes.com/color-picker/
+
+main green, lighter: #609f60
+main green, even lighter: #bfd8bf or #dfecdf
+complementary (purple): #650065
+lighter complementary (pink): #c54c82
+
+tetradic (+ three more colors: blue #003365 , purple #650065 , brown #653200
