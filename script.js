@@ -6,6 +6,7 @@ var slider = document.getElementById("myRange");
 var output = document.getElementById("sliderOutput");
 var tdPlot = document.getElementById("graph");
 
+
 var selYear = slider.value;
 if ( slider.value > 1999) {
   var selYearp1 = parseInt(slider.value)+1;
@@ -85,6 +86,63 @@ function buttonFunc() {
   generatePlot();
 }
 
+function keyToList(keyArray) {
+  var keyList = []
+  for (var i = 0; i < keyArray.length; i++){
+    if (keyList.includes(keyArray[i].name.trim())){
+      // do not add if already there
+      continue
+    } else {
+      // add if not in list
+      keyList.push(keyArray[i].name.trim());
+    };
+  };
+  return keyList;
+}
+
+// print literature from Zotero
+function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
+  // collect all keywords used in the current course
+  var discKeyList = keyToList(cr_disciplines);
+  var objKeyList = keyToList(cr_tadirah_objects);
+  var techKeyList = keyToList(cr_tadirah_techniques);
+  // TODO: extra loop, to go through list of literature and see how many topics match with  selected course
+  // then sort by relevance (most matches on top)
+  // only list literature that matches keywords
+
+
+  var litlisthtml = document.createElement('div');
+  litlisthtml.className = "referenceEntry";
+  var myList = document.createElement('ul');
+  litlisthtml.appendChild(myList);
+
+
+
+  for (var i = 0; i < dat_zot.length; i++) {
+    var litEntry = document.createElement('li')
+    var litTitle = document.createElement('h4');
+    var myPara1 = document.createElement('p');
+    var keyList = document.createElement('div');
+    keyList.className = 'keywords';
+
+
+    litTitle.textContent = dat_zot[i].data.title;
+    myPara1.textContent = dat_zot[i].workLabel;
+    keyList.textContent = dat_zot[i].topics;
+
+    litEntry.appendChild(litTitle);
+    litEntry.appendChild(myPara1);
+    litEntry.appendChild(keyList);
+    litlisthtml.appendChild(litEntry);
+
+
+/*
+"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "abstractNote": "While Burrows's intuitive and elegant \u2018Delta\u2019 measure for authorship attribution has proven to be extremely useful for authorship attribution, a theoretical understanding of its operation has remained somewhat obscure. In this article, I address this issue by introducing a geometric interpretation of Delta, which further allows us to interpret Delta as a probabilistic ranking principle. This interpretation gives us a better understanding of the method's fundamental assumptions and potential limitations, as well as leading to several well-founded variations and extensions.", "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract", "accessDate": "2011-07-26T08:25:16Z", "archive": "", "archiveLocation": "", "libraryCatalog": "", "callNumber": "", "rights": "", "extra": "", "tags": [{"tag": "*****"}, {"tag": "t_Stylometry"}, {"tag": "disc_LinguisticsLanguageScience"}, {"tag": "disc_HumanLanguageTechnologies"}, {"tag": "disc_LiteraryPhilologicalStudies"}]
+*/
+};
+return litlisthtml;
+}
+
 
 
 
@@ -114,15 +172,12 @@ function generatePlot() {
       plotdata=getItems(data);
       plot(plotdata[0], plotdata[2] );
 
-
-
       var but = document.getElementById("buttonSel");
       if (selCats.length > 0) {
         but.style.display = "block";
       } else {
         but.style.display = "none";
       }
-
 
 
       tdPlot.on('plotly_click', function(data){
@@ -135,9 +190,6 @@ function generatePlot() {
           generatePlot()
         }
       });
-
-
-
 
 }
 
@@ -232,11 +284,6 @@ function getItems(input) {
 
 }
 
-// info_url
-// name
-// id
-// institution -> name
-// course_type -> name
 
 function printcourses(courselist){
   var courselisthtml = document.createElement('ul');
@@ -281,6 +328,7 @@ function openCourseModul(courseID) {
   var modalTD_obj = document.getElementById("modal_td_obj");
   var modalTD_teq = document.getElementById("modal_td_teq");
   var modalLit = document.getElementById("modal_add_lit");
+  var zoteroSection = document.getElementById("modal-section-zotero");
 
   var span = document.getElementsByClassName("close")[0];
   modal.style.display = "block";
@@ -408,6 +456,8 @@ function openCourseModul(courseID) {
       item_add_lit.appendChild(document.createElement("br"));
       item_add_lit.appendChild(document.createElement("br"));
 
+      var zotLit = showLiteratureZotero(dat_zot, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
+
     };
 
   }
@@ -417,6 +467,8 @@ function openCourseModul(courseID) {
   modalTD_obj.appendChild(item_td_obj);
   modalTD_teq.appendChild(item_td_teq);
   modalLit.appendChild(item_add_lit);
+  // print literature from zotero
+  zoteroSection.appendChild(zotLit);
 
   span.onclick = function() {
     modalInfo.removeChild(item_info);
