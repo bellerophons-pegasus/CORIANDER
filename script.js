@@ -106,9 +106,46 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
   var discKeyList = keyToList(cr_disciplines);
   var objKeyList = keyToList(cr_tadirah_objects);
   var techKeyList = keyToList(cr_tadirah_techniques);
-  // TODO: extra loop, to go through list of literature and see how many topics match with  selected course
+  // combine theses lists into one
+  var allKeyList = []
+  for (var i = 0; i < discKeyList.length; i++){
+    allKeyList.push(discKeyList[i])
+  };
+  for (var i = 0; i < objKeyList.length; i++){
+    allKeyList.push(objKeyList[i])
+  };
+  for (var i = 0; i < techKeyList.length; i++){
+    allKeyList.push(techKeyList[i])
+  };
+
+  // go through list of literature and see how many topics match with selected course
   // then sort by relevance (most matches on top)
   // only list literature that matches keywords
+  var relevantLit = [];
+  var keyMatches = 0;
+  for (var i = 0; i < dat_zot.length; i++) {
+    console.log(dat_zot[i].data.tags);
+    for (var j = 0; j < dat_zot[i].data.tags.length; j++){
+      console.log(dat_zot[i].data.tags[j].tag);
+      if (allKeyList.includes(dat_zot[i].data.tags[j].tag)){
+        console.log('We have a match!');
+        console.log(dat_zot[i].data.tags[j].tag);
+      };
+
+
+    };
+
+  };
+
+
+/*  if (mapping[0][d,a[i].disciplines[j].name.trim()]['zotero'] != '') {
+      var zot_link = document.createElement('a');
+      zot_link.setAttribute("class", 'zot_link');
+      zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
+      zot_link.appendChild(document.createTextNode('Z'));
+      item_td_dis.appendChild(zot_link);
+    };*/
+
 
 
   var litlisthtml = document.createElement('div');
@@ -375,7 +412,7 @@ function openCourseModul(courseID) {
         item_td_dis.appendChild(document.createTextNode('   '));
 
         // check if there is a Zotero mapping for the current disicpline
-        if (mapping[0][data[i].disciplines[j].name.trim()]['zotero'] != '') {
+        if (mapping[0][d,a[i].disciplines[j].name.trim()]['zotero'] != '') {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
