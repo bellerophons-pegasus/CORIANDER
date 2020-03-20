@@ -86,6 +86,20 @@ function buttonFunc() {
   generatePlot();
 }
 
+function getMappedCRterm(term, zotero = false, wiki = false) {
+  var mappedTerm = '';
+  var keyList = Object.keys(mapping[0])
+  for(i = 0; i < keyList.length; i++){
+    if (zotero == true){
+      if (mapping[0][keyList[i]]['zotero'] == term) {
+        mappedTerm = keyList[i]
+      };
+    };
+  };
+  return mappedTerm;
+
+}
+
 function keyToList(keyArray) {
   var keyList = []
   for (var i = 0; i < keyArray.length; i++){
@@ -119,44 +133,35 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
   };
 
   // go through list of literature and see how many topics match with selected course
-  // then sort by relevance (most matches on top)
-  // only list literature that matches keywords
+  // only literature that matches keywords will be listed
   var relevantLit = [];
-  var keyMatches = 0;
   for (var i = 0; i < dat_zot.length; i++) {
-    console.log(mapping[0])
+    var keyMatches = 0;
+    var keyMatchesTags = '';
     for (var j = 0; j < dat_zot[i].data.tags.length; j++){
-      console.log(dat_zot[i].data.tags[j].tag);
-      if (allKeyList.includes(dat_zot[i].data.tags[j].tag)){
-        console.log('We have a match!');
-        console.log(dat_zot[i].data.tags[j].tag);
-
+      var mappedTerm = getMappedCRterm(dat_zot[i].data.tags[j].tag, true, false);
+      if (allKeyList.includes(mappedTerm)){
+        keyMatches++;
+        keyMatchesTags = keyMatchesTags.concat(mappedTerm);
       };
-
-
     };
-
+    if(keyMatches>0){
+      rellitentry = dat_zot[i];
+      rellitentry['relevance'] = keyMatches;
+      rellitentry['printableTags'] = keyMatchesTags;
+      relevantLit.push(rellitentry);
+    }
   };
 
+//  console.log(relevantLit);
 
-/*  if (mapping[0][d,a[i].disciplines[j].name.trim()]['zotero'] != '') {
-      var zot_link = document.createElement('a');
-      zot_link.setAttribute("class", 'zot_link');
-      zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
-      zot_link.appendChild(document.createTextNode('Z'));
-      item_td_dis.appendChild(zot_link);
-    };*/
-
-
-
+  // now the relevant literature from zotero can be displayed
   var litlisthtml = document.createElement('div');
   litlisthtml.className = "referenceEntry";
   var myList = document.createElement('ul');
   litlisthtml.appendChild(myList);
 
-
-
-  for (var i = 0; i < dat_zot.length; i++) {
+  for (var i = 0; i < relevantLit.length; i++) {
     var litEntry = document.createElement('li')
     var litTitle = document.createElement('h4');
     var myPara1 = document.createElement('p');
@@ -164,9 +169,9 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     keyList.className = 'keywords';
 
 
-    litTitle.textContent = dat_zot[i].data.title;
-    myPara1.textContent = dat_zot[i].workLabel;
-    keyList.textContent = dat_zot[i].topics;
+    litTitle.textContent = relevantLit[i].data.title;
+    myPara1.textContent = relevantLit[i].meta.creatorSummary;
+    keyList.textContent = relevantLit[i].printableTags;
 
     litEntry.appendChild(litTitle);
     litEntry.appendChild(myPara1);
@@ -514,6 +519,7 @@ function openCourseModul(courseID) {
     modalTD_obj.removeChild(item_td_obj);
     modalTD_teq.removeChild(item_td_teq);
     modalLit.removeChild(item_add_lit);
+    zoteroSection.removeChild(zotLit);
     modal.style.display = "none";
   }
 }
