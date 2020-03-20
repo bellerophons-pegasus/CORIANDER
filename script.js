@@ -86,6 +86,8 @@ function buttonFunc() {
   generatePlot();
 }
 
+// get the used label in the course registry for a given term from zotero
+// can maybe be reused for wikidata as well?
 function getMappedCRterm(term, zotero = false, wiki = false) {
   var mappedTerm = '';
   var keyList = Object.keys(mapping[0])
@@ -97,9 +99,9 @@ function getMappedCRterm(term, zotero = false, wiki = false) {
     };
   };
   return mappedTerm;
-
 }
 
+// create a clean array without duplicates out of a given array
 function keyToList(keyArray) {
   var keyList = []
   for (var i = 0; i < keyArray.length; i++){
@@ -153,8 +155,6 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     }
   };
 
-//  console.log(relevantLit);
-
   // now the relevant literature from zotero can be displayed
   var litlisthtml = document.createElement('div');
   litlisthtml.className = "referenceEntry";
@@ -180,8 +180,8 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
 
 
 /*
-"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "abstractNote": "While Burrows's intuitive and elegant \u2018Delta\u2019 measure for authorship attribution has proven to be extremely useful for authorship attribution, a theoretical understanding of its operation has remained somewhat obscure. In this article, I address this issue by introducing a geometric interpretation of Delta, which further allows us to interpret Delta as a probabilistic ranking principle. This interpretation gives us a better understanding of the method's fundamental assumptions and potential limitations, as well as leading to several well-founded variations and extensions.", "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract", "accessDate": "2011-07-26T08:25:16Z", "archive": "", "archiveLocation": "", "libraryCatalog": "", "callNumber": "", "rights": "", "extra": "", "tags": [{"tag": "*****"}, {"tag": "t_Stylometry"}, {"tag": "disc_LinguisticsLanguageScience"}, {"tag": "disc_HumanLanguageTechnologies"}, {"tag": "disc_LiteraryPhilologicalStudies"}]
-*/
+Further possible fields
+"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract", "accessDate": "2011-07-26T08:25:16Z", "archive": "", "archiveLocation": "", "libraryCatalog": "", "callNumber": "", "rights": "", "extra": ""]*/
 };
 return litlisthtml;
 }
