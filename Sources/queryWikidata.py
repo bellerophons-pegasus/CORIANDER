@@ -82,7 +82,7 @@ for qid in qidlist:
 # create js file with all query results for further scripting
 with open('worksWikidata-all.txt', 'w') as outfile:
     # store whole json object as js variable
-    outfile.write(allresults)
+    outfile.write(str(allresults))
 
 # create js file with query results
 with open('worksWikidata.js', 'w') as outfile:

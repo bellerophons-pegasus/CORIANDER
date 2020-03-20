@@ -36,4 +36,4 @@ WHERE {
 }
 GROUP BY ?date ?work ?workLabel ?topics ?topicids ?publisher
 ORDER BY DESC(?date)
-LIMIT 150
+LIMIT 10
