@@ -124,12 +124,13 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
   var relevantLit = [];
   var keyMatches = 0;
   for (var i = 0; i < dat_zot.length; i++) {
-    console.log(dat_zot[i].data.tags);
+    console.log(mapping[0])
     for (var j = 0; j < dat_zot[i].data.tags.length; j++){
       console.log(dat_zot[i].data.tags[j].tag);
       if (allKeyList.includes(dat_zot[i].data.tags[j].tag)){
         console.log('We have a match!');
         console.log(dat_zot[i].data.tags[j].tag);
+
       };
 
 
@@ -412,7 +413,7 @@ function openCourseModul(courseID) {
         item_td_dis.appendChild(document.createTextNode('   '));
 
         // check if there is a Zotero mapping for the current disicpline
-        if (mapping[0][d,a[i].disciplines[j].name.trim()]['zotero'] != '') {
+        if (mapping[0][data[i].disciplines[j].name.trim()]['zotero'] != '') {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
