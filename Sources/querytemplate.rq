@@ -1,0 +1,39 @@
+# query everything on wikidata that uses a main subject (or any sub class of it) as indicated with wd:<topicQID> (insert QID)
+# then list date, QID, title, topics, authors, and editors; only fetch 150 results
+SELECT ?date ?work ?workLabel ?topics ?topicids (GROUP_CONCAT(?authorLabel; separator= " - ") AS ?authors) (GROUP_CONCAT(?authorstring; separator= " - ") AS ?authorstrings) (GROUP_CONCAT(?editorLabel; separator= " - ") AS ?editors)
+WITH {
+  SELECT DISTINCT ?work WHERE {
+    ?work wdt:P921 / (wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) ) wd:<topicQID> .
+  }
+} AS %works
+WITH {
+  SELECT (MIN(?dates) as ?datetime) ?work (GROUP_CONCAT(?topic_label; separator="; ") AS ?topics) (GROUP_CONCAT(?topic; separator="; ") AS ?topicids) WHERE {
+    INCLUDE %works
+    ?work wdt:P921 ?topic
+    OPTIONAL { ?work wdt:P577 ?dates . }
+
+    ?topic rdfs:label ?topic_label .  FILTER (lang(?topic_label) = 'en')
+  }
+  GROUP BY ?work
+} AS %result
+WHERE {
+  INCLUDE %result
+
+  OPTIONAL { ?work wdt:P50 ?author .
+             ?author rdfs:label ?authorLabel . FILTER (lang(?authorLabel) = 'en')
+           }
+  # no extra label assignment here, because we already have an author string
+  OPTIONAL { ?work wdt:P2093 ?authorstring . }
+  OPTIONAL { ?work wdt:P98 ?editor .
+             ?editor rdfs:label ?editorLabel . FILTER (lang(?editorLabel) = 'en')
+           }
+
+  # There is a problem with BC dates
+  # BIND(xsd:date(?datetime) AS ?date)
+  BIND(REPLACE(STR(?datetime), 'T.*', '') AS ?date)
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,da,de,es,fr,jp,nl,no,ru,sv,zh". }
+}
+GROUP BY ?date ?work ?workLabel ?topics ?topicids ?publisher
+ORDER BY DESC(?date)
+LIMIT 150
