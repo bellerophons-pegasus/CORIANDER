@@ -176,7 +176,7 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     litEntry.appendChild(litTitle);
     litEntry.appendChild(myPara1);
     litEntry.appendChild(keyList);
-    litlisthtml.appendChild(litEntry);
+    myList.appendChild(litEntry);
 
 
 /*

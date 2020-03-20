@@ -152,6 +152,25 @@ input[type="range"].myRange::-moz-range-track {
   background-color: #dfecdf;
 }*/
 
+/* LISTS */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding-left: 0.1em;
+}
+
+li::before {
+  font-size: 1.3em;
+  line-height: 1em;
+  content: "•";
+  padding-right: 0.3em;
+  color: #609f60;
+}
+
 
 
 /* The Modal Window (background) */
