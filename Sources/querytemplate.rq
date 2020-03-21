@@ -1,6 +1,6 @@
 # query everything on wikidata that uses a main subject (or any sub class of it) as indicated with wd:<topicQID> (insert QID)
 # then list date, QID, title, topics, authors, and editors; only fetch 150 results
-SELECT ?date ?work ?workLabel ?topics ?topicids (GROUP_CONCAT(?authorLabel; separator= " - ") AS ?authors) (GROUP_CONCAT(?authorstring; separator= " - ") AS ?authorstrings) (GROUP_CONCAT(?editorLabel; separator= " - ") AS ?editors)
+SELECT ?date ?work ?workLabel ?topics ?topicids (GROUP_CONCAT (DISTINCT ?authorLabel; separator= " - ") AS ?authors) (GROUP_CONCAT (DISTINCT ?authorstring; separator= " - ") AS ?authorstrings) (GROUP_CONCAT (DISTINCT ?editorLabel; separator= " - ") AS ?editors)
 WITH {
   SELECT DISTINCT ?work WHERE {
     ?work wdt:P921 / (wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) ) wd:<topicQID> .
@@ -36,4 +36,4 @@ WHERE {
 }
 GROUP BY ?date ?work ?workLabel ?topics ?topicids ?publisher
 ORDER BY DESC(?date)
-LIMIT 10
+LIMIT 50

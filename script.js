@@ -186,6 +186,34 @@ Further possible fields
 return litlisthtml;
 }
 
+// // print literature from Wikidata TODO
+function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
+  // TODO (a bit like zotero; for now only basic)
+  var litlisthtml = document.createElement('div');
+  litlisthtml.className = "referenceEntry";
+  var myList = document.createElement('ul');
+  litlisthtml.appendChild(myList);
+
+  console.log(dat_wiki);
+  for (var i = 0; i < dat_wiki['results']['bindings'].length; i++) {
+
+    var litEntry = document.createElement('li')
+    var litTitle = document.createElement('h4');
+    var myPara1 = document.createElement('p');
+    var keyList = document.createElement('div');
+    keyList.className = 'keywords';
+
+    litTitle.textContent = dat_wiki['results']['bindings'][i].workLabel.value;
+    myPara1.textContent = dat_wiki['results']['bindings'][i].authors.value;
+    keyList.textContent = dat_wiki['results']['bindings'][i].topics.value;
+
+    litEntry.appendChild(litTitle);
+    litEntry.appendChild(myPara1);
+    litEntry.appendChild(keyList);
+    myList.appendChild(litEntry);
+};
+return litlisthtml;
+}
 
 
 
@@ -372,6 +400,7 @@ function openCourseModul(courseID) {
   var modalTD_teq = document.getElementById("modal_td_teq");
   var modalLit = document.getElementById("modal_add_lit");
   var zoteroSection = document.getElementById("modal-section-zotero");
+  var wikidataSection = document.getElementById("modal-section-wikidata");
 
   var span = document.getElementsByClassName("close")[0];
   modal.style.display = "block";
@@ -475,8 +504,6 @@ function openCourseModul(courseID) {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero']) ,'/'));
-
-//            zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero'] ,'/'));
             zot_link.appendChild(document.createTextNode('Z'));
             item_td_teq.appendChild(zot_link);
           };
@@ -501,6 +528,8 @@ function openCourseModul(courseID) {
 
       var zotLit = showLiteratureZotero(dat_zot, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
 
+      var wikiLit = showLiteratureWikidata(dat_wiki, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
+
     };
 
   }
@@ -512,6 +541,8 @@ function openCourseModul(courseID) {
   modalLit.appendChild(item_add_lit);
   // print literature from zotero
   zoteroSection.appendChild(zotLit);
+  // print literature from Wikidata
+  wikidataSection.appendChild(wikiLit);
 
   span.onclick = function() {
     modalInfo.removeChild(item_info);
@@ -520,6 +551,7 @@ function openCourseModul(courseID) {
     modalTD_teq.removeChild(item_td_teq);
     modalLit.removeChild(item_add_lit);
     zoteroSection.removeChild(zotLit);
+    wikidataSection.removeChild(wikiLit);
     modal.style.display = "none";
   }
 }

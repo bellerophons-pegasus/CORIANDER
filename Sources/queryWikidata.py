@@ -15,8 +15,8 @@ import requests
 import json
 import csv
 
-# collect received results into list (will contain dictionaries)
-allresults = []
+# collect received results into dictionary that will later become a json
+allresults = {}
 
 # first get list of QIDs to process from csv
 qidlist = []
@@ -47,8 +47,10 @@ with open('querytemplate.rq', 'r') as query_file:
 totalqids = len(qidlist)
 currentqid = 0
 for qid in qidlist:
-    print(allresults)
+    data = ''
     currentqid += 1
+    if currentqid == 5:
+        break
     if len(qid)>0:
         # take the template and replace the place holder with actual QID
         queryID = query.replace('<topicQID>', qid)
@@ -57,7 +59,6 @@ for qid in qidlist:
             print('\nQuerying for', qid, '(% 3d/%3d)'%(currentqid, totalqids))
             r = requests.get(url, headers = header, params = {'format': 'json', 'query': queryID})
             data = r.json()
-            allresults.append(data)
             print('Success!')
         # on failure
         except json.decoder.JSONDecodeError:
@@ -71,21 +72,37 @@ for qid in qidlist:
                     print('...Trying simpler query for', qid)
                     r = requests.get(url, headers = header, params = {'format': 'json', 'query': queryID})
                     data = r.json()
-                    allresults.append(data)
                     print('Success!')
                 # on second time failure
                 except json.decoder.JSONDecodeError:
                     print('... still no valid result')
                     print('Server response:', r)
                     print('Topic might be too general to query for in reasonable time.')
+        # only include result if there was one and it actually contains works
+        if data and len(data['results']['bindings']) > 0:
+            if not allresults:
+                for work in data['results']['bindings']:
+                    # add qid used in the query to each work
+                    work['maintopic-qid'] = qid
+                # since dictinary is empty, we can use output directly
+                allresults = data
+            else:
+                for work in data['results']['bindings']:
+                    # add qid used in the query to each work
+                    work['maintopic-qid'] = qid
+                    # add each work to existing dictionary
+                    allresults['results']['bindings'].append(work)
+
 
 # create js file with all query results for further scripting
 with open('worksWikidata-all.txt', 'w') as outfile:
     # store whole json object as js variable
     outfile.write(str(allresults))
+    outfile.write('\n\n\n')
+#    outfile.write(str(joinedresults))
 
 # create js file with query results
 with open('worksWikidata.js', 'w') as outfile:
     # store whole json object as js variable
     outfile.write('var dat_wiki = ')
-    json.dump(data, outfile)
+    json.dump(allresults, outfile)
