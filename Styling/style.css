@@ -215,7 +215,10 @@ li::before {
 /* Styling of zotero and scholia links*/
 a.sco_link, a.zot_link {
   text-decoration: none;
-  content: '';
+  display: inline-block;
+  position: relative;
+  padding: 4px 16px;
+  right: 9999px;
 }
 
 a.sco_link:after {
@@ -235,6 +238,12 @@ a.sco_link:after, a.zot_link:after {
   background-size: 100%;
   display: inline-block;
   margin-left: 0.3em;
+
+  position: absolute;
+  top: 2px;
+  right: -9999px;
+  text-align: center;
+
 }
 
 
