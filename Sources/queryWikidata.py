@@ -95,13 +95,6 @@ for qid in qidlist:
 
 
 # create js file with all query results for further scripting
-with open('worksWikidata-all.txt', 'w') as outfile:
-    # store whole json object as js variable
-    outfile.write(str(allresults))
-    outfile.write('\n\n\n')
-#    outfile.write(str(joinedresults))
-
-# create js file with query results
 with open('worksWikidata.js', 'w') as outfile:
     # store whole json object as js variable
     outfile.write('var dat_wiki = ')

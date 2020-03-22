@@ -144,7 +144,7 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
       var mappedTerm = getMappedCRterm(dat_zot[i].data.tags[j].tag, true, false);
       if (allKeyList.includes(mappedTerm)){
         keyMatches++;
-        keyMatchesTags = keyMatchesTags.concat(mappedTerm);
+        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
       };
     };
     if(keyMatches>0){
