@@ -564,7 +564,7 @@ function openCourseModul(courseID) {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].disciplines[j].name.trim()]['zotero']) ,'/'));
-            zot_link.appendChild(document.createTextNode('Z'));
+            zot_link.appendChild(document.createTextNode('Zotero'));
             item_td_dis.appendChild(zot_link);
           };
         item_td_dis.appendChild(document.createTextNode('   '));
@@ -573,7 +573,7 @@ function openCourseModul(courseID) {
             var sco_link = document.createElement('a');
             sco_link.setAttribute("class", 'sco_link');
             sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
-            sco_link.appendChild(document.createTextNode('S'));
+            sco_link.appendChild(document.createTextNode('Scholia'));
             item_td_dis.appendChild(sco_link);
           };
       }
@@ -591,7 +591,7 @@ function openCourseModul(courseID) {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].tadirah_objects[j].name.trim()]['zotero']) ,'/'));
-            zot_link.appendChild(document.createTextNode('Z'));
+            zot_link.appendChild(document.createTextNode('Zotero'));
             item_td_obj.appendChild(zot_link);
           };
         item_td_obj.appendChild(document.createTextNode('   '));
@@ -600,7 +600,7 @@ function openCourseModul(courseID) {
             var sco_link = document.createElement('a');
             sco_link.setAttribute("class", 'sco_link');
             sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].tadirah_objects[j].name.trim()]['wikidata'] ));
-            sco_link.appendChild(document.createTextNode('S'));
+            sco_link.appendChild(document.createTextNode('Scholia'));
             item_td_obj.appendChild(sco_link);
           };
 
@@ -617,7 +617,7 @@ function openCourseModul(courseID) {
             var zot_link = document.createElement('a');
             zot_link.setAttribute("class", 'zot_link');
             zot_link.setAttribute("href", ''.concat('https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography/tags/', createZoteroArgument(mapping[0][data[i].tadirah_techniques[j].name.trim()]['zotero']) ,'/'));
-            zot_link.appendChild(document.createTextNode('Z'));
+            zot_link.appendChild(document.createTextNode('Zotero'));
             item_td_teq.appendChild(zot_link);
           };
         item_td_teq.appendChild(document.createTextNode('   '));
@@ -626,7 +626,7 @@ function openCourseModul(courseID) {
             var sco_link = document.createElement('a');
             sco_link.setAttribute("class", 'sco_link');
             sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].tadirah_techniques[j].name.trim()]['wikidata'] ));
-            sco_link.appendChild(document.createTextNode('S'));
+            sco_link.appendChild(document.createTextNode('Scholia'));
             item_td_teq.appendChild(sco_link);
           };
       }
