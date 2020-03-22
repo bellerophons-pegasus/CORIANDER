@@ -150,6 +150,8 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     if(keyMatches>0){
       rellitentry = dat_zot[i];
       rellitentry['relevance'] = keyMatches;
+      // remove last comma
+      keyMatchesTags = keyMatchesTags.slice(0, -2);
       rellitentry['printableTags'] = keyMatchesTags;
       relevantLit.push(rellitentry);
     }
