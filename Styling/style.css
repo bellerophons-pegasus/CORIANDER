@@ -189,7 +189,7 @@ li::before {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #006500;
   width: 80%;
   overflow: auto; /* Enable scroll if needed */
   max-height: calc(100vh - 200px);
@@ -198,8 +198,10 @@ li::before {
 /* Close Button of Modal Window*/
 .close {
   color: #609f60;
-  float: right;
+  right: calc(10% + 0.25em);
+  position: fixed;
   font-size: 3em;
+  margin-top: -0.25em;
   font-weight: bold;
 }
 
