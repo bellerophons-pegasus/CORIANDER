@@ -154,12 +154,16 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
       relevantLit.push(rellitentry);
     }
   };
-
+  // now the relevant literature entries are sorted
+  relevantLit = sortOnKeys(relevantLit,'num')
+  console.log(relevantLit);
   // now the relevant literature from zotero can be displayed
   var litlisthtml = document.createElement('div');
   litlisthtml.className = "referenceEntry";
   var myList = document.createElement('ul');
   litlisthtml.appendChild(myList);
+
+
 
   for (var i = 0; i < relevantLit.length; i++) {
     var litEntry = document.createElement('li')
@@ -264,6 +268,55 @@ function generatePlot() {
 
 }
 
+// sort the dict alphabetically or numerically
+function sortOnKeys(dict, sortCrit='alpha') {
+
+  var sorted = [];
+
+
+  if (sortCrit=='alpha') {
+
+      for(var key in dict) {
+          sorted[sorted.length] = key;
+      }
+      // sorting regardless of upper- or lowercase characters
+      sorted.sort(function(a,b) {
+          a = a.toLowerCase();
+          b = b.toLowerCase();
+          if (a == b) return 0;
+          if (a > b) return 1;
+          return -1;
+      });
+
+      var tempDict = {};
+      for(var i = 0; i < sorted.length; i++) {
+          tempDict[sorted[i]] = dict[sorted[i]];
+      }
+
+      return tempDict;
+  } else if (sortCrit =='num') {
+    for (var i=0; i<dict.length; i++) {
+        sorted.push(dict[i]);
+    };
+    // sorting by number descending
+    sorted.sort(function(a ,b) {
+        if (a.relevance == b.relevance) return 0;
+        if (a.relevance > b.relevance) return -1;
+        return 1;
+    });
+    return sorted;
+  };
+
+
+}
+
+
+
+
+
+
+
+
 
 function getItems(input) {
 
@@ -287,31 +340,9 @@ function getItems(input) {
         }
       }
   };
-  // sort the dict alphabetically
-  function sortOnKeys(dict) {
 
-    var sorted = [];
-    for(var key in dict) {
-        sorted[sorted.length] = key;
-    }
-    // sorting regardless of upper- or lowercase characters
-    sorted.sort(function(a,b) {
-        a = a.toLowerCase();
-        b = b.toLowerCase();
-        if (a == b) return 0;
-        if (a > b) return 1;
-        return -1;
-    });
 
-    var tempDict = {};
-    for(var i = 0; i < sorted.length; i++) {
-        tempDict[sorted[i]] = dict[sorted[i]];
-    }
-
-    return tempDict;
-  }
-
-  fin = sortOnKeys(fin);
+  fin = sortOnKeys(fin,'alpha');
 
 
   for (var i = 0; i < input.length; i++) {
