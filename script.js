@@ -96,6 +96,10 @@ function getMappedCRterm(term, zotero = false, wiki = false) {
       if (mapping[0][keyList[i]]['zotero'] == term) {
         mappedTerm = keyList[i]
       };
+    } else if (wiki == true) {
+      if (mapping[0][keyList[i]]['wikidata'] == term) {
+        mappedTerm = keyList[i]
+      };
     };
   };
   return mappedTerm;
@@ -158,7 +162,6 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
   };
   // now the relevant literature entries are sorted
   relevantLit = sortOnKeys(relevantLit,'num')
-  console.log(relevantLit);
   // now the relevant literature from zotero can be displayed
   var litlisthtml = document.createElement('div');
   litlisthtml.className = "referenceEntry";
@@ -195,13 +198,87 @@ return litlisthtml;
 // // print literature from Wikidata TODO
 function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
   // TODO (a bit like zotero; for now only basic)
+
+  // collect all keywords used in the current course
+  var discKeyList = keyToList(cr_disciplines);
+  var objKeyList = keyToList(cr_tadirah_objects);
+  var techKeyList = keyToList(cr_tadirah_techniques);
+  // combine theses lists into one
+  var allKeyList = []
+  for (var i = 0; i < discKeyList.length; i++){
+    allKeyList.push(discKeyList[i])
+  };
+  for (var i = 0; i < objKeyList.length; i++){
+    allKeyList.push(objKeyList[i])
+  };
+  for (var i = 0; i < techKeyList.length; i++){
+    allKeyList.push(techKeyList[i])
+  };
+
+
+  console.log(dat_wiki);
+  // the list with the resulting literature
+  var relevantLit = [];
+
+  for (var i = 0; i < dat_wiki.results.bindings.length; i++) {
+
+    // first get all the Qids from the json file
+    var itemKeyList = [];
+
+    itemKeyList.push(dat_wiki.results.bindings[i]["maintopic-qid"])
+    for (var j = 0; j < dat_wiki.results.bindings[i].topicids.value.split('; ').length; j++){
+      if (!itemKeyList.includes(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31)) ) {
+        itemKeyList.push(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31))
+      };
+    };
+
+
+    // now try to math the relevant items
+    var keyMatches = 0;
+    var keyMatchesTags = '';
+
+
+    for (var j = 0; j < itemKeyList.length; j++) {
+      var mappedTerm = getMappedCRterm(itemKeyList[j], false, true);
+      if (allKeyList.includes(mappedTerm)){
+
+        keyMatches++;
+        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
+      };
+    };
+
+
+    if(keyMatches>0){
+      rellitentry = dat_wiki.results.bindings[i];
+      rellitentry['relevance'] = keyMatches;
+      // remove last comma
+      keyMatchesTags = keyMatchesTags.slice(0, -2);
+      rellitentry['printableTags'] = keyMatchesTags;
+      relevantLit.push(rellitentry);
+    }
+
+
+  };
+
+
+  // now the relevant literature entries are sorted
+  relevantLit = sortOnKeys(relevantLit,'num')
+  console.log(relevantLit);
+
+
+
+
+
+
+
+  // now the relevant literature from zotero can be displayed
+
   var litlisthtml = document.createElement('div');
   litlisthtml.className = "referenceEntry";
   var myList = document.createElement('ul');
   litlisthtml.appendChild(myList);
 
-  console.log(dat_wiki);
-  for (var i = 0; i < dat_wiki['results']['bindings'].length; i++) {
+  for (var i = 0; i < relevantLit.length; i++) {
 
     var litEntry = document.createElement('li')
     var litTitle = document.createElement('h4');
@@ -209,18 +286,20 @@ function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr
     var keyList = document.createElement('div');
     keyList.className = 'keywords';
 
-    litTitle.textContent = dat_wiki['results']['bindings'][i].workLabel.value;
-    myPara1.textContent = dat_wiki['results']['bindings'][i].authors.value;
-    keyList.textContent = dat_wiki['results']['bindings'][i].topics.value;
+    litTitle.textContent = relevantLit[i].workLabel.value;
+    myPara1.textContent = relevantLit[i].authors.value;
+    keyList.textContent = relevantLit[i].topics.value;
 
     litEntry.appendChild(litTitle);
     litEntry.appendChild(myPara1);
     litEntry.appendChild(keyList);
     myList.appendChild(litEntry);
-};
+  };
+
+
+
 return litlisthtml;
 }
-
 
 
 
@@ -592,6 +671,13 @@ function openCourseModul(courseID) {
   // When the user clicks anywhere outside of the modal window, close it
   window.onclick = function(event) {
     if (event.target == modal) {
+      modalInfo.removeChild(item_info);
+      modalTD_dis.removeChild(item_td_dis);
+      modalTD_obj.removeChild(item_td_obj);
+      modalTD_teq.removeChild(item_td_teq);
+      modalLit.removeChild(item_add_lit);
+      zoteroSection.removeChild(zotLit);
+      wikidataSection.removeChild(wikiLit);
       modal.style.display = "none";
     }
   }
