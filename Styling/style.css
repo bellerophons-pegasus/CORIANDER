@@ -212,6 +212,33 @@ li::before {
   cursor: pointer;
 }
 
+/* Styling of zotero and scholia links*/
+a.sco_link, a.zot_link {
+  text-decoration: none;
+  content: '';
+}
+
+a.sco_link:after {
+  content: '';
+  background:transparent url('scholia.ico') no-repeat;
+}
+
+a.zot_link:after {
+  content: '';
+  background:transparent url('zotero.ico') no-repeat;
+}
+
+a.sco_link:after, a.zot_link:after {
+  height: 1em;
+  width: 1.5em;
+  background-position: center;
+  background-size: 100%;
+  display: inline-block;
+  margin-left: 0.3em;
+}
+
+
+
 /* FOOTER */
 .footer {
   border-top: 2px solid #006500;
