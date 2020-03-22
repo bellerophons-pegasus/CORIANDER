@@ -424,6 +424,7 @@ function createZoteroArgument(keyList) {
   return linkargument;
 }
 
+// open modal window and display its content
 function openCourseModul(courseID) {
   console.log(courseID);
   var modal = document.getElementById("myModal");
@@ -587,6 +588,14 @@ function openCourseModul(courseID) {
     wikidataSection.removeChild(wikiLit);
     modal.style.display = "none";
   }
+
+  // When the user clicks anywhere outside of the modal window, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
 }
 
 
