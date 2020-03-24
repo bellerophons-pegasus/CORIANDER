@@ -29,9 +29,10 @@ with open('tadirah-mapping.csv') as csv_file:
             csvmap2 = {}
             # columns may contain more than one label; they are separated with ';'
             # and thus a list is added as a value for the given key
-            csvmap2['zotero'] = row[7].split(';')
-            csvmap2['new_zotero'] = row[8].split(';')
-            csvmap2['wikidata']=row[4].split(';')
+            # surrounding whitespace is removed with strip 
+            csvmap2['zotero'] = [x.strip() for x in row[7].split(';')]
+            csvmap2['new_zotero'] = [x.strip() for x in row[8].split(';')]
+            csvmap2['wikidata']= [x.strip() for x in row[4].split(';')]
 
             # bringing together the key of csvmap with the value contained in csvmap2
             csvmap[row[3]] = csvmap2
