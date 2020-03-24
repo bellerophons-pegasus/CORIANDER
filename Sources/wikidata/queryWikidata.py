@@ -5,6 +5,7 @@
 # A script to query Wikidata with a given query multiple times with
 # varying topics extracted from a csv.
 # Execution time highly depends on numer of topics. The more the longer.
+# (for 107 qids about 0.5h)
 #
 # @author: martina
 #
@@ -49,8 +50,9 @@ currentqid = 0
 for qid in qidlist:
     data = ''
     currentqid += 1
-    if currentqid == 5:
-        break
+# for testing purposes uncomment next two lines; will then stop after four requests
+#    if currentqid == 5:
+#        break
     if len(qid)>0:
         # take the template and replace the place holder with actual QID
         queryID = query.replace('<topicQID>', qid)
