@@ -518,9 +518,9 @@ function createZoteroArgument(keyList) {
   return linkargument;
 }
 
-// open modal window and display its content
+// open modal window and display content for selected course
 function openCourseModul(courseID) {
-  console.log(courseID);
+  // get html elements to fill
   var modal = document.getElementById("myModal");
   var modalInfo = document.getElementById("modal_info");
   var modalTD_dis = document.getElementById("modal_td_dis");
@@ -530,40 +530,56 @@ function openCourseModul(courseID) {
   var zoteroSection = document.getElementById("modal-section-zotero");
   var wikidataSection = document.getElementById("modal-section-wikidata");
 
+  // create close button, further styling done with css
   var span = document.getElementsByClassName("close")[0];
   modal.style.display = "block";
 
-  var item_info = document.createElement('p');
-  var item_td_dis = document.createElement('p');
-  var item_td_obj = document.createElement('p');
-  var item_td_teq = document.createElement('p');
-  var item_add_lit = document.createElement('p');
+  // create html div elements for display of different information sections
+  var item_info = document.createElement('div');
+  var item_td_dis = document.createElement('div');
+  var item_td_obj = document.createElement('div');
+  var item_td_teq = document.createElement('div');
+  var item_add_lit = document.createElement('div');
 
-  // for loop to find entry in data
+  // find corresponding course in data;
   for (var i=0; i<data.length;i++) {
-
+    //if id matches the id we are looking for, output information
     if ( data[i].id ==courseID) {
-      item_info.appendChild(document.createTextNode(data[i].name));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createTextNode(data[i].description));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createTextNode('Institution: '));
-      item_info.appendChild(document.createTextNode(data[i].institution.name));
-      item_info.appendChild(document.createTextNode('  ,    started in:  '));
-      item_info.appendChild(document.createTextNode(data[i].start_date));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createTextNode('Link: '));
-      item_info.appendChild(document.createTextNode(data[i].info_url));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createTextNode('Contact: '));
-      item_info.appendChild(document.createTextNode(data[i].contact_name));
-      item_info.appendChild(document.createTextNode('  ,  '));
-      item_info.appendChild(document.createTextNode(data[i].contact_mail));
-      item_info.appendChild(document.createElement("br"));
-      item_info.appendChild(document.createElement("br"));
+      // create html elements for general course information
+      // title with course name
+      var item_info_title = document.createElement('h2');
+      item_info_title.appendChild(document.createTextNode(data[i].name));
+      item_info.appendChild(item_info_title);
+      // Institution and Start date
+      var item_info_inst = document.createElement('p');
+      item_info_inst.appendChild(document.createTextNode('Institution: '));
+      item_info_inst.appendChild(document.createTextNode(data[i].institution.name));
+      if (data[i].start_date){
+        item_info_inst.appendChild(document.createTextNode(', started in: '));
+        item_info_inst.appendChild(document.createTextNode(data[i].start_date));
+      };
+      item_info_inst.appendChild(document.createTextNode('  '));
+      item_info.appendChild(item_info_inst);
+      // course link
+      var item_info_link = document.createElement('a');
+      item_info_link.setAttribute("href", data[i].info_url);
+      item_info_link.setAttribute("class", 'courseLink');
+      item_info_link.setAttribute("target", '_blank');
+      item_info_link.appendChild(document.createTextNode('Link to course '));
+      item_info_inst.appendChild(item_info_link);
+      // contact and contact mail
+      var item_info_cont = document.createElement('p');
+      item_info_cont.appendChild(document.createTextNode('Contact: '));
+      item_info_cont.appendChild(document.createTextNode(data[i].contact_name));
+      if (data[i].contact_mail){
+        item_info_cont.appendChild(document.createTextNode(',  '));
+        item_info_cont.appendChild(document.createTextNode(data[i].contact_mail));
+      };
+      item_info.appendChild(item_info_cont);
+      // course description
+      var item_info_desc = document.createElement('p');
+      item_info_desc.appendChild(document.createTextNode(data[i].description));
+      item_info.appendChild(item_info_desc);
 
       // here are the respective tadirah entries: disciplines, objects, techniques
 
@@ -618,7 +634,6 @@ function openCourseModul(courseID) {
             sco_link.appendChild(document.createTextNode('Scholia'));
             item_td_obj.appendChild(sco_link);
           };
-
       }
 
       item_td_teq.appendChild(document.createTextNode('TADIRAH Techniques: '));
@@ -646,10 +661,7 @@ function openCourseModul(courseID) {
           };
       }
 
-
       // here are the additional literatures and infos from the other APIs
-
-
       item_add_lit.appendChild(document.createTextNode('Additional Literature:'));
       item_add_lit.appendChild(document.createElement("br"));
       item_add_lit.appendChild(document.createElement("br"));
@@ -658,8 +670,9 @@ function openCourseModul(courseID) {
 
       var wikiLit = showLiteratureWikidata(dat_wiki, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
 
+      // stop for loop, since we have found the course and are displaying information
+      break;
     };
-
   }
 
   modalInfo.appendChild(item_info);

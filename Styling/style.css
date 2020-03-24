@@ -259,6 +259,20 @@ span.moreText {
   cursor: pointer;
 }
 
+#modal_inner {
+  padding-right: 2em;
+}
+
+/* Styling of general course information */
+a.courseLink {
+  color: #006500;
+}
+
+#modal_info {
+  border-bottom: 2px dotted #bfd8bf;
+  margin-bottom: 1em;
+}
+
 /* Styling of zotero and scholia links*/
 a.sco_link, a.zot_link {
   text-decoration: none;
