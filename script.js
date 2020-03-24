@@ -90,114 +90,6 @@ function buttonFunc() {
   generatePlot();
 }
 
-// get the used label in the course registry for a given term from zotero
-// can maybe be reused for wikidata as well?
-function getMappedCRterm(term, zotero = false, wiki = false) {
-  var mappedTerm = '';
-  var keyList = Object.keys(mapping[0])
-  for(i = 0; i < keyList.length; i++){
-    if (zotero == true){
-      if (mapping[0][keyList[i]]['zotero'] == term) {
-        mappedTerm = keyList[i]
-      };
-    } else if (wiki == true) {
-      if (mapping[0][keyList[i]]['wikidata'] == term) {
-        mappedTerm = keyList[i]
-      };
-    };
-  };
-  return mappedTerm;
-}
-
-// create a clean array without duplicates out of a given array
-function keyToList(keyArray) {
-  var keyList = []
-  for (var i = 0; i < keyArray.length; i++){
-    if (keyList.includes(keyArray[i].name.trim())){
-      // do not add if already there
-      continue
-    } else {
-      // add if not in list
-      keyList.push(keyArray[i].name.trim());
-    };
-  };
-  return keyList;
-}
-
-// print literature from Zotero
-function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
-  // collect all keywords used in the current course
-  var discKeyList = keyToList(cr_disciplines);
-  var objKeyList = keyToList(cr_tadirah_objects);
-  var techKeyList = keyToList(cr_tadirah_techniques);
-  // combine theses lists into one
-  var allKeyList = []
-  for (var i = 0; i < discKeyList.length; i++){
-    allKeyList.push(discKeyList[i])
-  };
-  for (var i = 0; i < objKeyList.length; i++){
-    allKeyList.push(objKeyList[i])
-  };
-  for (var i = 0; i < techKeyList.length; i++){
-    allKeyList.push(techKeyList[i])
-  };
-
-  // go through list of literature and see how many topics match with selected course
-  // only literature that matches keywords will be listed
-  var relevantLit = [];
-  for (var i = 0; i < dat_zot.length; i++) {
-    var keyMatches = 0;
-    var keyMatchesTags = '';
-    for (var j = 0; j < dat_zot[i].data.tags.length; j++){
-      var mappedTerm = getMappedCRterm(dat_zot[i].data.tags[j].tag, true, false);
-      if (allKeyList.includes(mappedTerm)){
-        keyMatches++;
-        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
-      };
-    };
-    if(keyMatches>0){
-      rellitentry = dat_zot[i];
-      rellitentry['relevance'] = keyMatches;
-      // remove last comma
-      keyMatchesTags = keyMatchesTags.slice(0, -2);
-      rellitentry['printableTags'] = keyMatchesTags;
-      relevantLit.push(rellitentry);
-    }
-  };
-  // now the relevant literature entries are sorted
-  relevantLit = sortOnKeys(relevantLit,'num')
-  // now the relevant literature from zotero can be displayed
-  var litlisthtml = document.createElement('div');
-  litlisthtml.className = "referenceEntry";
-  var myList = document.createElement('ul');
-  litlisthtml.appendChild(myList);
-
-
-
-  for (var i = 0; i < relevantLit.length; i++) {
-    var litEntry = document.createElement('li')
-    var litTitle = document.createElement('h4');
-    var myPara1 = document.createElement('p');
-    var keyList = document.createElement('div');
-    keyList.className = 'keywords';
-
-
-    litTitle.textContent = relevantLit[i].data.title;
-    myPara1.textContent = relevantLit[i].meta.creatorSummary;
-    keyList.textContent = relevantLit[i].printableTags;
-
-    litEntry.appendChild(litTitle);
-    litEntry.appendChild(myPara1);
-    litEntry.appendChild(keyList);
-    myList.appendChild(litEntry);
-
-
-/*
-Further possible fields
-"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract", "accessDate": "2011-07-26T08:25:16Z", "archive": "", "archiveLocation": "", "libraryCatalog": "", "callNumber": "", "rights": "", "extra": ""]*/
-};
-return litlisthtml;
-}
 
 // // print literature from Wikidata TODO
 function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
@@ -350,17 +242,13 @@ function generatePlot() {
           generatePlot()
         }
       });
-
 }
 
-// sort the dict alphabetically or numerically
+// sort a dict alphabetically or numerically
 function sortOnKeys(dict, sortCrit='alpha') {
-
   var sorted = [];
-
-
+  // sort alphabetically, ascending, regardless of case
   if (sortCrit=='alpha') {
-
       for(var key in dict) {
           sorted[sorted.length] = key;
       }
@@ -372,13 +260,12 @@ function sortOnKeys(dict, sortCrit='alpha') {
           if (a > b) return 1;
           return -1;
       });
-
       var tempDict = {};
       for(var i = 0; i < sorted.length; i++) {
           tempDict[sorted[i]] = dict[sorted[i]];
       }
-
       return tempDict;
+// sort numerically in descending order
   } else if (sortCrit =='num') {
     for (var i=0; i<dict.length; i++) {
         sorted.push(dict[i]);
@@ -391,8 +278,6 @@ function sortOnKeys(dict, sortCrit='alpha') {
     });
     return sorted;
   };
-
-
 }
 
 
@@ -505,7 +390,138 @@ function printcourses(courselist){
   return courselisthtml;
 }
 
-// concatenate list of zotero tags
+// create a clean array without duplicates out of a given array
+function keyToList(keyArray) {
+  var keyList = []
+  for (var i = 0; i < keyArray.length; i++){
+    if (keyList.includes(keyArray[i].name.trim())){
+      // do not add if already there
+      continue
+    } else {
+      // add if not in list
+      keyList.push(keyArray[i].name.trim());
+    };
+  };
+  return keyList;
+}
+
+// get the used label in the course registry for a given term from zotero or wikidata
+function getMappedCRterm(term, zotero = false, wiki = false) {
+  var mappedTerm = '';
+  var keyList = Object.keys(mapping[0])
+  for(i = 0; i < keyList.length; i++){
+    if (zotero == true){
+      // there might be more than one tag to compare
+      for(j = 0; j < mapping[0][keyList[i]]['zotero'].length; j++){
+        if (mapping[0][keyList[i]]['zotero'][j] == term) {
+          mappedTerm = keyList[i]
+        };
+      };
+    } else if (wiki == true) {
+      // there might be more than one tag to compare
+      for(j = 0; j < mapping[0][keyList[i]]['wikidata'].length; j++){
+        if (mapping[0][keyList[i]]['wikidata'] == term) {
+          mappedTerm = keyList[i]
+        };
+      };
+    };
+  };
+  return mappedTerm;
+}
+
+// print literature from Zotero
+function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
+  // first collect all keywords used in the current course
+  var discKeyList = keyToList(cr_disciplines);
+  var objKeyList = keyToList(cr_tadirah_objects);
+  var techKeyList = keyToList(cr_tadirah_techniques);
+  // then combine theses lists into one
+  var allKeyList = []
+  for (var i = 0; i < discKeyList.length; i++){
+    allKeyList.push(discKeyList[i])
+  };
+  for (var i = 0; i < objKeyList.length; i++){
+    allKeyList.push(objKeyList[i])
+  };
+  for (var i = 0; i < techKeyList.length; i++){
+    allKeyList.push(techKeyList[i])
+  };
+
+  // go through list of literature and see how many tags match with selected course
+  // only literature that has matches will be included and displayed
+  var relevantLit = [];
+  for (var i = 0; i < dat_zot.length; i++) {
+    var keyMatches = 0;
+    var keyMatchesTags = '';
+    for (var j = 0; j < dat_zot[i].data.tags.length; j++){
+      var mappedTerm = getMappedCRterm(dat_zot[i].data.tags[j].tag, true, false);
+      if (allKeyList.includes(mappedTerm)){
+        keyMatches++;
+        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
+      };
+    };
+    // if there is more than 0 matches, add an attribute 'relevance' with the value
+    if(keyMatches>0){
+      rellitentry = dat_zot[i];
+      rellitentry['relevance'] = keyMatches;
+      // remove last comma of list with matches and write pretty list into attribute 'printableTags'
+      keyMatchesTags = keyMatchesTags.slice(0, -2);
+      rellitentry['printableTags'] = keyMatchesTags;
+      // add this literature entry into the list with relevant literature
+      relevantLit.push(rellitentry);
+    }
+  };
+  // now the relevant literature entries are sorted by relevance
+  relevantLit = sortOnKeys(relevantLit,'num')
+  // now the relevant literature from zotero can be displayed in a dedicated html div element
+  var litlisthtml = document.createElement('ul');
+  litlisthtml.setAttribute("class", 'zotero-lit-list');
+
+  // for each reference add title, authors, year and keywords
+  for (var i = 0; i < relevantLit.length; i++) {
+    var litEntry = document.createElement('li')
+    // Authors
+    var litAuthor = document.createElement('span');
+    litAuthor.setAttribute("class", 'zot-authors');
+    litAuthor.textContent = relevantLit[i].meta.creatorSummary;
+    litEntry.appendChild(litAuthor);
+    litEntry.appendChild(document.createTextNode(' - '));
+    // Title
+    var litTitle = document.createElement('span');
+    litTitle.setAttribute("class", 'zot-title');
+    litTitle.textContent = relevantLit[i].data.title;
+    litEntry.appendChild(litTitle);
+    // DOI or URL
+    if (relevantLit[i].DOI){
+      var litLink = document.createElement('a');
+      litLink.setAttribute("href", ''.concat('https://doi.org/', relevantLit[i].DOI));
+      litLink.textContent = relevantLit[i].DOI;
+      litEntry.appendChild(litLink);
+    } else if (relevantLit[i].url) {
+      var litLink = document.createElement('a');
+      litLink.setAttribute("href", relevantLit[i].DOI);
+      litLink.textContent = relevantLit[i].DOI;
+      litEntry.appendChild(litLink);
+    };
+    // keywords
+    var keyList = document.createElement('p');
+    keyList.setAttribute("class", 'zot-keywords');
+    keyList.textContent = relevantLit[i].printableTags;
+    litEntry.appendChild(keyList);
+    litlisthtml.appendChild(litEntry);
+
+
+/*
+Further possible fields
+"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract"]*/
+};
+return litlisthtml;
+}
+
+
+
+
+// concatenate list of zotero tags for url
 function createZoteroArgument(keyList) {
   var linkargument = '';
   for (var i = 0; i<keyList.length;i++){
@@ -526,7 +542,6 @@ function openCourseModul(courseID) {
   var modalTD_dis = document.getElementById("modal_td_dis");
   var modalTD_obj = document.getElementById("modal_td_obj");
   var modalTD_teq = document.getElementById("modal_td_teq");
-  var modalLit = document.getElementById("modal_add_lit");
   var zoteroSection = document.getElementById("modal-section-zotero");
   var wikidataSection = document.getElementById("modal-section-wikidata");
 
@@ -539,7 +554,6 @@ function openCourseModul(courseID) {
   var item_td_dis = document.createElement('div');
   var item_td_obj = document.createElement('div');
   var item_td_teq = document.createElement('div');
-  var item_add_lit = document.createElement('div');
 
   // find corresponding course in data;
   for (var i=0; i<data.length;i++) {
@@ -706,13 +720,11 @@ function openCourseModul(courseID) {
           };
       }
 
-      // here are the additional literatures and infos from the other APIs
-      item_add_lit.appendChild(document.createTextNode('Additional Literature:'));
-      item_add_lit.appendChild(document.createElement("br"));
-      item_add_lit.appendChild(document.createElement("br"));
-
+      // Display additional literature from other APIs, such as Zotero and Wikidata
+      // add literature from Zotero based on keywords of course
       var zotLit = showLiteratureZotero(dat_zot, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
 
+      // add literature from Wikidata based on keywords of course
       var wikiLit = showLiteratureWikidata(dat_wiki, data[i].disciplines, data[i].tadirah_objects, data[i].tadirah_techniques);
 
       // stop for loop, since we have found the course and are displaying information
@@ -720,22 +732,22 @@ function openCourseModul(courseID) {
     };
   }
 
+  // now add all elements we created in for look for display in modal window
   modalInfo.appendChild(item_info);
   modalTD_dis.appendChild(item_td_dis);
   modalTD_obj.appendChild(item_td_obj);
   modalTD_teq.appendChild(item_td_teq);
-  modalLit.appendChild(item_add_lit);
   // print literature from zotero
   zoteroSection.appendChild(zotLit);
   // print literature from Wikidata
   wikidataSection.appendChild(wikiLit);
 
+  // clear content of modal when it is closed
   span.onclick = function() {
     modalInfo.removeChild(item_info);
     modalTD_dis.removeChild(item_td_dis);
     modalTD_obj.removeChild(item_td_obj);
     modalTD_teq.removeChild(item_td_teq);
-    modalLit.removeChild(item_add_lit);
     zoteroSection.removeChild(zotLit);
     wikidataSection.removeChild(wikiLit);
     modal.style.display = "none";
@@ -744,17 +756,16 @@ function openCourseModul(courseID) {
   // When the user clicks anywhere outside of the modal window, close it
   window.onclick = function(event) {
     if (event.target == modal) {
+      // and remove content in it
       modalInfo.removeChild(item_info);
       modalTD_dis.removeChild(item_td_dis);
       modalTD_obj.removeChild(item_td_obj);
       modalTD_teq.removeChild(item_td_teq);
-      modalLit.removeChild(item_add_lit);
       zoteroSection.removeChild(zotLit);
       wikidataSection.removeChild(wikiLit);
       modal.style.display = "none";
-    }
-  }
-
+    };
+  };
 }
 
 
@@ -837,14 +848,9 @@ function plot(dd, courselist){
 generatePlot()
 
 
-
-
-//console.log(dat_zot[0]);
-
 // Further functionality; e.g. for layout
 // When the user scrolls down 90px from the top of the document, resize the logo
 window.onscroll = function() {scrollFunction()};
-
 function scrollFunction() {
   if (document.body.scrollTop > 65 || document.documentElement.scrollTop > 65) {
     document.getElementById("logowrapper").style.width = "50px";
