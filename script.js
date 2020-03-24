@@ -1,5 +1,5 @@
 
-
+// Hallo
 
 
 var slider = document.getElementById("myRange");
@@ -687,13 +687,14 @@ function openCourseModul(courseID) {
 
 
 
-function printcourselisttitle(){
+function printcourselisttitle(courseListLength){
 
   var courselisttitle = document.createElement('h3');
 
   if (selCats.length >0 ) {
 
-    courselisttitle.appendChild(document.createTextNode('Courses matching the selection "'));
+    courselisttitle.appendChild(document.createTextNode(courseListLength));
+    courselisttitle.appendChild(document.createTextNode(' Courses matching the selection: "'));
     for (var i = 0; i<selCats.length; i++) {
       if (i==0) {
         courselisttitle.appendChild(document.createTextNode(selCats[i]));
@@ -705,7 +706,9 @@ function printcourselisttitle(){
     };
     courselisttitle.appendChild(document.createTextNode('"'));
   } else {
-    courselisttitle.appendChild(document.createTextNode('Complete course list for this year:'));
+    courselisttitle.appendChild(document.createTextNode('Complete course list for this year ('));
+    courselisttitle.appendChild(document.createTextNode(courseListLength));
+    courselisttitle.appendChild(document.createTextNode('):'));
   }
   return courselisttitle;
 }
@@ -745,7 +748,7 @@ function plot(dd, courselist){
       document.getElementById("graph").innerHTML="";
       Plotly.newPlot('graph', plotdata , plotlayout);
       document.getElementById("courselist").innerHTML="";
-      document.getElementById("courselist").appendChild(printcourselisttitle());
+      document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
       document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
       document.getElementById("graph").innerHTML="";
