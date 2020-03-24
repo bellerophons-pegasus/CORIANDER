@@ -1,5 +1,5 @@
 # query everything on wikidata that uses a main subject (or any sub class of it) as indicated with wd:<topicQID> (insert QID)
-# then list date, QID, title, topics, authors, and editors; only fetch 150 results
+# then list date, QID, title, topics, authors, and editors; only fetch 50 results
 SELECT ?date ?work ?workLabel ?topics ?topicids (GROUP_CONCAT (DISTINCT ?authorLabel; separator= " - ") AS ?authors) (GROUP_CONCAT (DISTINCT ?authorstring; separator= " - ") AS ?authorstrings) (GROUP_CONCAT (DISTINCT ?editorLabel; separator= " - ") AS ?editors)
 WITH {
   SELECT DISTINCT ?work WHERE {

@@ -1,5 +1,12 @@
 
-// Hallo
+/*
+* A script to display data from the DH course registry in plots and lists.
+* Based on the used keywords, each course is enriched with matching publications
+* from Wikidata and from the 'Doing Digital Humanities' Bibliography by DARIAH.
+*
+*
+* authors: Lukas and Martina
+*/
 
 
 var slider = document.getElementById("myRange");
@@ -14,10 +21,7 @@ if ( slider.value > 1999) {
   var selYearp1 = 2100;
 }
 
-
-
 var selCats = [];
-
 
 var innerContainer = document.querySelector('[data-num="0"');
 // plotEl = innerContainer.querySelector('.plot');
@@ -35,7 +39,7 @@ tdSelector.appendChild(tdOption);
 
 var selValue = tdSelector.value;
 
-// layout options for bar chart
+// layout options for basic bar chart
 var plotlayout = {
   title: ''.concat('Number of courses per ',selValue),
   xaxis: {
@@ -51,7 +55,7 @@ var plotlayout = {
   paper_bgcolor: "rgba(255, 255, 255, 0)"
 };
 
-// function to update layout options for empty bar chart
+// function to update layout options for an empty bar chart
 function emptyLayout(plotlayout){
   var plotlayoutempty = JSON.parse(JSON.stringify(plotlayout));
   plotlayoutempty.title = 'No courses for this year';
@@ -467,7 +471,8 @@ function getItems(input) {
 
 }
 
-
+// print basic information of courses into list with clickable items
+// only list the courses that match the selection in the current bar chart
 function printcourses(courselist){
   var courselisthtml = document.createElement('ul');
 
@@ -480,10 +485,20 @@ function printcourses(courselist){
     item.appendChild(document.createTextNode(courselist[i].course_type.name));
     item.appendChild(document.createTextNode(') '));
     item.appendChild(document.createTextNode(courselist[i].institution.name));
-    item.appendChild(document.createTextNode(' more...'));
+    // add a more... text in span and set class for styling
+    var itemSpan = document.createElement('span');
+    itemSpan.appendChild(document.createTextNode(' more...'));
+    itemSpan.setAttribute("class", 'moreText');
+    item.appendChild(itemSpan);
+    // add a tooltip to the list item
+    var itemTip = document.createElement('span');
+    itemTip.appendChild(document.createTextNode('Click for more information on course and matching literature from external sources.'))
+    itemTip.setAttribute("class", 'courseTipText')
+    itemSpan.appendChild(itemTip)
+    // set html attributes for list item
     item.setAttribute("id", ''.concat('cid-', courselist[i].id));
     item.setAttribute("class", 'courseEntry');
-    item.setAttribute("onclick", ''.concat( 'openCourseModul(',courselist[i].id,')' )  );
+    item.setAttribute("onclick", ''.concat('openCourseModul(',courselist[i].id,')'));
     // Add it to the list:
     courselisthtml.appendChild(item);
   }
