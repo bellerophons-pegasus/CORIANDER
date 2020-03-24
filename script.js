@@ -42,9 +42,11 @@ var selValue = tdSelector.value;
 // layout options for basic bar chart
 var plotlayout = {
   title: ''.concat('Number of courses per ',selValue),
+  height: 600,
   xaxis: {
     tickangle: 45,
-    range: [-1,36]
+    range: [-1,36],
+    automargin: true
   },
   yaxis: {
      gridwidth: 1
@@ -55,6 +57,12 @@ var plotlayout = {
   paper_bgcolor: "rgba(255, 255, 255, 0)"
 };
 
+function standardLayout(plotlayout,selValue){
+  var plotlayoutstandard = JSON.parse(JSON.stringify(plotlayout));
+  plotlayoutstandard.title = ''.concat('Number of courses per ',selValue);
+  return plotlayoutstandard;
+}
+
 // function to update layout options for an empty bar chart
 function emptyLayout(plotlayout){
   var plotlayoutempty = JSON.parse(JSON.stringify(plotlayout));
@@ -63,6 +71,7 @@ function emptyLayout(plotlayout){
   plotlayoutempty.xaxis.showticklabels = false;
   return plotlayoutempty;
 }
+
 
 if ( slider.value > 1999) {
   output.innerHTML = slider.value; // Display the default slider value
@@ -835,7 +844,7 @@ function plot(dd, courselist){
 
     if (courselist.length > 0) {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', plotdata , plotlayout);
+      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue));
       document.getElementById("courselist").innerHTML="";
       document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
       document.getElementById("courselist").appendChild(printcourses(courselist));
