@@ -111,8 +111,6 @@ function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr
     allKeyList.push(techKeyList[i])
   };
 
-
-  console.log(dat_wiki);
   // the list with the resulting literature
   var relevantLit = [];
 
@@ -159,7 +157,6 @@ function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr
 
   // now the relevant literature entries are sorted
   relevantLit = sortOnKeys(relevantLit,'num')
-  console.log(relevantLit);
 
 
 
@@ -476,7 +473,6 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
   // now the relevant literature from zotero can be displayed in a dedicated html div element
   var litlisthtml = document.createElement('ul');
   litlisthtml.setAttribute("class", 'zotero-lit-list');
-
   // for each reference add title, authors, year and keywords
   for (var i = 0; i < relevantLit.length; i++) {
     var litEntry = document.createElement('li')
@@ -491,16 +487,27 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     litTitle.setAttribute("class", 'zot-title');
     litTitle.textContent = relevantLit[i].data.title;
     litEntry.appendChild(litTitle);
+    // date
+    var litDate = document.createElement('span');
+    litDate.setAttribute("class", 'zot-date');
+    litEntry.appendChild(document.createTextNode(' ('));
+    litDate.textContent = relevantLit[i].data.date;
+    litEntry.appendChild(litDate);
+    litEntry.appendChild(document.createTextNode(')'));
     // DOI or URL
-    if (relevantLit[i].DOI){
+    if (relevantLit[i].data.DOI){
       var litLink = document.createElement('a');
-      litLink.setAttribute("href", ''.concat('https://doi.org/', relevantLit[i].DOI));
-      litLink.textContent = relevantLit[i].DOI;
+      litLink.setAttribute("href", ''.concat('https://doi.org/', relevantLit[i].data.DOI));
+      litLink.setAttribute("target", '_blank');
+      litLink.textContent = relevantLit[i].data.DOI;
+      litEntry.appendChild(document.createElement('br'));
       litEntry.appendChild(litLink);
-    } else if (relevantLit[i].url) {
+    } else if (relevantLit[i].data.url) {
       var litLink = document.createElement('a');
-      litLink.setAttribute("href", relevantLit[i].DOI);
-      litLink.textContent = relevantLit[i].DOI;
+      litLink.setAttribute("href", relevantLit[i].data.url);
+      litLink.setAttribute("target", '_blank');
+      litLink.textContent = relevantLit[i].data.url;
+      litEntry.appendChild(document.createElement('br'));
       litEntry.appendChild(litLink);
     };
     // keywords
@@ -509,17 +516,9 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     keyList.textContent = relevantLit[i].printableTags;
     litEntry.appendChild(keyList);
     litlisthtml.appendChild(litEntry);
-
-
-/*
-Further possible fields
-"data": {"key": "N9RGN6H4", "version": 2719, "itemType": "journalArticle", "title": "Interpreting Burrows's Delta: Geometric and Probabilistic Foundations", "creators": [{"creatorType": "author", "firstName": "Shlomo", "lastName": "Argamon"}], "publicationTitle": "Literary and Linguistic Computing", "volume": "23", "issue": "2", "pages": "131 -147", "date": "2008", "series": "", "seriesTitle": "", "seriesText": "", "journalAbbreviation": "", "language": "en", "DOI": "10.1093/llc/fqn003", "ISSN": "", "shortTitle": "Interpreting Burrows's Delta", "url": "http://llc.oxfordjournals.org/content/23/2/131.abstract"]*/
 };
 return litlisthtml;
 }
-
-
-
 
 // concatenate list of zotero tags for url
 function createZoteroArgument(keyList) {
@@ -738,8 +737,14 @@ function openCourseModul(courseID) {
   modalTD_obj.appendChild(item_td_obj);
   modalTD_teq.appendChild(item_td_teq);
   // print literature from zotero
+  var zoteroSectionTitle = document.createElement('h4');
+  zoteroSectionTitle.appendChild(document.createTextNode('From Zotero'))
+  zoteroSection.appendChild(zoteroSectionTitle);
   zoteroSection.appendChild(zotLit);
   // print literature from Wikidata
+  var wikidataSectionTitle = document.createElement('h4');
+  wikidataSectionTitle.appendChild(document.createTextNode('From Wikidata'))
+  wikidataSection.appendChild(wikidataSectionTitle);
   wikidataSection.appendChild(wikiLit);
 
   // clear content of modal when it is closed

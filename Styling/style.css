@@ -16,6 +16,16 @@ h1, h2, h3, h4, h5, h6 {
   color: #006500;
 }
 
+a {
+  color: #006500;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  background-color: #dfecdf;
+}
+
+
 .header {
   border-bottom: 2px solid #006500;
   margin-bottom: 0.5em;
@@ -141,25 +151,16 @@ input[type=range].myRange:focus::-ms-fill-upper {
   background: #d8e7d8;
 }
 
-/* different color to mark progress in FF */
-/*input[type="range"].myRange::-moz-range-progress {
-  background-color: #bfd8bf;
-  border: 2px solid #bfd8bf;
-  border-radius: 23.7px;
-}
-input[type="range"].myRange::-moz-range-track {
-  background-color: #dfecdf;
-}*/
-
 /* LISTS */
 ul {
   list-style: none;
-  padding: 0;
+  padding: 0 0 0 0.8em;
   margin: 0;
 }
 
 li {
   padding-left: 0.1em;
+  text-indent: -0.85em;
 }
 
 li::before {
@@ -264,15 +265,6 @@ span.moreText {
 }
 
 /* Styling of general course information */
-a.courseLink {
-  color: #006500;
-  text-decoration: none;
-}
-
-a.courseLink:hover, a.courseLink:focus {
-  background-color: #dfecdf;
-}
-
 #modal_info, #modal_td_keys {
   border-bottom: 2px dotted #bfd8bf;
   margin-bottom: 1em;
@@ -303,13 +295,41 @@ a.sco_link, a.zot_link {
 
 a.zot_link img{
   height: 1em;
-  margin-left: 0.5em;
+  margin-left: 1.5em;
 }
 
 a.sco_link img{
   height: 1.2em;
-  margin-left: 0.5em;
+  margin-left: 1.5em;
   margin-bottom: -0.1em;
+}
+
+/* Styling of additional literature section */
+#modal-section-zotero, #modal-section-wikidata{
+  width: 49%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#modal-section-zotero h4, #modal-section-wikidata h4{
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+#modal-section-zotero {
+  padding-right: 0.3em;
+}
+
+.zotero-lit-list li {
+  margin-bottom: 0.5em;
+/*  border-bottom: 1px dashed #dfecdf;*/
+  padding-bottom: 0.25em;
+}
+
+p.zot-keywords {
+  margin: 0.3em 0 0;
+  font-size: 0.9em;
+  padding-left: 1em;
 }
 
 /* FOOTER */
