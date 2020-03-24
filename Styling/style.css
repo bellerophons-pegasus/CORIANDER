@@ -266,11 +266,32 @@ span.moreText {
 /* Styling of general course information */
 a.courseLink {
   color: #006500;
+  text-decoration: none;
 }
 
-#modal_info {
+a.courseLink:hover, a.courseLink:focus {
+  background-color: #dfecdf;
+}
+
+#modal_info, #modal_td_keys {
   border-bottom: 2px dotted #bfd8bf;
   margin-bottom: 1em;
+}
+
+#modal_td_keys {
+  padding-bottom: 0.5em;
+}
+
+/* styling of course TaDiRAH keywords*/
+#modal_td_dis, #modal_td_obj, #modal_td_teq{
+  width: 33%;
+  display:inline-block;
+  vertical-align: top;
+}
+
+#modal_td_dis h4, #modal_td_obj h4, #modal_td_teq h4{
+  margin-top: 0;
+  margin-bottom: 0.25em;
 }
 
 /* Styling of zotero and scholia links*/
@@ -278,36 +299,18 @@ a.sco_link, a.zot_link {
   text-decoration: none;
   display: inline-block;
   position: relative;
-  padding: 4px 16px;
-  right: 9999px;
 }
 
-a.sco_link:after {
-  content: '';
-  background:transparent url('scholia.ico') no-repeat;
-}
-
-a.zot_link:after {
-  content: '';
-  background:transparent url('zotero.ico') no-repeat;
-}
-
-a.sco_link:after, a.zot_link:after {
+a.zot_link img{
   height: 1em;
-  width: 1.5em;
-  background-position: center;
-  background-size: 100%;
-  display: inline-block;
-  margin-left: 0.3em;
-
-  position: absolute;
-  top: 2px;
-  right: -9999px;
-  text-align: center;
-
+  margin-left: 0.5em;
 }
 
-
+a.sco_link img{
+  height: 1.2em;
+  margin-left: 0.5em;
+  margin-bottom: -0.1em;
+}
 
 /* FOOTER */
 .footer {
