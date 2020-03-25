@@ -9,6 +9,11 @@
 */
 
 
+/*
+* Step I : Setting the initial variables for the slider/selectors, plots
+*          and give initial values. Also some layout functions can be found here.
+*/
+
 var slider = document.getElementById("myRange");
 var output = document.getElementById("sliderOutput");
 var tdPlot = document.getElementById("graph");
@@ -19,14 +24,11 @@ if ( slider.value > 1999) {
   var selYearp1 = parseInt(slider.value)+1;
 } else {
   var selYearp1 = 2100;
-}
+};
 
 var selCats = [];
-
 var innerContainer = document.querySelector('[data-num="0"');
-// plotEl = innerContainer.querySelector('.plot');
 tdSelector = innerContainer.querySelector('.tddata');
-
 var tdOption = document.createElement('option');
 tdOption.text = 'Disciplines';
 tdSelector.appendChild(tdOption);
@@ -37,6 +39,30 @@ var tdOption = document.createElement('option');
 tdOption.text = 'Techniques';
 tdSelector.appendChild(tdOption);
 
+// selector for countries
+countSelector = innerContainer.querySelector('.countryData');
+var countOption = document.createElement('option');
+countOption.text = 'All Countries';
+countSelector.appendChild(countOption);
+
+// get a list of all countries
+var countList = []
+for (var i = 0; i < data.length; i++) {
+    if (!countList[data[i].country.name]) {
+      countList[data[i].country.name] = 0;
+    }
+};
+
+// sort the list alphabetically
+countList = sortOnKeys(countList,'alpha');
+// add the options to the country selector
+for (var key in countList) {
+var countOption = document.createElement('option');
+countOption.text = key;
+countSelector.appendChild(countOption);
+};
+
+var selCountry = countSelector.value
 var selValue = tdSelector.value;
 
 // layout options for basic bar chart
@@ -61,6 +87,9 @@ var plotlayout = {
 function standardLayout(plotlayout,selValue){
   var plotlayoutstandard = JSON.parse(JSON.stringify(plotlayout));
   plotlayoutstandard.title = ''.concat('Number of courses per ',selValue);
+  if (slider.value > 1999) {
+    plotlayoutstandard.yaxis.range = [0,50]
+  };
   return plotlayoutstandard;
 }
 
@@ -70,9 +99,31 @@ function emptyLayout(plotlayout){
   plotlayoutempty.title = 'No courses for this year';
   plotlayoutempty.xaxis.ticks = '';
   plotlayoutempty.xaxis.showticklabels = false;
+  plotlayoutempty.yaxis.range = [0,50]
   return plotlayoutempty;
 }
 
+// Further functionality; e.g. for layout
+// When the user scrolls down 90px from the top of the document, resize the logo
+window.onscroll = function() {scrollFunction()};
+function scrollFunction() {
+  if (document.body.scrollTop > 65 || document.documentElement.scrollTop > 65) {
+    document.getElementById("logowrapper").style.width = "50px";
+    document.getElementById("coriander-logo").style.width = "50px";
+  } else {
+    document.getElementById("logowrapper").style.width = "100px";
+    document.getElementById("coriander-logo").style.width = "100px";
+  }
+};
+
+/*
+* Step I : Ends here!
+*/
+
+/*
+* Step II : Defines what happens if the slectors/slider is changed or
+*           the "deselect" button is pressed
+*/
 
 if ( slider.value > 1999) {
   output.innerHTML = slider.value; // Display the default slider value
@@ -87,35 +138,30 @@ slider.oninput = function() {
   } else {
     output.innerHTML = 'Complete Data';
     selYearp1 = 2100;
-
   }
   selYear = this.value;
   generatePlot()
 }
-
-
-
+// the function for the "deselect" button: "selCats" is emptied and an updated plot is generated
 function buttonFunc() {
   selCats = [];
   generatePlot();
 }
-
-
-// tdSelector.addEventListener('change', generatePlot, false);
+// generate a updated plot with each change in the selectors; with each new selection betwenn disciplines, objects or techniques
+// the selected categories are emptied.
 tdSelector.addEventListener('change', function(){selCats = []; generatePlot()}, false);
+countSelector.addEventListener('change', function(){generatePlot()}, false);
 
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
-}
+/*
+* Step II : Ends here!
+*/
 
+/*
+* Step III : The main functions for plotting course data
+*/
+
+// this function is called for an updated plot as well as the selection of individual
+// disciplines/objects/techniques within the plot
 function generatePlot() {
       plotdata=getItems(data);
       plot(plotdata[0], plotdata[2] );
@@ -125,19 +171,66 @@ function generatePlot() {
         but.style.display = "block";
       } else {
         but.style.display = "none";
-      }
-
+      };
       tdPlot.on('plotly_click', function(data){
-
         if (selCats.includes(Object.keys(plotdata[0])[data.points[0].pointIndex])) {
           selCats = selCats.filter(e => e !== Object.keys(plotdata[0])[data.points[0].pointIndex])
           generatePlot()
         } else {
           selCats.push(Object.keys(plotdata[0])[data.points[0].pointIndex])
           generatePlot()
-        }
+        };
       });
-}
+};
+
+// function that generates the plot
+function plot(dd, courselist){
+    let x = [];
+    let y = [];
+    // setting the x and y values
+    for (var p in dd) {
+          x.push(p);
+          y.push(dd[p]);
+        };
+    var plotcolors = [];
+    // depending on the selection in selCats the color varies
+    for (var i = 0; i < x.length; i++) {
+      if (selCats.includes(x[i])) {
+        plotcolors.push('#c54c82')
+      } else {
+        plotcolors.push('#609f60')
+      }
+    };
+    var plotdata = [{
+      x,
+      y,
+      type:'bar',
+      marker: {
+        color:plotcolors
+        }
+    }];
+    // if there are courses available in the selected year the data is plotted
+    // otherwise an "empty" plot is shown
+    if (courselist.length > 0) {
+      document.getElementById("graph").innerHTML="";
+      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue));
+      document.getElementById("courselist").innerHTML="";
+      document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
+      document.getElementById("courselist").appendChild(printcourses(courselist));
+    } else {
+      document.getElementById("graph").innerHTML="";
+      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , emptyLayout(plotlayout));
+      document.getElementById("courselist").innerHTML="";
+    };
+};
+
+/*
+* Step III : Ends here!
+*/
+
+/*
+* Step IV : The main functions for displaying the courselist data
+*/
 
 // sort a dict alphabetically or numerically
 function sortOnKeys(dict, sortCrit='alpha') {
@@ -175,23 +268,26 @@ function sortOnKeys(dict, sortCrit='alpha') {
   };
 }
 
-
-
+// this function gets all the data from the course registry and selects, depending on the inputs from the slider/selectors,
+// the entries which are plotted/shown in the courselist
 function getItems(input) {
-
+  // update the selctor values
   selValue = tdSelector.value
+  selCountry = countSelector.value
 
+  // set the variable for the data that will be plotted
   var arr = [];
+  // set the variable for the x-axis values
   var fin = {};
-
+  // depending on the selection "selValue" the respective x-axis labels are put in "fin";
+  // afterwards "fin" is sorted alphabetically
   if (selValue == 'Disciplines') {
     var selGr = 'disciplines'
   } else if (selValue == 'Objects') {
     var selGr = 'tadirah_objects'
   } else if (selValue == 'Techniques') {
     var selGr = 'tadirah_techniques'
-  }
-
+  };
   for (var i = 0; i < input.length; i++) {
     for (var j = 0; j < input[i][selGr].length; j++) {
         if (!fin[input[i][selGr][j].name]) {
@@ -199,11 +295,8 @@ function getItems(input) {
         }
       }
   };
-
-
   fin = sortOnKeys(fin,'alpha');
-
-
+  // now the entry for the selected academic year has to be filtered
   for (var i = 0; i < input.length; i++) {
     sd = (input[i].start_date).split(";")[0].split("-")
 
@@ -212,15 +305,23 @@ function getItems(input) {
     }
   };
 
+// now the variable "arr" is reduced to the selected country. If "All Countries" are selected, all data is used.
+  if (selCountry != 'All Countries') {
+    var updateArr = []
+    for (var i = 0; i< arr.length; i++) {
+      if (selCountry == arr[i].country.name) {
+        updateArr.push(arr[i]);
+      };
+    };
+    arr = updateArr
+  };
 
+  // with the correct data available, the number of disciplines/objects/techniques are counted
   for (var i = 0; i < arr.length; i++) {
     for (var j = 0; j < arr[i][selGr].length; j++) {
           fin[arr[i][selGr][j].name] += 1;
       }
   };
-
-
-  // hier wird jetzt noch das arr angepasst, je nach dem welche werte in selCats sind...
 
   // select only the entries which are selected in the plot..if nothing is selected then use all data that fits the year.
   var arrSel = [];
@@ -236,9 +337,33 @@ function getItems(input) {
   } else {
     arrSel = arr;
   }
-  return [fin, arr, arrSel];
 
+  // returned are the variables: "fin" with the plot data, arr and arrSel for the courselists
+  return [fin, arr, arrSel];
 }
+
+// print an headline for the courselist depending on the selected variables
+function printcourselisttitle(courseListLength){
+  var courselisttitle = document.createElement('h3');
+  if (selCats.length >0 ) {
+    courselisttitle.appendChild(document.createTextNode(courseListLength));
+    courselisttitle.appendChild(document.createTextNode(' Courses matching the selection: "'));
+    for (var i = 0; i<selCats.length; i++) {
+      if (i==0) {
+        courselisttitle.appendChild(document.createTextNode(selCats[i]));
+      } else {
+        courselisttitle.appendChild(document.createTextNode(', '));
+        courselisttitle.appendChild(document.createTextNode(selCats[i]));
+      };
+    };
+    courselisttitle.appendChild(document.createTextNode('"'));
+  } else {
+    courselisttitle.appendChild(document.createTextNode('Complete course list for this year and country ('));
+    courselisttitle.appendChild(document.createTextNode(courseListLength));
+    courselisttitle.appendChild(document.createTextNode('):'));
+  }
+  return courselisttitle;
+};
 
 // print basic information of courses into list with clickable items
 // only list the courses that match the selection in the current bar chart
@@ -254,6 +379,15 @@ function printcourses(courselist){
     item.appendChild(document.createTextNode(courselist[i].course_type.name));
     item.appendChild(document.createTextNode(') '));
     item.appendChild(document.createTextNode(courselist[i].institution.name));
+
+    // Check if the course is recent/maintained
+    // use the "Updated" value: historical if updated ealier than 2019.
+    if (parseInt(courselist[i].updated.substring(4,0)) >= 2019) {
+      item.appendChild(document.createTextNode(' ('));
+      item.appendChild(document.createTextNode('recent'));
+      item.appendChild(document.createTextNode(') '));
+    }
+
     // add a more... text in span and set class for styling
     var itemSpan = document.createElement('span');
     itemSpan.appendChild(document.createTextNode(' more...'));
@@ -288,6 +422,17 @@ function keyToList(keyArray) {
   };
   return keyList;
 }
+
+/*
+* Step IV : Ends here!
+*/
+
+
+/*
+* Step V : Mapping the keywords from the Course Registry to Zotero and Wikidata
+*          and generate a modal window when clicking on a course in the courselist
+*/
+
 
 // get the used label in the course registry for a given term from zotero or wikidata
 function getMappedCRterm(term, zotero = false, wiki = false) {
@@ -535,9 +680,6 @@ function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr
   };
 return litlisthtml;
 }
-
-
-
 
 // concatenate list of zotero tags for url
 function createZoteroArgument(keyList) {
@@ -797,94 +939,19 @@ function openCourseModul(courseID) {
 }
 
 
-
-
-function printcourselisttitle(courseListLength){
-
-  var courselisttitle = document.createElement('h3');
-
-  if (selCats.length >0 ) {
-
-    courselisttitle.appendChild(document.createTextNode(courseListLength));
-    courselisttitle.appendChild(document.createTextNode(' Courses matching the selection: "'));
-    for (var i = 0; i<selCats.length; i++) {
-      if (i==0) {
-        courselisttitle.appendChild(document.createTextNode(selCats[i]));
-      } else {
-        courselisttitle.appendChild(document.createTextNode(', '));
-        courselisttitle.appendChild(document.createTextNode(selCats[i]));
-
-      };
-    };
-    courselisttitle.appendChild(document.createTextNode('"'));
-  } else {
-    courselisttitle.appendChild(document.createTextNode('Complete course list for this year ('));
-    courselisttitle.appendChild(document.createTextNode(courseListLength));
-    courselisttitle.appendChild(document.createTextNode('):'));
-  }
-  return courselisttitle;
-}
+/*
+* Step V : Ends here!
+*/
 
 
 
-
-function plot(dd, courselist){
-    let x = [];
-    let y = [];
-
-    for (var p in dd) {
-          x.push(p);
-          y.push(dd[p]);
-        };
-    var plotcolors = [];
-
-    for (var i = 0; i < x.length; i++) {
-      if (selCats.includes(x[i])) {
-        plotcolors.push('#c54c82')
-      } else {
-        plotcolors.push('#609f60')
-
-      }
-    };
-
-    var plotdata = [{
-      x,
-      y,
-      type:'bar',
-      marker: {
-        color:plotcolors
-        }
-    }];
-
-    if (courselist.length > 0) {
-      document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue));
-      document.getElementById("courselist").innerHTML="";
-      document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
-      document.getElementById("courselist").appendChild(printcourses(courselist));
-    } else {
-      document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , emptyLayout(plotlayout));
-      document.getElementById("courselist").innerHTML="";
-    }
-
-}
-
-
-
+/*
+* Step VI : Now all is set and the initial plot can be generated :-)
+*           This also calls all other functions and the whole thing is executed!
+*/
 
 generatePlot()
 
-
-// Further functionality; e.g. for layout
-// When the user scrolls down 90px from the top of the document, resize the logo
-window.onscroll = function() {scrollFunction()};
-function scrollFunction() {
-  if (document.body.scrollTop > 65 || document.documentElement.scrollTop > 65) {
-    document.getElementById("logowrapper").style.width = "50px";
-    document.getElementById("coriander-logo").style.width = "50px";
-  } else {
-    document.getElementById("logowrapper").style.width = "100px";
-    document.getElementById("coriander-logo").style.width = "100px";
-  }
-}
+/*
+* Step VI : Ends here!
+*/
