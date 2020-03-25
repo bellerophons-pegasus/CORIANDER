@@ -4,10 +4,16 @@
 * Based on the used keywords, each course is enriched with matching publications
 * from Wikidata and from the 'Doing Digital Humanities' Bibliography by DARIAH.
 *
-*
 * authors: Lukas and Martina
 */
 
+/*
+* Step 0 : Via index.html source files containing data are loaded:
+           * Course Registry: Sources/courseRegistryData/index.js --> var data
+           * Zotero Literature: Sources/zotero-DHLit/zotero_custom.js --> var dat_zot
+           * Wikidata Literature: Sources/wikidata/worksWikidata.js --> war dat_wiki
+           * Mapping of keywords: Sources/mapping.js --> var mapping
+*/
 
 /*
 * Step I : Setting the initial variables for the slider/selectors, plots
