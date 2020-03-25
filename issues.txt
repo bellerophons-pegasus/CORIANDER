@@ -1,12 +1,3 @@
-- plot title: change plot title...
-
-- plotly sidebar and logo
-
-
-
-
-
-
 interesting:
 
 für Theory and Methodology of DH (größter block bei disciplines) gibts weder zotero noch scholia...aber in zeotero customs haben wir eins
