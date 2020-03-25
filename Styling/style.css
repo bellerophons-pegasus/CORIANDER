@@ -320,13 +320,19 @@ a.sco_link img{
   padding-right: 0.3em;
 }
 
-.zotero-lit-list li {
+.zotero-lit-list li, .wikidata-lit-list li {
   margin-bottom: 0.5em;
 /*  border-bottom: 1px dashed #dfecdf;*/
   padding-bottom: 0.25em;
 }
 
-p.zot-keywords {
+.wikidata-lit-list li a img{
+  height: 1.3em;
+  margin-left: 0.5em;
+  margin-bottom: -0.3em;
+}
+
+p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
   margin: 0.3em 0 0;
   font-size: 0.9em;
   padding-left: 1em;
