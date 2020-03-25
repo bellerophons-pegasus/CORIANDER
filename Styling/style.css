@@ -54,6 +54,63 @@ a:hover, a:focus {
   margin-top: 0;
 }
 
+/* nicer styling for dropdown and buttons */
+.control-row{
+  position: relative;
+}
+
+.control-tddata, .control-country{
+  display: inline-block;
+}
+.control-tddata:after, .control-country:after{
+  content: '\f078';
+  font: normal normal normal 1em FontAwesome;
+  color: #609f60;
+/*  right: 11px;
+  top: 6px;*/
+  left: -2em;
+  height: 1.75em;
+  padding: 0.55em 0 0.2em 0.25em;
+  border-left: 2px solid #609f60;
+  position: relative;
+  pointer-events: none;
+}
+
+/* IE11 hide native button (thanks Matt!) */
+.control-row select::-ms-expand {
+display: none;
+}
+
+.control-row select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Add some styling */
+  display: inline-block;
+  width: 12em;
+  height: 2em;
+  margin-left: 0.5em;
+  padding: 0 0.25em;
+  font-size: 1em;
+  color: #000;
+  background-color: #fff;
+  background-image: none;
+  border: 2px solid #609f60;
+  border-radius: 15px;
+  -ms-word-break: normal;
+  word-break: normal;
+}
+
+
+
+
+
+
+
+
+
+
+
 /* nice styling for slider */
 #slidercontainer{
   width: 80%;
