@@ -763,7 +763,9 @@ function openCourseModul(courseID) {
     modalTD_obj.removeChild(item_td_obj);
     modalTD_teq.removeChild(item_td_teq);
     zoteroSection.removeChild(zotLit);
+    zoteroSection.removeChild(zoteroSectionTitle);
     wikidataSection.removeChild(wikiLit);
+    wikidataSection.removeChild(wikidataSectionTitle);
     modal.style.display = "none";
   }
 
@@ -776,7 +778,9 @@ function openCourseModul(courseID) {
       modalTD_obj.removeChild(item_td_obj);
       modalTD_teq.removeChild(item_td_teq);
       zoteroSection.removeChild(zotLit);
+      zoteroSection.removeChild(zoteroSectionTitle);
       wikidataSection.removeChild(wikiLit);
+      wikidataSection.removeChild(wikidataSectionTitle);
       modal.style.display = "none";
     };
   };
