@@ -57,6 +57,7 @@ var plotlayout = {
   paper_bgcolor: "rgba(255, 255, 255, 0)"
 };
 
+// function to update title of plot for standard layout
 function standardLayout(plotlayout,selValue){
   var plotlayoutstandard = JSON.parse(JSON.stringify(plotlayout));
   plotlayoutstandard.title = ''.concat('Number of courses per ',selValue);
@@ -100,111 +101,6 @@ function buttonFunc() {
 }
 
 
-// // print literature from Wikidata TODO
-function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
-  // TODO (a bit like zotero; for now only basic)
-
-  // collect all keywords used in the current course
-  var discKeyList = keyToList(cr_disciplines);
-  var objKeyList = keyToList(cr_tadirah_objects);
-  var techKeyList = keyToList(cr_tadirah_techniques);
-  // combine theses lists into one
-  var allKeyList = []
-  for (var i = 0; i < discKeyList.length; i++){
-    allKeyList.push(discKeyList[i])
-  };
-  for (var i = 0; i < objKeyList.length; i++){
-    allKeyList.push(objKeyList[i])
-  };
-  for (var i = 0; i < techKeyList.length; i++){
-    allKeyList.push(techKeyList[i])
-  };
-
-  // the list with the resulting literature
-  var relevantLit = [];
-
-  for (var i = 0; i < dat_wiki.results.bindings.length; i++) {
-
-    // first get all the Qids from the json file
-    var itemKeyList = [];
-
-    itemKeyList.push(dat_wiki.results.bindings[i]["maintopic-qid"])
-    for (var j = 0; j < dat_wiki.results.bindings[i].topicids.value.split('; ').length; j++){
-      if (!itemKeyList.includes(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31)) ) {
-        itemKeyList.push(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31))
-      };
-    };
-
-
-    // now try to math the relevant items
-    var keyMatches = 0;
-    var keyMatchesTags = '';
-
-
-    for (var j = 0; j < itemKeyList.length; j++) {
-      var mappedTerm = getMappedCRterm(itemKeyList[j], false, true);
-      if (allKeyList.includes(mappedTerm)){
-
-        keyMatches++;
-        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
-      };
-    };
-
-
-    if(keyMatches>0){
-      rellitentry = dat_wiki.results.bindings[i];
-      rellitentry['relevance'] = keyMatches;
-      // remove last comma
-      keyMatchesTags = keyMatchesTags.slice(0, -2);
-      rellitentry['printableTags'] = keyMatchesTags;
-      relevantLit.push(rellitentry);
-    }
-
-
-  };
-
-
-  // now the relevant literature entries are sorted
-  relevantLit = sortOnKeys(relevantLit,'num')
-
-
-
-
-
-
-
-  // now the relevant literature from zotero can be displayed
-
-  var litlisthtml = document.createElement('div');
-  litlisthtml.className = "referenceEntry";
-  var myList = document.createElement('ul');
-  litlisthtml.appendChild(myList);
-
-  for (var i = 0; i < relevantLit.length; i++) {
-
-    var litEntry = document.createElement('li')
-    var litTitle = document.createElement('h4');
-    var myPara1 = document.createElement('p');
-    var keyList = document.createElement('div');
-    keyList.className = 'keywords';
-
-    litTitle.textContent = relevantLit[i].workLabel.value;
-    myPara1.textContent = relevantLit[i].authors.value;
-    keyList.textContent = relevantLit[i].topics.value;
-
-    litEntry.appendChild(litTitle);
-    litEntry.appendChild(myPara1);
-    litEntry.appendChild(keyList);
-    myList.appendChild(litEntry);
-  };
-
-
-
-return litlisthtml;
-}
-
-
-
 // tdSelector.addEventListener('change', generatePlot, false);
 tdSelector.addEventListener('change', function(){selCats = []; generatePlot()}, false);
 
@@ -220,13 +116,7 @@ function readTextFile(file, callback) {
     rawFile.send(null);
 }
 
-
-
-
-
 function generatePlot() {
-
-
       plotdata=getItems(data);
       plot(plotdata[0], plotdata[2] );
 
@@ -236,7 +126,6 @@ function generatePlot() {
       } else {
         but.style.display = "none";
       }
-
 
       tdPlot.on('plotly_click', function(data){
 
@@ -288,12 +177,6 @@ function sortOnKeys(dict, sortCrit='alpha') {
 
 
 
-
-
-
-
-
-
 function getItems(input) {
 
   selValue = tdSelector.value
@@ -325,14 +208,9 @@ function getItems(input) {
     sd = (input[i].start_date).split(";")[0].split("-")
 
     if ( (new Date(sd[0],sd[1]-1,sd[2]) >= new Date(parseInt(selYear),9-1,1) )  &&  (new Date(sd[0],sd[1]-1,sd[2]) < new Date(parseInt(selYearp1),8-1,31)) ) {
-
-
       arr.push(input[i])
-
     }
-
   };
-
 
 
   for (var i = 0; i < arr.length; i++) {
@@ -453,9 +331,11 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     allKeyList.push(techKeyList[i])
   };
 
+  // the list with the resulting literature
+  var relevantLit = [];
+
   // go through list of literature and see how many tags match with selected course
   // only literature that has matches will be included and displayed
-  var relevantLit = [];
   for (var i = 0; i < dat_zot.length; i++) {
     var keyMatches = 0;
     var keyMatchesTags = '';
@@ -524,10 +404,140 @@ function showLiteratureZotero(dat_zot, cr_disciplines, cr_tadirah_objects, cr_ta
     keyList.setAttribute("class", 'zot-keywords');
     keyList.textContent = relevantLit[i].printableTags;
     litEntry.appendChild(keyList);
+    // add everything to the list
     litlisthtml.appendChild(litEntry);
 };
 return litlisthtml;
 }
+
+
+// print literature from Wikidata
+function showLiteratureWikidata(dat_wiki, cr_disciplines, cr_tadirah_objects, cr_tadirah_techniques) {
+  // first collect all keywords used in the current course
+  var discKeyList = keyToList(cr_disciplines);
+  var objKeyList = keyToList(cr_tadirah_objects);
+  var techKeyList = keyToList(cr_tadirah_techniques);
+  // then combine theses lists into one
+  var allKeyList = []
+  for (var i = 0; i < discKeyList.length; i++){
+    allKeyList.push(discKeyList[i])
+  };
+  for (var i = 0; i < objKeyList.length; i++){
+    allKeyList.push(objKeyList[i])
+  };
+  for (var i = 0; i < techKeyList.length; i++){
+    allKeyList.push(techKeyList[i])
+  };
+
+  // the list with the resulting literature
+  var relevantLit = [];
+
+  // go through list of literature and see how many tags match with selected course
+  // only literature that has matches will be included and displayed
+  for (var i = 0; i < dat_wiki.results.bindings.length; i++) {
+    // first get all the QIDs from the json file (stored in maintopic-qid and topicids)
+    var itemKeyList = [];
+    itemKeyList.push(dat_wiki.results.bindings[i]["maintopic-qid"])
+    for (var j = 0; j < dat_wiki.results.bindings[i].topicids.value.split('; ').length; j++){
+      // if the topic is not yet in itemKeyList, add it; cut off url part (first 31 chars)
+      if (!itemKeyList.includes(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31)) ) {
+        itemKeyList.push(dat_wiki.results.bindings[i].topicids.value.split('; ')[j].slice(31))
+      };
+    };
+    // now try to match the relevant items
+    var keyMatches = 0;
+    var keyMatchesTags = '';
+    for (var j = 0; j < itemKeyList.length; j++) {
+      var mappedTerm = getMappedCRterm(itemKeyList[j], false, true);
+      if (allKeyList.includes(mappedTerm)){
+        keyMatches++;
+        keyMatchesTags = keyMatchesTags.concat(mappedTerm,', ');
+      };
+    };
+    // if there is more than 0 matches, add an attribute 'relevance' with the value
+    if(keyMatches>0){
+      rellitentry = dat_wiki.results.bindings[i];
+      rellitentry['relevance'] = keyMatches;
+      // remove last comma of list with matches and write pretty list into attribute 'printableTags'
+      keyMatchesTags = keyMatchesTags.slice(0, -2);
+      rellitentry['printableTags'] = keyMatchesTags;
+      // add this literature entry into the list with relevant literature
+      relevantLit.push(rellitentry);
+    }
+  };
+  // now the relevant literature entries are sorted by relevance
+  relevantLit = sortOnKeys(relevantLit,'num')
+  // now the relevant literature from Wikidata can be displayed in a dedicated html div element
+  var litlisthtml = document.createElement('ul');
+  litlisthtml.setAttribute("class", 'wikidata-lit-list');
+  // for each reference add title, authors, year and keywords
+  for (var i = 0; i < relevantLit.length; i++) {
+    var litEntry = document.createElement('li')
+    // Authors
+    if (relevantLit[i].authors.value){
+      var litAuthor = document.createElement('span');
+      litAuthor.setAttribute("class", 'wiki-authors');
+      litAuthor.textContent = relevantLit[i].authors.value;
+      litEntry.appendChild(litAuthor);
+    }
+    if (relevantLit[i].authors.value && relevantLit[i].authorstrings.value){
+      litEntry.appendChild(document.createTextNode(' - '));
+    }
+    // Authors, as authorstrings
+    if (relevantLit[i].authorstrings.value){
+      var litAuthorStr = document.createElement('span');
+      litAuthorStr.setAttribute("class", 'wiki-authorstrings');
+      litAuthorStr.textContent = relevantLit[i].authorstrings.value;
+      litEntry.appendChild(litAuthorStr);
+    }
+    // add author separator if we have some
+    if (relevantLit[i].authors.value || relevantLit[i].authorstrings.value){
+      litEntry.appendChild(document.createTextNode(' - '));
+    };
+    // Title
+    var litTitle = document.createElement('span');
+    litTitle.setAttribute("class", 'wiki-title');
+    litTitle.textContent = relevantLit[i].workLabel.value;
+    litEntry.appendChild(litTitle);
+    // date, if present
+    if (relevantLit[i].date){
+      var litDate = document.createElement('span');
+      litDate.setAttribute("class", 'wiki-date');
+      litEntry.appendChild(document.createTextNode(' ('));
+      litDate.textContent = relevantLit[i].date.value;
+      litEntry.appendChild(litDate);
+      litEntry.appendChild(document.createTextNode(')'));
+    };
+    // QID
+    var litLink = document.createElement('a');
+    litLink.setAttribute("href", relevantLit[i].work.value);
+    litLink.setAttribute("target", '_blank');
+    litLink.textContent = relevantLit[i].work.value.slice(31);
+    // link with wikidata icon
+    var litLinkIcon = document.createElement('img');
+    litLinkIcon.setAttribute("src", 'Styling/wikidata.ico');
+    litLinkIcon.setAttribute("alt", 'Link to item in Wikidata');
+    litLink.appendChild(litLinkIcon);
+    litEntry.appendChild(document.createElement('br'));
+    litEntry.appendChild(litLink);
+    // keywords (Wikidata)
+    var keyList = document.createElement('p');
+    keyList.setAttribute("class", 'wiki-keywords');
+    keyList.textContent = relevantLit[i].topics.value;
+    litEntry.appendChild(keyList);
+    // keywords, TaDiRAH
+    var keyListTd = document.createElement('p');
+    keyListTd.setAttribute("class", 'wiki-keywords-td');
+    keyListTd.textContent = relevantLit[i].printableTags;
+    litEntry.appendChild(keyListTd);
+    // add everything to the list
+    litlisthtml.appendChild(litEntry);
+  };
+return litlisthtml;
+}
+
+
+
 
 // concatenate list of zotero tags for url
 function createZoteroArgument(keyList) {
