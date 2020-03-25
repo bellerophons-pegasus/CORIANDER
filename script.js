@@ -68,12 +68,12 @@ countOption.text = key;
 countSelector.appendChild(countOption);
 };
 
-var selCountry = countSelector.value
+var selCountry = countSelector.value;
 var selValue = tdSelector.value;
 
 // layout options for basic bar chart
 var plotlayout = {
-  title: ''.concat('Number of courses per ',selValue),
+  title: ''.concat('Number of courses per ',selValue, ' for ', selCountry),
   height: 600,
   xaxis: {
     tickangle: 45,
@@ -90,11 +90,13 @@ var plotlayout = {
 };
 
 // function to update title of plot for standard layout
-function standardLayout(plotlayout,selValue){
+function standardLayout(plotlayout,selValue,countryValue){
   var plotlayoutstandard = JSON.parse(JSON.stringify(plotlayout));
-  plotlayoutstandard.title = ''.concat('Number of courses per ',selValue);
-  if (slider.value > 1999) {
-    plotlayoutstandard.yaxis.range = [0,50]
+  plotlayoutstandard.title = ''.concat('Number of courses per ',selValue, ' for ', countryValue);
+  if (slider.value > 1999 && countryValue == 'All Countries') {
+    plotlayoutstandard.yaxis.range = [0,50];
+  } else if (slider.value > 1999) {
+    plotlayoutstandard.yaxis.range = [0,20];
   };
   return plotlayoutstandard;
 }
@@ -174,9 +176,9 @@ function generatePlot() {
 
       var but = document.getElementById("buttonSel");
       if (selCats.length > 0) {
-        but.style.display = "block";
+        but.className = "visible";
       } else {
-        but.style.display = "none";
+        but.className = "hidden";
       };
       tdPlot.on('plotly_click', function(data){
         if (selCats.includes(Object.keys(plotdata[0])[data.points[0].pointIndex])) {
@@ -219,7 +221,7 @@ function plot(dd, courselist){
     // otherwise an "empty" plot is shown
     if (courselist.length > 0) {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue));
+      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue, selCountry));
       document.getElementById("courselist").innerHTML="";
       document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
       document.getElementById("courselist").appendChild(printcourses(courselist));
@@ -364,7 +366,7 @@ function printcourselisttitle(courseListLength){
     };
     courselisttitle.appendChild(document.createTextNode('"'));
   } else {
-    courselisttitle.appendChild(document.createTextNode('Complete course list for this year and country ('));
+    courselisttitle.appendChild(document.createTextNode('Complete course list for the current selection ('));
     courselisttitle.appendChild(document.createTextNode(courseListLength));
     courselisttitle.appendChild(document.createTextNode('):'));
   }
@@ -387,10 +389,10 @@ function printcourses(courselist){
     item.appendChild(document.createTextNode(courselist[i].institution.name));
 
     // Check if the course is recent/maintained
-    // use the "Updated" value: historical if updated ealier than 2019.
-    if (parseInt(courselist[i].updated.substring(4,0)) >= 2019) {
+    // use the "Updated" value: historic if updated ealier than 2019.
+    if (parseInt(courselist[i].updated.substring(4,0)) < 2019) {
       item.appendChild(document.createTextNode(' ('));
-      item.appendChild(document.createTextNode('recent'));
+      item.appendChild(document.createTextNode('historic'));
       item.appendChild(document.createTextNode(') '));
     }
 

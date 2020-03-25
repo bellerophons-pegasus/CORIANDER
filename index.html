@@ -27,21 +27,22 @@
     alt="A coriander leaf is our logo" />
   </div>
   <p>
-    COurse RegIstry stAtistics aNd aDditional matERial
+    <span class="h-font">CO</span>urse <span class="h-font">R</span>eg<span class="h-font">I</span>stry st<span class="h-font">A</span>tistics a<span class="h-font">N</span>d a<span class="h-font">D</span>ditional mat<span class="h-font">ER</span>ial
   </p>
 </div>
 
 <!-- PLOT & CONTROLS-->
 <div data-num="0">
-
   <p>
-    Some short description and instructions.
+    Explore the courses by keywords, countries and years. Below the plot a list with courses matching the current selection is displayed. By clicking on one of that courses further information and additional literature from a <a href="https://www.zotero.org/groups/113737/">Zotero bibliography</a> and <a href="https://www.wikidata.org/">Wikidata</a> is displayed. Want to know more? Head over to <a href="https://github.com/bellerophons-pegasus/CORIANDER">GitHub for the full README</a>.
   </p>
+  <noscript><p>This page will not work without JavaScript, in order to display the plots, course information and additional literature. You currently are either using a browser not supporting JavaScript or have deactivated it.</p></noscript>
 
   <div class="control-row">
     Selected TaDiRAH class: <div class="control-tddata"><select class="tddata">
     </select></div> in
     <div class="control-country"><select class="countryData"></select></div>
+    <button id="buttonSel" onclick="buttonFunc()">Deselect all</button>
   </div>
 
   <div id="graph"></div>
@@ -51,7 +52,6 @@
     <input type="range" min="1999" max="2020" step="1" value="1999" class="slider myRange" id="myRange">
   </div>
 
-  <button id="buttonSel" onclick="buttonFunc()">Deselect all</button>
 </div>
 
 <!-- COURSE LIST -->
@@ -86,12 +86,17 @@
 
 <!-- FOOTER -->
 <div class="footer">
-  <img id="coriander-logo-footer"
-    src="Logo/coriander-logo.svg"
-    alt="A coriander leaf is our logo" />
+  <div id="footer-img">
+    <img id="coriander-logo-footer" src="Logo/coriander-logo.svg" alt="A coriander leaf is our logo" />
   </div>
-  <div>License & Link to GitHub</div>
-  <div>Link to Course Registry</div>
+  <div id="license-gh">
+    <a href="https://github.com/bellerophons-pegasus/CORIANDER/blob/master/LICENSE">MIT License</a>
+    <br>
+    <a href="https://github.com/bellerophons-pegasus/CORIANDER"><i class="fa fa-github"></i></a>
+  </div>
+  <div id="link-cr">
+    <a href="https://dhcr.clarin-dariah.eu/"><img src="https://dhcr.clarin-dariah.eu/img/logo-300.png" alt="Link to Course Registry"></a>
+  </div>
 </div>
 </div>
 

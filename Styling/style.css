@@ -54,6 +54,21 @@ a:hover, a:focus {
   margin-top: 0;
 }
 
+.h-font {
+  font-family: 'Montserrat Alternates', sans-serif;
+  color: #006500;
+  font-weight: 700;
+}
+
+noscript p{
+  font-size: 1.5em;
+  color: #006500;
+  font-weight: 400;
+  border: 2px solid #c54c82;
+  padding: 0.3em;
+  margin-bottom: 2em;
+}
+
 /* nicer styling for dropdown and buttons */
 .control-row{
   position: relative;
@@ -76,7 +91,6 @@ a:hover, a:focus {
   pointer-events: none;
 }
 
-/* IE11 hide native button (thanks Matt!) */
 .control-row select::-ms-expand {
 display: none;
 }
@@ -101,24 +115,59 @@ display: none;
   word-break: normal;
 }
 
+.control-row select:hover {
+  background-color: #dfecdf;
+  cursor: pointer;
+}
+
+/* Button to deselect current selection */
+#buttonSel {
+  border: 2px solid #609f60;
+  border-radius: 15px;
+  height: 2em;
+  background-color: #fff;
+  padding: 0 0.5em;
+  font-size: 1em;
+  margin-left: 1em;
+}
+
+#buttonSel:hover {
+  background-color: #dfecdf;
+  cursor: pointer;
+}
 
 
+ button.visible {
+   display: inline-block;
+ }
 
-
-
-
-
-
+ button.hidden {
+   display: none;
+ }
 
 
 /* nice styling for slider */
 #slidercontainer{
-  width: 80%;
+  width: 90%;
   margin: auto;
 }
 
+#slidercontainer p, #slidercontainer input{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#slidercontainer p {
+  margin: 0;
+  width: 8em;
+}
+
+#sliderOutput {
+  display: block;
+}
+
 #myRange {
-  width: 100%;
+  max-width: 85%;
   margin: auto;
 }
 
@@ -403,7 +452,35 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
   margin-top: 1.5em;
 }
 
+#footer-img, #license-gh, #link-cr {
+  display: inline-block;
+  width: 33%;
+  vertical-align: top
+}
+
 #coriander-logo-footer {
-  width: 100px;
+  width: 5em;
   transform: scale(-1,1);
+  display: inline-block;
+}
+
+#license-gh{
+  text-align: center;
+}
+
+#license-gh i{
+  font-size: 3em;
+  margin-top: 0.3em;
+}
+
+#link-cr {
+  text-align: right;
+}
+
+#link-cr img{
+  max-width: 12em;
+}
+
+#link-cr a:hover{
+  background-color: transparent;
 }
