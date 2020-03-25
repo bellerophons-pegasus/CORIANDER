@@ -1,5 +1,6 @@
 # CORIANDER
 COurse RegIstry stAtistics aNd aDditional matERial - Adding further functionalities to the DH Cource Registry by CLARIN and DARIAH
+https://bellerophons-pegasus.github.io/CORIANDER/
 
 ## Motivation
 This project was started and executed during the second [ACDH-CH Open Data Virtual Hackathon](https://www.oeaw.ac.at/acdh/detail/event/acdh-ch-open-data-virtual-hackathon-round-two/) in March 2020.
