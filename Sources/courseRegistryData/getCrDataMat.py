@@ -149,7 +149,21 @@ for i in totList:
     totMat.append([])
     for j in totList:
         totMat[-1].append(totDict[i][j])
-            
+
+
+
+#### for the d3 code the color variable can also be generated here
+
+colors = []
+for i in disList:
+    colors.append('#FFFF00ff')
+for i in objList:
+    colors.append('#0000FFff')
+for i in teqList:
+    colors.append('#008000ff')            
+
+
+stop = len(colors)      
             
 #### finally the new file is written
          
@@ -157,7 +171,18 @@ with open('dataMat.js', 'w') as outfile:
     outfile.write('var dataMat = [ \n')
     for i in range(len(totMat)):
         
-        outfile.write(str(totMat[i]) + ', //'+ totList[i] +' \n')
-       
-    outfile.write('];')
+        outfile.write(str(totMat[i][0:stop+1]) + ', //'+ totList[i] +' \n')
+        if i == stop:
+            break
+    outfile.write(']; \n')
+        
+        
+        
+    outfile.write('var totColors =')
+    outfile.write(str(colors) ) 
+    outfile.write('; \n')
+    
+    outfile.write('var totList =')
+    outfile.write(str(totList) ) 
+    outfile.write(';')
 
