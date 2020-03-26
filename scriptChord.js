@@ -13,7 +13,7 @@ var wrapper = svg.append("g").attr("class", "chordWrapper")
 
 var outerRadius = Math.min(width, height) / 2  - 100,
 	innerRadius = outerRadius * 0.95,
-	opacityDefault = 0.7; //default opacity of chords
+	opacityDefault = 0.9; //default opacity of chords
 
 ////////////////////////////////////////////////////////////
 ////////////////////////// Data ////////////////////////////
@@ -57,7 +57,11 @@ var fill = d3.scale.ordinal()
 var g = wrapper.selectAll("g.group")
 	.data(chord.groups)
 	.enter().append("g")
-	.attr("class", "group");;
+	.attr("class", "group")
+  .on("mouseover", fade(.0))
+  .on("mouseout", fade(opacityDefault))
+  .on("click", mouseoverChord)
+  .on("mouseout", mouseoutChord);;;
 
 g.append("path")
 	.style("stroke", function(d) { return fill(d.index); })
@@ -101,12 +105,12 @@ var chords = wrapper.selectAll("path.chord")
 
 //Arcs
 g.append("title")
-	.text(function(d, i) {return Math.round(d.value) + " people in " + Names[i];});
+	.text(function(d, i) {return Math.round(d.value) + " connections with " + Names[i];});
 
 //Chords
 chords.append("title")
 	.text(function(d) {
-		return [Math.round(d.source.value), " people from ", Names[d.target.index], " to ", Names[d.source.index]].join("");
+		return [Math.round(d.source.value), " connections from ", Names[d.target.index], " to ", Names[d.source.index]].join("");
 	});
 
 ////////////////////////////////////////////////////////////
@@ -116,3 +120,55 @@ chords.append("title")
 //Include the offset in de start and end angle to rotate the Chord diagram clockwise
 function startAngle(d) { return d.startAngle + offset; }
 function endAngle(d) { return d.endAngle + offset; }
+
+function fade(opacity) {
+   return function(d,i) {
+     svg.selectAll("path.chord")
+         .filter(function(d) { return d.source.index != i && d.target.index != i; })
+     .transition()
+         .style("opacity", opacity);
+   };
+ }//fade
+
+
+ //Highlight hovered over chord
+  function mouseoverChord(d,i) {
+
+    //Decrease opacity to all
+    svg.selectAll("path.chord")
+      .transition()
+      .style("opacity", 0.1);
+    //Show hovered over chord with full opacity
+    d3.select(this)
+      .transition()
+          .style("opacity", 1);
+
+    //Define and show the tooltip over the mouse location
+    $(this).popover({
+      //placement: 'auto top',
+      title: 'test',
+      placement: 'right',
+      container: 'body',
+      animation: false,
+      offset: "20px -100px",
+      followMouse: true,
+      trigger: 'click',
+      html : true,
+      content: function() {
+        return "<p style='font-size: 11px; text-align: center;'><span style='font-weight:900'>"  +
+             "</span> text <span style='font-weight:900'>"  +
+             "</span> folgt hier <span style='font-weight:900'>" + "</span> movies </p>"; }
+    });
+    $(this).popover('show');
+  }
+  //Bring all chords back to default opacity
+  function mouseoutChord(d) {
+    //Hide the tooltip
+    $('.popover').each(function() {
+      $(this).remove();
+    })
+    //Set opacity back to default for all
+    svg.selectAll("path.chord")
+      .transition()
+      .style("opacity", opacityDefault);
+    }      //function mouseoutChord

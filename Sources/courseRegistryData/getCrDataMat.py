@@ -151,7 +151,6 @@ for i in totList:
         totMat[-1].append(totDict[i][j])
 
 
-
 #### for the d3 code the color variable can also be generated here
 
 colors = []
@@ -164,7 +163,8 @@ for i in teqList:
 
 
 stop = len(colors)      
-            
+
+
 #### finally the new file is written
          
 with open('dataMat.js', 'w') as outfile:
