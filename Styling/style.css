@@ -145,6 +145,45 @@ display: none;
    display: none;
  }
 
+ /* A fancy menu with two entries styled like a switch */
+ .link-switch {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  height: 1.75em;
+  border: 2px solid #609f60;
+  border-radius: 18px;
+  font-size: 1em;
+ }
+
+ .left-link, .right-link {
+   cursor: pointer;
+   background-color: #fff;
+   padding: 0 0.4em;
+   display: inline-block;
+   height: 1.75em;
+   vertical-align: middle;
+   line-height: 1.75em;
+ }
+
+ .left-link {
+   border-right: 2px solid #609f60;
+   border-radius: 15px 0 0 15px;
+ }
+
+ .other-page:hover, .other-page:focus {
+   background-color: #609f60;
+   color: #fff;
+ }
+
+ .right-link {
+   border-radius: 0 15px 15px 0;
+ }
+
+ .current-page{
+   background-color: #bfd8bf;
+ }
+
 
 /* nice styling for slider */
 #slidercontainer{
