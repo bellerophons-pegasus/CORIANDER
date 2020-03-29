@@ -1,5 +1,3 @@
-
-
 var screenWidth = $(window).width();
 
 var margin = {left: 50, top: 10, right: 50, bottom: 10},
@@ -26,38 +24,7 @@ var Names = totList
 var respondents = 95, //Total number of respondents (i.e. the number that makes up the group)
 	emptyPerc = 0.4, //What % of the circle should become empty in comparison to the visible arcs
 	emptyStroke = Math.round(respondents*emptyPerc); //How many "units" would define this empty percentage
-
-
-var matrix = dataMat;
-
-// Calculate the Matrix with 5 most common co-occurences
-
-function matOcu(mat,i) {
-				return mat[i].sort(function(a ,b) {
-				if (a == b) return 0;
-				if (a > b) return -1;
-				return 1;
-		})[4];
-};
-
-var matrix5 = [];
-for (var i=0; i<totList.length;i++) {
-	matrix5.push([]);
-	var refval = matOcu(matrix,i);
-	for (var j=0; j < totList.length;j++) {
-		if (coocDict[totList[i]][totList[j]] < refval) {
-			matrix5[i].push(0);
-		} else {
-			matrix5[i].push(coocDict[totList[i]][totList[j]]);
-		};
-	};
-};
-
-
-
-
-
-
+var matrix = dataMat
 //Calculate how far the Chord Diagram needs to be rotated clockwise
 //to make the dummy invisible chord center vertically
 var offset = Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
@@ -66,7 +33,7 @@ var chord = d3.layout.chord()
 	.padding(.01)
 	.sortSubgroups(d3.descending) //sort the chords inside an arc from high to low
 	.sortChords(d3.descending) //which chord should be shown on top when chords cross. Now the biggest chord is at the bottom
-	.matrix(matrix5);
+	.matrix(matrix);
 
 var arc = d3.svg.arc()
 	.innerRadius(innerRadius)
@@ -166,7 +133,7 @@ function fade(opacity) {
 
  //Highlight hovered over chord
   function mouseoverChord(d,i) {
-		console.log(this.text);
+
     //Decrease opacity to all
     svg.selectAll("path.chord")
       .transition()
@@ -194,9 +161,6 @@ function fade(opacity) {
     });
     $(this).popover('show');
   }
-
-
-
   //Bring all chords back to default opacity
   function mouseoutChord(d) {
     //Hide the tooltip
