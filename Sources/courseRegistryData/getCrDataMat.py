@@ -9,30 +9,23 @@ and techniques used in all the recent courses of the DH Course Registry.
 Data is harvested via the DHCR API and then transformed into a dictionary,
 which is further printed into a JSON file for further use.
 
-Example output:
+Envisaged output:
 {
-	"Archaeology": [{
-			"coocurrences": [{
-				"Archaeology": 0
-			}, {
-				"Arts and Cultural Studies": 20
-			}]
-		},
-		{
-			"courses": ["id1", "id2"]
-		}
-	],
-	"Arts": [{
-			"coocurrences": [{
-				"Archaeology": 20
-			}, {
-				"Arts and Cultural Studies": 0
-			}]
-		},
-		{
-			"courses": ["id2", "id3"]
-		}
-	]
+	"Archaeology":
+			{"coocurrences": {"Archaeology": 0},
+                             {"Arts and Cultural Studies": 20}
+                             ...
+            ,
+		    "color": "c54c82",
+            "categoroy": "Disciplines"
+		     },
+	"Arts":
+			{"coocurrences": {"Archaeology": 20},
+				             {"Arts and Cultural Studies": 0}
+			,
+		    "color": "c54c82",
+            "categoroy": "Disciplines"
+		    }
 }
 
 @author: lukas & martina

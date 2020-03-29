@@ -10,8 +10,7 @@
 * For updating graph upon button press
 * 	Luz K: http://bl.ocks.org/databayou/c7ac49a23c275f0dd7548669595b8017
 * 	AmeliaBR: https://stackoverflow.com/questions/21813723/change-and-transition-dataset-in-chord-diagram-with-d3
-* For hierarchichal edge bundling:
-
+*
 */
 
 /*
@@ -62,6 +61,10 @@ var offset = Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
 
 // initial dataset
 var matrix = dataMat
+
+//Include the offset in de start and end angle to rotate the Chord diagram clockwise
+function startAngle(d) { return d.startAngle + offset; };
+function endAngle(d) { return d.endAngle + offset; };
 
 //create the arc path data generator for the groups
 var arc = d3.svg.arc()
@@ -170,6 +173,18 @@ function updateChords(datamatrix, labellist, colorlist) {
 	//to make the dummy invisible chord center vertically
 	var offset = Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
 
+	//create the arc path data generator for the groups
+	var arc = d3.svg.arc()
+		.innerRadius(innerRadius)
+		.outerRadius(outerRadius)
+		.startAngle(startAngle) //startAngle and endAngle now include the offset in degrees
+		.endAngle(endAngle);
+
+	//create the chord path data generator for the chords
+	var path = d3.svg.chord()
+		.radius(innerRadius)
+		.startAngle(startAngle)
+		.endAngle(endAngle);
 
 	//////////////////// Draw outer Arcs ///////////////////////
 	var g = wrapper.selectAll("g.group")
@@ -234,10 +249,6 @@ function updateChords(datamatrix, labellist, colorlist) {
 
 
 ////////////////// Extra Functions /////////////////////////
-//Include the offset in de start and end angle to rotate the Chord diagram clockwise
-function startAngle(d) { return d.startAngle + offset; }
-function endAngle(d) { return d.endAngle + offset; }
-
 function fade(opacity) {
    return function(d,i) {
      svg.selectAll("path.chord")
@@ -250,7 +261,6 @@ function fade(opacity) {
 
  //Highlight hovered over chord
   function mouseoverChord(d,i) {
-
     //Decrease opacity to all
     svg.selectAll("path.chord")
       .transition()
@@ -263,31 +273,9 @@ function fade(opacity) {
     d3.select(this)
       .transition()
           .style("opacity", 1);
-
-    // //Define and show the tooltip over the mouse location
-    // $(this).popover({
-    //   //placement: 'auto top',
-    //   title: 'test',
-    //   placement: 'right',
-    //   container: 'body',
-    //   animation: false,
-    //   offset: "20px -100px",
-    //   followMouse: true,
-    //   trigger: 'click',
-    //   html : true,
-    //   content: function() {
-    //     return "<p style='font-size: 11px; text-align: center;'><span style='font-weight:900'>"  +
-    //          "</span> text <span style='font-weight:900'>"  +
-    //          "</span> folgt hier <span style='font-weight:900'>" + "</span> movies </p>"; }
-    // });
-    // $(this).popover('show');
   }
   //Bring all chords back to default opacity
   function mouseoutChord(d) {
-    //Hide the tooltip
-    // $('.popover').each(function() {
-    //   $(this).remove();
-    // })
     //Set opacity back to default for all
     svg.selectAll("path.chord")
       .transition()
