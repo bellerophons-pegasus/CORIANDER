@@ -136,14 +136,14 @@ function getMatrix(keywordlist){
 // Button to accept selection and draw chord diagram with selected keywords
 d3.select("#draw-diagram").on("click", function () {
 	var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
-	let values = [];
+	var values = [];
   checkboxes.forEach((checkbox) => {
       values.push(checkbox.value);
   });
   console.log(getMatrix(values));
 	var newdata = getMatrix(values); // a list with three lists
 
-    updateChords(newdata[0], newdata[1], newdata[2]);
+  updateChords(newdata[0], newdata[1], newdata[2]);
 });
 
 
