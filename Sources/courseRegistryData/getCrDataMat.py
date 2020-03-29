@@ -111,22 +111,24 @@ totList = disList + objList + teqList
 
 # We create a dictionary -> {}
 # For each keyword a dictionary that will contain values for co-occurences,
-# course ids, keyword groups, and categories is added.
-# --> {'Archaeology':{'coocurrences': {}, 'color': '',
-#                    'group': '', 'category': ''}}
+# edge color, and the keyword's category is added.
+# --> {'Archaeology':{'coocurrences': {}, 'color': '', 'category': ''}}
 # For the co-occurence count a dictionary with each keyword is added
 # Initially the values are all set to 0
-# --> {'Archaeology':{'coocurrences': {'Archaeology': 0, ...}, 'color': '',
-#                    'group': '', 'category': ''}}
+# --> {'Archaeology':{'coocurrences': {'Archaeology': 0, ...}, 'color': '#c54c82',
+#                     'category': 'Disciplines'}}
 totDict = {}
 for i in totList:
-    totDict[i] = {'coocurrences': {}, 'color': ''}
+    totDict[i] = {'coocurrences': {}, 'color': '', 'category': ''}
     if i in disList:
         totDict[i]['color'] = '#c54c82'
+        totDict[i]['category'] = 'Disciplines'
     elif i in objList:
         totDict[i]['color'] = '#003365'
+        totDict[i]['category'] = 'Objects'
     elif i in teqList:
         totDict[i]['color'] = '#609f60'
+        totDict[i]['category'] = 'Techniques'
     else:
         totDict[i]['color'] = '#9a9a9a'
     for j in totList:
