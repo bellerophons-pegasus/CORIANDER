@@ -21,7 +21,7 @@ var outerRadius = Math.min(width, height) / 2  - 100,
 ////////////////////////// Data ////////////////////////////
 ////////////////////////////////////////////////////////////
 
-var Names = totList
+var Names = totList;
 
 var respondents = 95, //Total number of respondents (i.e. the number that makes up the group)
 	emptyPerc = 0.4, //What % of the circle should become empty in comparison to the visible arcs

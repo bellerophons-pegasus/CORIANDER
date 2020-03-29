@@ -184,5 +184,9 @@ with open('dataMat.js', 'w') as outfile:
     
     outfile.write('var totList =')
     outfile.write(str(totList) ) 
-    outfile.write(';')
+    outfile.write('; \n')
+    
+    outfile.write('var coocDict = ')
+    json.dump(totDict, outfile)
+    outfile.write('; \n')
 
