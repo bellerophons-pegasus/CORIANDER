@@ -447,7 +447,7 @@ a.sco_link img{
   height: 1.2em;
   margin-left: 1.5em;
   margin-bottom: -0.1em;
-}
+},
 
 /* Styling of additional literature section */
 #modal-section-zotero, #modal-section-wikidata{
@@ -483,25 +483,70 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
   padding-left: 1em;
 }
 
+/* CHORD button */
+#draw-diagram {
+  vertical-align: top;
+  display: inline-block;
+  background-color: #fff;
+  border: 2px solid #609f60;
+  border-radius: 15px;
+  height: 2em;
+  padding: 0 0.5em;
+  text-align: center;
+  display: inline-block;
+  font-size: 1em;
+  margin-right: 2em;
+}
+
+#draw-diagram:hover, #draw-diagram:focus {
+  background-color: #609f60;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+/* CHORD slider */
+div.topx{
+  vertical-align: top;
+  max-width: 40%;
+  display: inline-block;
+  margin-top: -0.25em !important;
+}
+
+div.topx p{
+  width: 100% !important;
+  font-size: 0.9em !important;
+  line-height: 0.9em;
+}
+
+div.topx input[type=range].myRange {
+  margin: -3.5px 0;
+}
+
 /* CHORD Keyword checkboxes */
-#graph, #keyword-selector{
+#chordgraph, #keyword-selector{
   display: inline-block;
   vertical-align: top;
 }
 
-#graph {
+#chordgraph {
   padding-top: 3em;
 }
 
 #keyword-selector{
-  width: 20%;
+  width: 19%;
 }
 
 #disciplines-keys, #techniques-keys, #objects-keys{
-/*  display: inline-block;
-  width: 33.3%;
-  vertical-align: top;*/
   font-size: 0.9em;
+  margin-bottom: 1em;
+  max-height: 20em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#disciplines-keys {
+  margin-top: 1em;
 }
 
 #disciplines-keys h4, #techniques-keys h4, #objects-keys h4{
@@ -601,7 +646,7 @@ path.fade:hover{
   pointer-events: none;
 }
 path.chord {
-  stroke: #006500;
+  stroke: #cdcdcd;
   stroke-width: .10px;
   transition: opacity 0.3s;
 }
