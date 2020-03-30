@@ -57,15 +57,62 @@ var respondents = totList.length,
 
 //Calculate how far the Chord Diagram needs to be rotated clockwise
 //to make the dummy invisible chord center vertically
-var offset = Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
+var offset = 0;//Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
 
+var totDictJson = JSON.parse(totDict);
 // initial dataset
 var dataset = dataMat
+
+
+
+// slider variables
+var topxslider = document.getElementById("topxRange");
+// var topx = topxslider.value;
+var topxoutput = document.getElementById("slidertopx");
+topxoutput.innerHTML = topxslider.value;
+var topxval = topxslider.value;
+
+
+// topx matrix
+function matOcu(mat,i,topval) {
+				return mat[i].sort(function(a ,b) {
+				if (a == b) return 0;
+				if (a > b) return -1;
+				return 1;
+		})[topval-1];
+};
+
+function lineOcu(line,topval) {
+				return line.sort(function(a ,b) {
+				if (a == b) return 0;
+				if (a > b) return -1;
+				return 1;
+		})[topval-1];
+};
+
+function initialMatrix(matdat,topval) {
+	var matrixtop = [];
+	for (var i=0; i<totList.length;i++) {
+		console.log(i);
+		matrixtop.push([]);
+		var refval = matOcu(matdat,i,topval);
+		for (var j=0; j < totList.length;j++) {
+
+			if (totDictJson[totList[i]].coocurrences[totList[j]] < refval) {
+				matrixtop[i].push(0);
+			} else {
+				matrixtop[i].push(totDictJson[totList[i]].coocurrences[totList[j]]);
+			};
+		};
+	};
+	return matrixtop
+};
+
+matrixtopx = initialMatrix(dataMat,topxval)
 
 //create number formatting functions
 var formatPercent = d3.format("%");
 var numberWithCommas = d3.format("0,f");
-
 
 //Include the offset in de start and end angle to rotate the Chord diagram clockwise
 function startAngle(d) { return d.startAngle + offset; };
@@ -101,7 +148,7 @@ function getDefaultLayout() {
 		.sortChords(d3.descending); //which chord should be shown on top when chords cross. Now the biggest chord is at the bottom
 }
 var last_layout; //store layout between updates
-var neighborhoods = totList; //store neighbourhood data outside data-reading function = labels
+var nameList = totList; //store neighbourhood data outside data-reading function = labels
 var colorlist = totColors;
 
 /*
@@ -124,7 +171,7 @@ var g = d3.select("#graph").append("svg")
 	//the area, even after chords are faded out.
 
 
-updateChords(dataset, neighborhoods, totColors);
+updateChords(matrixtopx, nameList, totColors);
 
 /*
 * Step IV: Collect selected keywords and create custom data matrix
@@ -136,20 +183,41 @@ function getMatrix(keywordlist){
 	var newmatrix = [];
 	var newnames = [];
 	var newcolors = [];
-	var totDictJson = JSON.parse(totDict);
 	for(i = 0; i < keywordlist.length; i++){
 		var key= keywordlist[i];
 		var newmatrixline = [];
+
+		//new variable for topx values:
+		var topxline = []
+		for(j=0; j < totList.length; j++){
+			topxline.push(totDictJson[key].coocurrences[totList[j]]);
+		};
+		//now sort this line and use the reference value
+		var refvalshort = lineOcu(topxline,topxval);
+
 		newnames.push(keywordlist[i]);
 		newcolors.push(totDictJson[key].color)
 		for(j=0; j < keywordlist.length; j++){
-			newmatrixline.push(totDictJson[key].coocurrences[keywordlist[j]]);
+
+			// check if the value is greater than the refernce
+			if (totDictJson[key].coocurrences[keywordlist[j]] >= refvalshort) {
+				newmatrixline.push(totDictJson[key].coocurrences[keywordlist[j]]);
+			} else {
+				newmatrixline.push(0);
+			};
+
 		};
 		newmatrix.push(newmatrixline);
 	};
 	returnlist.push(newmatrix);
 	returnlist.push(newnames);
 	returnlist.push(newcolors);
+	if (keywordlist.length <= 1) {
+		returnlist = []
+		returnlist.push(matrixtopx);
+		returnlist.push(nameList);
+		returnlist.push(totColors);
+	};
 	return returnlist;
 };
 
@@ -160,17 +228,33 @@ d3.select("#draw-diagram").on("click", function () {
   checkboxes.forEach((checkbox) => {
       values.push(checkbox.value);
   });
-  console.log(getMatrix(values));
 	var newdata = getMatrix(values); // a list with three lists
-
   updateChords(newdata[0], newdata[1], newdata[2]);
 });
+
+//slider oninput
+
+topxslider.oninput = function() {
+	topxval = topxslider.value;
+	topxoutput.innerHTML = topxslider.value;
+	matrixtopx = initialMatrix(dataMat,topxval);
+	var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
+	var values = [];
+	checkboxes.forEach((checkbox) => {
+			values.push(checkbox.value);
+	});
+	var newdata = getMatrix(values); // a list with three lists
+	updateChords(newdata[0], newdata[1], newdata[2]);
+};
+
 
 
 
 /* Create OR update a chord layout from a data matrix */
-function updateChords( matrix, neighborhoods, colorlist ) {
-
+function updateChords( matrix, labelsNew, colorlist ) {
+		console.log(matrix);
+		console.log(labelsNew);
+		console.log(colorlist);
     layout = getDefaultLayout(); //create a new layout object
     layout.matrix(matrix);
 
@@ -203,7 +287,7 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		        .text(function(d, i) {
 		            return numberWithCommas(d.value)
 		                + " trips started in "
-		                + neighborhoods[i];
+		                + labelsNew[i];
 		        });
 
 		    //create the arc paths and set the constant attributes
@@ -225,6 +309,14 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            .attr("opacity", 0.5) //optional, just to observe the transition
 		        .attrTween("d", arcTween( last_layout ))
 		            .transition().duration(100).attr("opacity", 1) //reset opacity
+						.attr("id", function (d) {
+								return "group" + d.index;
+								//using d.index and not i to maintain consistency
+								//even if groups are sorted
+						})
+						.style("fill", function (d) {
+								return colorlist[d.index];
+						});
 		        ;
 
 		    //create the group labels
@@ -233,10 +325,22 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            return "#group" + d.index;
 		        })
 		        .attr("dy", ".35em")
-		        .attr("color", "#fff")
+		        // .attr("color", "#000")
 		        .text(function (d) {
-		            return neighborhoods[d.index];
+								console.log(labelsNew[d.index]);
+		            return labelsNew[d.index];
 		        });
+
+				groupG.select("text")
+						.attr("xlink:href", function (d) {
+								return "#group" + d.index;
+						})
+						.attr("dy", ".35em")
+						// .attr("color", "#000")
+						.text(function (d) {
+								console.log(labelsNew[d.index]);
+								return labelsNew[d.index];
+						});
 
 		    //position group labels to match layout
 		    groupG.select("text")
@@ -274,18 +378,18 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		    // Update all chord title texts
 		    chordPaths.select("title")
 		        .text(function(d) {
-		            if (neighborhoods[d.target.index] !== neighborhoods[d.source.index]) {
+		            if (labelsNew[d.target.index] !== labelsNew[d.source.index]) {
 		                return [numberWithCommas(d.source.value),
 		                        " trips from ",
-		                        neighborhoods[d.source.index],
+		                        labelsNew[d.source.index],
 		                        " to ",
-		                        neighborhoods[d.target.index],
+		                        labelsNew[d.target.index],
 		                        "\n",
 		                        numberWithCommas(d.target.value),
 		                        " trips from ",
-		                        neighborhoods[d.target.index],
+		                        labelsNew[d.target.index],
 		                        " to ",
-		                        neighborhoods[d.source.index]
+		                        labelsNew[d.source.index]
 		                        ].join("");
 		                    //joining an array of many strings is faster than
 		                    //repeated calls to the '+' operator,
@@ -294,7 +398,7 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            else { //source and target are the same
 		                return numberWithCommas(d.source.value)
 		                    + " trips started and ended in "
-		                    + neighborhoods[d.source.index];
+		                    + labelsNew[d.source.index];
 		            }
 		        });
 
