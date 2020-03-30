@@ -25,14 +25,49 @@
 */
 var form = document.getElementById("keyword-selector");
 
+// create three divs to group keywords by category
+var catDiscDiv = document.createElement('div');
+catDiscDiv.setAttribute("id", 'disciplines-keys');
+var discTitle = document.createElement('h4');
+discTitle.appendChild(document.createTextNode('Disciplines'));
+catDiscDiv.appendChild(discTitle);
+var catObjDiv = document.createElement('div');
+catObjDiv.setAttribute("id", 'objects-keys');
+var objTitle = document.createElement('h4');
+objTitle.appendChild(document.createTextNode('Objects'));
+catObjDiv.appendChild(objTitle);
+var catTeqDiv = document.createElement('div');
+catTeqDiv.setAttribute("id", 'techniques-keys');
+var teqTitle = document.createElement('h4');
+teqTitle.appendChild(document.createTextNode('Techniques'));
+catTeqDiv.appendChild(teqTitle);
+form.appendChild(catDiscDiv);
+form.appendChild(catObjDiv);
+form.appendChild(catTeqDiv);
+
 for (i = 0; i < totList.length; i++){
+	// create checkboxe for each keyword
+	var checkboxcontainer = document.createElement('label');
+	checkboxcontainer.setAttribute("class", 'checkcontainer');
 	var checkbox = document.createElement('input');
 	checkbox.setAttribute("type", 'checkbox');
 	checkbox.setAttribute("name", 'keyword');
 	checkbox.setAttribute("value", totList[i]);
-	form.appendChild(checkbox);
-	form.appendChild(document.createTextNode(totList[i]));
-}
+	var checkboxmark = document.createElement('span');
+  checkboxmark.setAttribute("class", 	'checkmark');
+	checkboxcontainer.appendChild(document.createTextNode(totList[i]));
+	checkboxcontainer.appendChild(checkbox);
+	checkboxcontainer.appendChild(checkboxmark);
+	// keyword category depends on where in the list we are
+	if(i < 19){
+		console.log(i);
+		catDiscDiv.appendChild(checkboxcontainer);
+	} else if(i < 55){
+		catObjDiv.appendChild(checkboxcontainer);
+	}	else {
+		catTeqDiv.appendChild(checkboxcontainer);
+	};
+};
 
 /*
 * Step II : Set initial parameters for chord diagram
