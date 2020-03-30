@@ -588,29 +588,16 @@ form .btn-primary {
     pointer-events: all;
 }
 path.chord {
-    stroke: #000;
-    stroke-width: .10px;
     transition: opacity 0.3s;
 }
  #circle:hover path.fade {
     opacity: 0;
-}
-a {
-    text-decoration: none;
-    border-bottom: 1px dotted #666;
-    color: #999;
 }
 .more a {
     color: #666;
 }
 .by a {
     color: #fff;
-}
-a:hover {
-    color: #45b8e2;
-}
-a:not(:hover) {
-    text-decoration: none;
 }
 svg {
     font-size: 10px;
@@ -619,11 +606,7 @@ svg {
     min-height: 100%;
     min-width: 100%;
 }
-button:disabled {
-    color:red;
-    background-color: lightyellow;
-}
-}
+
 
 
 
