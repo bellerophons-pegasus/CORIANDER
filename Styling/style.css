@@ -540,7 +540,7 @@ div.topx input[type=range].myRange {
 #disciplines-keys, #techniques-keys, #objects-keys{
   font-size: 0.9em;
   margin-bottom: 1em;
-  max-height: 20em;
+  max-height: 25em;
   overflow-y: scroll;
   overflow-x: hidden;
 }
