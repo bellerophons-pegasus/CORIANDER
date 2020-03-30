@@ -190,7 +190,7 @@ var colorlist = totColors;
 /*
 * Step III : Initialise the visualisation
 */
-var g = d3.select("#graph").append("svg")
+var g = d3.select("#chordgraph").append("svg")
 				.attr("width", (width + margin.left + margin.right))
 				.attr("height", (height + margin.top + margin.bottom))
 			.append("g")
@@ -231,10 +231,8 @@ function getMatrix(keywordlist){
 		for(j=0; j < keywordlist.length; j++){
 			topxline.push(totDictJson[key].coocurrences[keywordlist[j]]);
 		};
-		console.log(topxline);
 		//now sort this line and use the reference value
 		var refvalshort = lineOcu(topxline,topxval);
-		console.log(refvalshort);
 		newnames.push(keywordlist[i]);
 		newcolors.push(totDictJson[key].color)
 		for(j=0; j < keywordlist.length; j++){
@@ -309,12 +307,42 @@ topxslider.oninput = function() {
 };
 
 
-
+function getGradID(d){ return "linkGrad" + d.source.index + "-" + d.target.index; }
 
 /* Create OR update a chord layout from a data matrix */
 function updateChords( matrix, labelsNew, colorlist ) {
     layout = getDefaultLayout(); //create a new layout object
     layout.matrix(matrix);
+
+
+
+
+
+		// color gradients
+    var grads = g.append("defs")
+      .selectAll("linearGradient")
+      .data(layout.chords())
+      .enter()
+      .append("linearGradient")
+      .attr("id", getGradID)
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", function(d, i){ return innerRadius * Math.cos((d.source.endAngle-d.source.startAngle) / 2 + d.source.startAngle - Math.PI/2); })
+      .attr("y1", function(d, i){ return innerRadius * Math.sin((d.source.endAngle-d.source.startAngle) / 2 + d.source.startAngle - Math.PI/2); })
+      .attr("x2", function(d,i){ return innerRadius * Math.cos((d.target.endAngle-d.target.startAngle) / 2 + d.target.startAngle - Math.PI/2); })
+      .attr("y2", function(d,i){ return innerRadius * Math.sin((d.target.endAngle-d.target.startAngle) / 2 + d.target.startAngle - Math.PI/2); })
+
+      // set the starting color (at 0%)
+      grads.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", function(d){ return colorlist[d.source.index]})
+
+        //set the ending color (at 100%)
+      grads.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", function(d){ return colorlist[d.target.index]})
+
+
+
 
 		/* Create/update "group" elements */
     var groupG = g.selectAll("g.group")
@@ -360,6 +388,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		            return colorlist[d.index];
 		        });
 
+
 		    //update the paths to match the layout
 		    groupG.select("path")
 		        .transition()
@@ -374,7 +403,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 						})
 						.style("fill", function (d) {
 								return colorlist[d.index];
-						});
+						})
 		        ;
 
 		    //create the group labels
@@ -417,7 +446,8 @@ function updateChords( matrix, labelsNew, colorlist ) {
 
 		    /* Create/update the chord paths */
 		    var chordPaths = g.selectAll("path.chord")
-		        .data(layout.chords(), chordKey );
+		        .data(layout.chords(), chordKey )
+						;
 		            //specify a key function to match chords
 		            //between updates
 
@@ -451,9 +481,12 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		    chordPaths.transition()
 		        .duration(1500)
 		        .attr("opacity", 0.5) //optional, just to observe the transition
-		        .style("fill", function (d) {
-		            return colorlist[d.source.index];
-		        })
+		        // .style("fill", function (d) {
+		        //     return colorlist[d.source.index];
+		        // })
+
+						.style("fill", function(d){ ;return "url(#" + getGradID(d) + ")"; }) // filling with grad
+
 		        .attrTween("d", chordTween(last_layout))
 		        .transition().duration(100).attr("opacity", 1) //reset opacity
 		    ;
@@ -581,39 +614,3 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		        };
 		    };
 		}
-
-
-
-////////////////// Extra Functions /////////////////////////
-function fade(opacity) {
-   return function(d,i) {
-     svg.selectAll("path.chord")
-         .filter(function(d) { return d.source.index != i && d.target.index != i; })
-     .transition()
-         .style("opacity", opacity);
-   };
- }//fade
-
-
- //Highlight hovered over chord
-  function mouseoverChord(d,i) {
-    //Decrease opacity to all
-    svg.selectAll("path.chord")
-      .transition()
-      .style("opacity", 0.1);
-		// Trying to only make connected group opaque
-		// svg.selectAll("g.group")
-    //   .transition()
-    //   .style("opacity", 0.1);
-    //Show hovered over chord with full opacity
-    d3.select(this)
-      .transition()
-          .style("opacity", 1);
-  }
-  //Bring all chords back to default opacity
-  function mouseoutChord(d) {
-    //Set opacity back to default for all
-    svg.selectAll("path.chord")
-      .transition()
-      .style("opacity", opacityDefault);
-    }      //function mouseoutChord
