@@ -612,9 +612,6 @@ a:hover {
 a:not(:hover) {
     text-decoration: none;
 }
-text {
-    fill: #fff;
-}
 svg {
     font-size: 10px;
     color: #999;
