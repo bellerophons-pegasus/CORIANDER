@@ -117,6 +117,9 @@ function matOcu(mat,i,topval) {
 };
 
 function lineOcu(line,topval) {
+				if (topval > line.length) {
+					topval = line.length;
+				};
 				return line.sort(function(a ,b) {
 				if (a == b) return 0;
 				if (a > b) return -1;
@@ -225,12 +228,13 @@ function getMatrix(keywordlist){
 
 		//new variable for topx values:
 		var topxline = []
-		for(j=0; j < totList.length; j++){
-			topxline.push(totDictJson[key].coocurrences[totList[j]]);
+		for(j=0; j < keywordlist.length; j++){
+			topxline.push(totDictJson[key].coocurrences[keywordlist[j]]);
 		};
+		console.log(topxline);
 		//now sort this line and use the reference value
 		var refvalshort = lineOcu(topxline,topxval);
-
+		console.log(refvalshort);
 		newnames.push(keywordlist[i]);
 		newcolors.push(totDictJson[key].color)
 		for(j=0; j < keywordlist.length; j++){
