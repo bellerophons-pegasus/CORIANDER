@@ -490,7 +490,7 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
   position: relative;
   padding-left: 1.5em;
   margin-bottom: 0.4em;
-  margin-right: 0.4em; 
+  margin-right: 0.4em;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -570,8 +570,14 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
 #circle:hover path.fade {
    opacity: 0;
 }
+path.fade:hover{
+  pointer-events: none;
+}
 path.chord {
     transition: opacity 0.3s;
+}
+#circle:hover path.fade title{
+  opacity: 0;
 }
 svg {
     font-size: 10px;
