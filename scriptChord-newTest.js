@@ -60,7 +60,6 @@ for (i = 0; i < totList.length; i++){
 	checkboxcontainer.appendChild(checkboxmark);
 	// keyword category depends on where in the list we are
 	if(i < 19){
-		console.log(i);
 		catDiscDiv.appendChild(checkboxcontainer);
 	} else if(i < 55){
 		catObjDiv.appendChild(checkboxcontainer);
@@ -128,7 +127,6 @@ function lineOcu(line,topval) {
 function initialMatrix(matdat,topval) {
 	var matrixtop = [];
 	for (var i=0; i<totList.length;i++) {
-		console.log(i);
 		matrixtop.push([]);
 		var refval = matOcu(matdat,i,topval);
 		for (var j=0; j < totList.length;j++) {
@@ -211,6 +209,9 @@ updateChords(matrixtopx, nameList, totColors);
 /*
 * Step IV: Collect selected keywords and create custom data matrix
 */
+
+// create an identity matrix
+function identityMatrix(n) { var a = Array.apply(null, new Array(n)); return a.map(function(x, i) { return a.map(function(y, k) { return i === k ? 1 : 0; }) }) };
 // Create data matrix for selected keywords. Also collect keywords for labels
 // and colors. Return these three lists in one list.
 function getMatrix(keywordlist){
@@ -244,6 +245,21 @@ function getMatrix(keywordlist){
 		};
 		newmatrix.push(newmatrixline);
 	};
+
+	// check if there are any coocurrences:
+	for(i = 0; i < newmatrix.length; i++){
+		var maxcheckval = 0;
+		for(j = 0; j < newmatrix[i].length; j++){
+			if (newmatrix[i][j] > maxcheckval){
+				maxcheckval = newmatrix[i][j]
+			};
+		};
+	};
+	// now...if all entries = 0...create an alternate matrix with 1 in die diagonal
+	if (maxcheckval == 0) {
+			newmatrix = identityMatrix(keywordlist.length)
+	};
+
 	returnlist.push(newmatrix);
 	returnlist.push(newnames);
 	returnlist.push(newcolors);
@@ -287,9 +303,6 @@ topxslider.oninput = function() {
 
 /* Create OR update a chord layout from a data matrix */
 function updateChords( matrix, labelsNew, colorlist ) {
-		console.log(matrix);
-		console.log(labelsNew);
-		console.log(colorlist);
     layout = getDefaultLayout(); //create a new layout object
     layout.matrix(matrix);
 
@@ -362,7 +375,6 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		        .attr("dy", ".35em")
 		        // .attr("color", "#000")
 		        .text(function (d) {
-								console.log(labelsNew[d.index]);
 		            return labelsNew[d.index];
 		        });
 
@@ -373,7 +385,6 @@ function updateChords( matrix, labelsNew, colorlist ) {
 						.attr("dy", ".35em")
 						// .attr("color", "#000")
 						.text(function (d) {
-								console.log(labelsNew[d.index]);
 								return labelsNew[d.index];
 						});
 
@@ -384,7 +395,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		            .attr("transform", function(d) {
 		                d.angle = (d.startAngle + d.endAngle) / 2;
 		                //store the midpoint angle in the data object
-
+										console.log(d.angle);
 		                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" +
 		                    " translate(" + (innerRadius + 26) + ")" +
 		                    (d.angle > Math.PI ? " rotate(180)" : " rotate(0)");
