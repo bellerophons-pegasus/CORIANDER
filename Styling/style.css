@@ -489,14 +489,18 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
   vertical-align: top;
 }
 
+#graph {
+  padding-top: 3em;
+}
+
 #keyword-selector{
-  width: 30%;
+  width: 20%;
 }
 
 #disciplines-keys, #techniques-keys, #objects-keys{
-  display: inline-block;
+/*  display: inline-block;
   width: 33.3%;
-  vertical-align: top;
+  vertical-align: top;*/
   font-size: 0.9em;
 }
 

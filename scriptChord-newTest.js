@@ -73,11 +73,11 @@ for (i = 0; i < totList.length; i++){
 */
 var screenWidth = $(window).width();
 
-var margin = {left: 50, top: 10, right: 50, bottom: 10},
-	width = Math.min(screenWidth/3*1.6, 1400) - margin.left - margin.right,
-	height = Math.min(screenWidth/3*1.6, 1400)*5/6 - margin.top - margin.bottom;
+var margin = {left: 50, top: 20, right: -100, bottom: 10},
+	width = Math.min(screenWidth/3*1.88, 1400) - margin.left - margin.right,
+	height = Math.min(screenWidth/3*1.88, 1400)*1 - margin.top - margin.bottom;
 
-var outerRadius = Math.min(width, height) / 2  - 100,
+var outerRadius = Math.min(width, height) / 2 - 150,
 	innerRadius = outerRadius * 0.95,
 	opacityDefault = 0.9; //default opacity of chords
 
