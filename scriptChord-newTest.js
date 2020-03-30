@@ -256,8 +256,14 @@ function getMatrix(keywordlist){
 		};
 	};
 	// now...if all entries = 0...create an alternate matrix with 1 in die diagonal
+
+	var nomatchoutput = document.getElementById("nomatchoc");
+	nomatchoutput.innerHTML = 'There are no matching ocurrences for the current selection';
 	if (maxcheckval == 0) {
-			newmatrix = identityMatrix(keywordlist.length)
+			newmatrix = identityMatrix(keywordlist.length);
+			nomatchoutput.innerHTML = 'There are no matching ocurrences for the current selection';
+	} else {
+		nomatchoutput.innerHTML = '';
 	};
 
 	returnlist.push(newmatrix);
@@ -395,7 +401,6 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		            .attr("transform", function(d) {
 		                d.angle = (d.startAngle + d.endAngle) / 2;
 		                //store the midpoint angle in the data object
-										console.log(d.angle);
 		                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")" +
 		                    " translate(" + (innerRadius + 26) + ")" +
 		                    (d.angle > Math.PI ? " rotate(180)" : " rotate(0)");
