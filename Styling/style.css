@@ -530,7 +530,7 @@ div.topx input[type=range].myRange {
 }
 
 #chordgraph {
-  padding-top: 3em;
+  padding-top: 1em;
 }
 
 #keyword-selector{
@@ -538,12 +538,17 @@ div.topx input[type=range].myRange {
 }
 
 #disciplines-keys, #techniques-keys, #objects-keys{
-  font-size: 0.9em;
   margin-bottom: 1em;
-  max-height: 27.7em;
-  overflow-y: scroll;
+  border-bottom: 1px dotted #609f60;
+}
+
+#disciplines-keys-wrapper, #techniques-keys-wrapper, #objects-keys-wrapper{
+  font-size: 0.9em;
+  max-height: 25.5em;
+  overflow-y: auto;
   overflow-x: hidden;
 }
+
 
 #disciplines-keys {
   margin-top: 1em;
@@ -552,7 +557,6 @@ div.topx input[type=range].myRange {
 #disciplines-keys h4, #techniques-keys h4, #objects-keys h4{
   margin: 0;
   margin-bottom: 0.5em;
-  font-size: 1.1em;
 }
 
 
@@ -654,9 +658,9 @@ path.chord {
   opacity: 0;
 }
 svg {
-    font-size: 10px;
+    font-size: 0.8em;
     color: #999;
-    font-family:'Exo 2', sans-serif;
+/*    font-family:'Exo 2', sans-serif;*/
     min-height: 100%;
     min-width: 100%;
 }

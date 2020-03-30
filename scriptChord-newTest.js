@@ -31,16 +31,25 @@ catDiscDiv.setAttribute("id", 'disciplines-keys');
 var discTitle = document.createElement('h4');
 discTitle.appendChild(document.createTextNode('Disciplines'));
 catDiscDiv.appendChild(discTitle);
+var catDiscDivDiv = document.createElement('div');
+catDiscDivDiv.setAttribute("id", 'disciplines-keys-wrapper');
+catDiscDiv.appendChild(catDiscDivDiv);
 var catObjDiv = document.createElement('div');
 catObjDiv.setAttribute("id", 'objects-keys');
 var objTitle = document.createElement('h4');
 objTitle.appendChild(document.createTextNode('Objects'));
 catObjDiv.appendChild(objTitle);
+var catObjDivDiv = document.createElement('div');
+catObjDivDiv.setAttribute("id", 'objects-keys-wrapper');
+catObjDiv.appendChild(catObjDivDiv);
 var catTeqDiv = document.createElement('div');
 catTeqDiv.setAttribute("id", 'techniques-keys');
 var teqTitle = document.createElement('h4');
 teqTitle.appendChild(document.createTextNode('Techniques'));
 catTeqDiv.appendChild(teqTitle);
+var catTeqDivDiv = document.createElement('div');
+catTeqDivDiv.setAttribute("id", 'techniques-keys-wrapper');
+catTeqDiv.appendChild(catTeqDivDiv);
 form.appendChild(catDiscDiv);
 form.appendChild(catObjDiv);
 form.appendChild(catTeqDiv);
@@ -60,11 +69,11 @@ for (i = 0; i < totList.length; i++){
 	checkboxcontainer.appendChild(checkboxmark);
 	// keyword category depends on where in the list we are
 	if(i < 19){
-		catDiscDiv.appendChild(checkboxcontainer);
+		catDiscDivDiv.appendChild(checkboxcontainer);
 	} else if(i < 55){
-		catObjDiv.appendChild(checkboxcontainer);
+		catObjDivDiv.appendChild(checkboxcontainer);
 	}	else {
-		catTeqDiv.appendChild(checkboxcontainer);
+		catTeqDivDiv.appendChild(checkboxcontainer);
 	};
 };
 
@@ -73,11 +82,11 @@ for (i = 0; i < totList.length; i++){
 */
 var screenWidth = $(window).width();
 
-var margin = {left: 50, top: 20, right: -100, bottom: 10},
+var margin = {left: 62, top: 20, right: -100, bottom: 10},
 	width = Math.min(screenWidth/3*1.88, 1400) - margin.left - margin.right,
-	height = Math.min(screenWidth/3*1.88, 1400)*1 - margin.top - margin.bottom;
+	height = Math.min(screenWidth/3*1.88, 1400)*1.1 - margin.top - margin.bottom;
 
-var outerRadius = Math.min(width, height) / 2 - 150,
+var outerRadius = Math.min(width, height) / 2 - 170,
 	innerRadius = outerRadius * 0.95,
 	opacityDefault = 0.9; //default opacity of chords
 
