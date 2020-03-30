@@ -484,6 +484,29 @@ p.zot-keywords, p.wiki-keywords, p.wiki-keywords-td {
 }
 
 /* CHORD Keyword checkboxes */
+#graph, #keyword-selector{
+  display: inline-block;
+  vertical-align: top;
+}
+
+#keyword-selector{
+  width: 33%;
+}
+
+#disciplines-keys, #techniques-keys, #objects-keys{
+  display: inline-block;
+  width: 33.3%;
+  vertical-align: top;
+  font-size: 0.9em;
+}
+
+#disciplines-keys h4, #techniques-keys h4, #objects-keys h4{
+  margin: 0;
+  margin-bottom: 0.5em;
+  font-size: 1.1em;
+}
+
+
 /* The container */
 .checkcontainer {
   display: inline-block;
