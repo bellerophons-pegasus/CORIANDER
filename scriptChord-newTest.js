@@ -57,7 +57,7 @@ var respondents = totList.length,
 
 //Calculate how far the Chord Diagram needs to be rotated clockwise
 //to make the dummy invisible chord center vertically
-var offset = Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
+var offset = 0;//Math.PI * (emptyStroke/(respondents + emptyStroke)) / 2;
 
 // initial dataset
 var dataset = dataMat
@@ -150,6 +150,12 @@ function getMatrix(keywordlist){
 	returnlist.push(newmatrix);
 	returnlist.push(newnames);
 	returnlist.push(newcolors);
+	// if (keywordlist.length <= 1) {
+	// 	returnlist = []
+	// 	returnlist.push(dataset);
+	// 	returnlist.push(neighborhoods);
+	// 	returnlist.push(totColors);
+	// };
 	return returnlist;
 };
 
@@ -160,7 +166,7 @@ d3.select("#draw-diagram").on("click", function () {
   checkboxes.forEach((checkbox) => {
       values.push(checkbox.value);
   });
-  console.log(getMatrix(values));
+  // console.log(getMatrix(values));
 	var newdata = getMatrix(values); // a list with three lists
 
   updateChords(newdata[0], newdata[1], newdata[2]);
@@ -169,8 +175,10 @@ d3.select("#draw-diagram").on("click", function () {
 
 
 /* Create OR update a chord layout from a data matrix */
-function updateChords( matrix, neighborhoods, colorlist ) {
-
+function updateChords( matrix, labelsNew, colorlist ) {
+		console.log(matrix);
+		console.log(labelsNew);
+		console.log(colorlist);
     layout = getDefaultLayout(); //create a new layout object
     layout.matrix(matrix);
 
@@ -203,7 +211,7 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		        .text(function(d, i) {
 		            return numberWithCommas(d.value)
 		                + " trips started in "
-		                + neighborhoods[i];
+		                + labelsNew[i];
 		        });
 
 		    //create the arc paths and set the constant attributes
@@ -225,6 +233,14 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            .attr("opacity", 0.5) //optional, just to observe the transition
 		        .attrTween("d", arcTween( last_layout ))
 		            .transition().duration(100).attr("opacity", 1) //reset opacity
+						.attr("id", function (d) {
+								return "group" + d.index;
+								//using d.index and not i to maintain consistency
+								//even if groups are sorted
+						})
+						.style("fill", function (d) {
+								return colorlist[d.index];
+						});
 		        ;
 
 		    //create the group labels
@@ -233,10 +249,22 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            return "#group" + d.index;
 		        })
 		        .attr("dy", ".35em")
-		        .attr("color", "#fff")
+		        // .attr("color", "#000")
 		        .text(function (d) {
-		            return neighborhoods[d.index];
+								console.log(labelsNew[d.index]);
+		            return labelsNew[d.index];
 		        });
+
+				groupG.select("text")
+						.attr("xlink:href", function (d) {
+								return "#group" + d.index;
+						})
+						.attr("dy", ".35em")
+						// .attr("color", "#000")
+						.text(function (d) {
+								console.log(labelsNew[d.index]);
+								return labelsNew[d.index];
+						});
 
 		    //position group labels to match layout
 		    groupG.select("text")
@@ -274,18 +302,18 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		    // Update all chord title texts
 		    chordPaths.select("title")
 		        .text(function(d) {
-		            if (neighborhoods[d.target.index] !== neighborhoods[d.source.index]) {
+		            if (labelsNew[d.target.index] !== labelsNew[d.source.index]) {
 		                return [numberWithCommas(d.source.value),
 		                        " trips from ",
-		                        neighborhoods[d.source.index],
+		                        labelsNew[d.source.index],
 		                        " to ",
-		                        neighborhoods[d.target.index],
+		                        labelsNew[d.target.index],
 		                        "\n",
 		                        numberWithCommas(d.target.value),
 		                        " trips from ",
-		                        neighborhoods[d.target.index],
+		                        labelsNew[d.target.index],
 		                        " to ",
-		                        neighborhoods[d.source.index]
+		                        labelsNew[d.source.index]
 		                        ].join("");
 		                    //joining an array of many strings is faster than
 		                    //repeated calls to the '+' operator,
@@ -294,7 +322,7 @@ function updateChords( matrix, neighborhoods, colorlist ) {
 		            else { //source and target are the same
 		                return numberWithCommas(d.source.value)
 		                    + " trips started and ended in "
-		                    + neighborhoods[d.source.index];
+		                    + labelsNew[d.source.index];
 		            }
 		        });
 
