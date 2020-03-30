@@ -111,19 +111,6 @@ function emptyLayout(plotlayout){
   return plotlayoutempty;
 }
 
-// Further functionality; e.g. for layout
-// When the user scrolls down 90px from the top of the document, resize the logo
-window.onscroll = function() {scrollFunction()};
-function scrollFunction() {
-  if (document.body.scrollTop > 65 || document.documentElement.scrollTop > 65) {
-    document.getElementById("logowrapper").style.width = "50px";
-    document.getElementById("coriander-logo").style.width = "50px";
-  } else {
-    document.getElementById("logowrapper").style.width = "100px";
-    document.getElementById("coriander-logo").style.width = "100px";
-  }
-};
-
 /*
 * Step I : Ends here!
 */
