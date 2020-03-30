@@ -10,6 +10,8 @@
 * For updating graph upon button press
 * 	Luz K: http://bl.ocks.org/databayou/c7ac49a23c275f0dd7548669595b8017
 * 	AmeliaBR: https://stackoverflow.com/questions/21813723/change-and-transition-dataset-in-chord-diagram-with-d3
+* For color gradients:
+*		https://bl.ocks.org/JulienAssouline/2847e100ac7d4d3981b0f49111e185fe
 *
 */
 
@@ -115,6 +117,10 @@ var topxoutput = document.getElementById("slidertopx");
 topxoutput.innerHTML = topxslider.value;
 var topxval = topxslider.value;
 
+// checkbox for showing all connections
+var allConnex = document.getElementById("allConnex");
+// var topx = topxslider.value;
+
 
 // topx matrix
 function matOcu(mat,i,topval) {
@@ -122,7 +128,7 @@ function matOcu(mat,i,topval) {
 				if (a == b) return 0;
 				if (a > b) return -1;
 				return 1;
-		})[topval-1];
+		}).slice(topval-1)[0];
 };
 
 function lineOcu(line,topval) {
@@ -133,7 +139,7 @@ function lineOcu(line,topval) {
 				if (a == b) return 0;
 				if (a > b) return -1;
 				return 1;
-		})[topval-1];
+		}).slice(topval-1)[0];
 };
 
 function initialMatrix(matdat,topval) {
@@ -303,20 +309,50 @@ d3.select("#draw-diagram").on("click", function () {
 //slider oninput
 
 topxslider.oninput = function() {
-	topxval = topxslider.value;
-	topxoutput.innerHTML = topxslider.value;
-	matrixtopx = initialMatrix(dataMat,topxval);
-	var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
-	var values = [];
-	checkboxes.forEach((checkbox) => {
-			values.push(checkbox.value);
-	});
-	var newdata = getMatrix(values); // a list with three lists
-	updateChords(newdata[0], newdata[1], newdata[2]);
+	allConnex.checked = false;
+	if (allConnex.checked == false){
+		topxval = topxslider.value;
+		topxoutput.innerHTML = topxslider.value;
+		matrixtopx = initialMatrix(dataMat,topxval);
+		var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
+		var values = [];
+		checkboxes.forEach((checkbox) => {
+				values.push(checkbox.value);
+		});
+		var newdata = getMatrix(values); // a list with three lists
+		updateChords(newdata[0], newdata[1], newdata[2]);
+	};
 };
 
+function allConnexFunc(){
 
-function getGradID(d){ return "linkGrad" + d.source.index + "-" + d.target.index; }
+	if (allConnex.checked == true){
+		topxval =0;
+		matrixtopx = initialMatrix(dataMat,topxval);
+		var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
+		var values = [];
+		checkboxes.forEach((checkbox) => {
+				values.push(checkbox.value);
+		});
+		var newdata = getMatrix(values); // a list with three lists
+		updateChords(newdata[0], newdata[1], newdata[2]);
+
+  } else {
+		topxval = topxslider.value;
+		topxoutput.innerHTML = topxslider.value;
+		matrixtopx = initialMatrix(dataMat,topxval);
+		var checkboxes = document.querySelectorAll('input[name="keyword"]:checked');
+		var values = [];
+		checkboxes.forEach((checkbox) => {
+				values.push(checkbox.value);
+		});
+		var newdata = getMatrix(values); // a list with three lists
+		updateChords(newdata[0], newdata[1], newdata[2]);
+  }
+}
+
+
+function getGradID(d){ return "linkGrad" + d.source.index + "--" + d.target.index; }
 
 /* Create OR update a chord layout from a data matrix */
 function updateChords( matrix, labelsNew, colorlist ) {
