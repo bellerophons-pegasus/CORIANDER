@@ -74,8 +74,8 @@ for (i = 0; i < totList.length; i++){
 var screenWidth = $(window).width();
 
 var margin = {left: 50, top: 10, right: 50, bottom: 10},
-	width = Math.min(screenWidth, 1400) - margin.left - margin.right,
-	height = Math.min(screenWidth, 1400)*5/6 - margin.top - margin.bottom;
+	width = Math.min(screenWidth/3*1.6, 1400) - margin.left - margin.right,
+	height = Math.min(screenWidth/3*1.6, 1400)*5/6 - margin.top - margin.bottom;
 
 var outerRadius = Math.min(width, height) / 2  - 100,
 	innerRadius = outerRadius * 0.95,
