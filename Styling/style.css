@@ -601,7 +601,9 @@ path.fade:hover{
   pointer-events: none;
 }
 path.chord {
-    transition: opacity 0.3s;
+  stroke: #006500;
+  stroke-width: .10px;
+  transition: opacity 0.3s;
 }
 #circle:hover path.fade title{
   opacity: 0;

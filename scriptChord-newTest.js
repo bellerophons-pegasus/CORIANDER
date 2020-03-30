@@ -344,7 +344,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		    groupG.select("title")
 		        .text(function(d, i) {
 		            return numberWithCommas(d.value)
-		                + " trips started in "
+		                + " connections from "
 		                + labelsNew[i];
 		        });
 
