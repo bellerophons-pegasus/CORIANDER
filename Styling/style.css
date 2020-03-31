@@ -566,9 +566,8 @@ div.topx input[type=range].myRange {
   font-size: 0.9em;
   max-height: 25.5em;
   overflow-y: auto;
-  overflow-x: visible;
+  overflow-x: hidden;
 }
-
 
 #disciplines-keys {
   margin-top: 1em;
@@ -578,7 +577,6 @@ div.topx input[type=range].myRange {
   margin: 0;
   margin-bottom: 0.5em;
 }
-
 
 /* The container */
 .checkcontainer {
@@ -612,6 +610,11 @@ div.topx input[type=range].myRange {
   height: 1.2em;
   width: 1.2em;
   background-color: #dfecdf;
+}
+
+/* prevent keyword box content from jumping */
+#disciplines-keys-wrapper input, #techniques-keys-wrapper input, #objects-keys-wrapper input{
+  display: none;
 }
 
 /* On mouse-over, add a grey background color */

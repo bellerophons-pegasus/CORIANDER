@@ -98,3 +98,8 @@ Zotero:
 * Some terms are very general, which results in a timeout when querying for the terms and any possible sub-terms (e.g. data).
 * Publications in Wikidata are far from complete. Many do not have any subjects at all.
 * All disciplines are represented on Wikidata, which may result in literature not really relevant for DH courses. This could be improved by honing the query.
+
+
+## Findings
+
+Text, Text Mining (top 3)
