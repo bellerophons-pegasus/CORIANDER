@@ -11,7 +11,7 @@ The task was to work with data provided by the [Digital Humanities Course Regist
 ## The Dataset
 The data is provided via an [open API](https://dhcr.clarin-dariah.eu/api/v1/) which outputs a list of courses in json format. For each course several attributes are given: a name, a description, the start date, an url, the language, its type, information about the hosting institution, its city and its country, as well as keywords for three categories. The keyword categories are: Disciplines, TaDiRAH Objects, and TaDiRAH Techniques. [TaDiRAH](https://github.com/dhtaxonomy/TaDiRAH) is a community-driven taxonomy of digital research activities in the humanities.
 
-The full course registry includes a total of 377 course entries, but only 243 are currently maintained and displayed on the DHCR webpage. We worked with the full registry, but only include the 329 courses with a start date.
+The full course registry includes a total of 377 course entries, but only 243 are currently maintained and displayed on the DHCR webpage. We worked with the full registry, but only included the 329 courses with a start date.
 
 ## Idea(s)
 While the DHCR primarily offers a map based view for course exploration the three keyword categories in the filter options caught our attention. We thought: Why not explore the courses by keywords, with further options to narrow down on countries and start years?
@@ -19,23 +19,25 @@ While the DHCR primarily offers a map based view for course exploration the thre
 ### Exploration by Keywords
 This resulted into a [page with a bar chart](https://bellerophons-pegasus.github.io/CORIANDER/index.html) as centre piece. The chart gives a very quick overview on the amount of courses for each discipline, object or technique. A country can be selected as well as a specific year. When navigating this it can be very quickly seen, that in some years no courses started and that from 2015 onwards a larger increase in courses is visible.
 
-This leads to a few questions: Why are there gaps? Where does the increase of 2015 come from? Is it related to actually more courses being offered or did the DHCR just got more attention? How complete is the DHCR? (There is a nice paper on this for the Anglophone world by [C. A. Sula, S. E. Hackney and P. Cunningham: A Survey of Digital Humanities Programs](https://jitp.commons.gc.cuny.edu/a-survey-of-digital-humanities-programs/))
+This leads to a few questions: Why are there gaps? Where does the increase of 2015 come from? Is it related to actually more courses being offered or did the DHCR just get more attention? How complete is the DHCR? (There is a nice paper on this for the Anglophone world by [C. A. Sula, S. E. Hackney and P. Cunningham: A Survey of Digital Humanities Programs](https://jitp.commons.gc.cuny.edu/a-survey-of-digital-humanities-programs/))
 
 ### Adding to the Course Registry
-But instead of diving into the question of the coverage and completeness of the DHCR for Europe, we skipped right to "What could help in making the DHCR more attractive to both  teachers and students?"
+But instead of dwelling on the question of coverage and completeness of the DHCR for Europe, we skipped right to "What could help in making the DHCR more attractive to both teachers and students?", because we assume that quantity will come with an increased usefulnes of the platform.
 
-The result can be seen below the bar chart, where all courses matching the chart or a specific selection (it is possible to select keywords by clicking on the bars) are listed. When clicking on a course, a modal window appears with additional information about the course. So up until here, nothing very different from the DHCR itself. What is different though, is that the keywords are explicitly listed and we make use of them.
+The result can be seen below the bar chart, where all courses matching the chart or a specific selection (select keywords by clicking on the bars) are listed. When clicking on a course, a modal window appears with additional information about the course. Contrary to the DHCR the keywords are explicitly listed for each course and we make use of them.
 
-Since the keywords are based on the TaDiRAH taxonomy, which is also used elsewhere, we decided to investigate if any of those external sources could be useful for a teaching resource.
+Since the keywords are based on the TaDiRAH taxonomy, which is also used elsewhere, we decided to investigate if any of those external sources could be useful for a teaching resource such as the DHCR.
 
-We found, as one example, the [Zotero bibliography "Doing Digital Humanities"](https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography), a curated list of introductory literature references for the Digital Humanities. It also contains a subset of highlighted references. Now all highlighted references with keywords matching those from the current course on display are listed in the modal window ("Additional Literature - From Zotero"). Furthermore, we added a link to each keyword that brings the user to the bibliography with matching tags already selected (marked with small red Zotero icon).
+We found, as one example, the [Zotero bibliography "Doing Digital Humanities"](https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography), a curated list of introductory literature references for the Digital Humanities. It also contains a subset of highlighted references, which we further enriched with tags (see [Sources/zotero-DHLit/zotero_custom.js](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/zotero-DHLit/zotero_custom.js)). Now if any of the tags in those references matches the keywords from the current course on display, the respective reference is listed in the modal window ("Additional Literature -> From Zotero"). Furthermore, we added a link (marked with small red Zotero icon) to each keyword that directs the user to the bibliography on Zotero with matching tags already selected.
 
 To add even more references, and because it is openly and easily available, we also crafted a mapping between the TaDiRAH taxonomy and [Wikidata](https://www.wikidata.org) items. With that we were then able to query Wikidata and display resulting references in the modal window. Again, a link (marked with a small green Scholia icon) was added to each keyword that brings the user to Scholia with the respective keyword already set as topic. [Scholia](https://tools.wmflabs.org/scholia/) is a tool developed to fetch publication information from Wikidata.
 
 ### Exploring Co-occurrence of Keywords
 After all this we were not yet done. Another question popped up along the way: Which keywords are frequently used together and which not? Is it possible to see any pattern?
 
-This resulted in the second [page with a chord diagram](https://bellerophons-pegasus.github.io/CORIANDER/chord.html) as its centre piece.
+This resulted in the second [page with a chord diagram](https://bellerophons-pegasus.github.io/CORIANDER/chord.html) as centre piece. The chart is based on the co-occurrences of keywords in the courses, i.e. if e.g. Linked Open Data and 
+
+
 
 ## How To
 1. Clone this repository
