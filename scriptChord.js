@@ -271,10 +271,10 @@ function getMatrix(keywordlist){
 	// now...if all entries = 0...create an alternate matrix with 1 in die diagonal
 
 	var nomatchoutput = document.getElementById("nomatchoc");
-	nomatchoutput.innerHTML = 'There are no matching ocurrences for the current selection';
+	nomatchoutput.innerHTML = 'No Matches for the current Selection';
 	if (maxcheckval == 0) {
 			newmatrix = identityMatrix(keywordlist.length);
-			nomatchoutput.innerHTML = 'There are no matching ocurrences for the current selection';
+			nomatchoutput.innerHTML = 'No Matches for the current Selection';
 	} else {
 		nomatchoutput.innerHTML = '';
 	};
