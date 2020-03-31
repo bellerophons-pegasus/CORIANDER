@@ -100,12 +100,7 @@ Zotero:
 * Publications in Wikidata are far from complete. Many do not have any subjects at all.
 * All disciplines are represented on Wikidata, which may result in literature not really relevant for DH courses. This could be improved by honing the query.
 
-
-## Findings
-
-Text, Text Mining (top 3)
-
-## Possible Use Case
+## Exemplary Use Case
 
 * lets say one is interested in the technique Linked Open Data (a total of 98 courses in the CR)
 * use the courses page with the bar chart and browse through the available courses
