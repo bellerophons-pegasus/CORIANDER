@@ -111,10 +111,14 @@ Text, Text Mining (top 3)
 * use the courses page with the bar chart and browse through the available courses
 ![Bar Chart with LOD selected](/usecase/start_bar.png)
 *  depending on the year and country and find additional (open data) literature
+![Additional literature for the selected LOD course](/usecase/addlit.png)
 * now you want to know what disciplines connect to your topic of interest: Linked Open Data
 * on the page keywords you first see the top 5 connections between all TaDiRAH objects/techniques and Disciplines
+![All keywords in a chord diagram](/usecase/keywordsall.png)
 * since you are interested in the disciplines you can redraw the co-occurrence plot with a finer selection
 * select all disciplines and the technique Linked Open Data and redraw with this selection
 * now the top 5 connection between your topic of interest and the disciplines are shown
+![Chord diagram for a specific selection](/usecase/selection.png)
 * Linked Open Data connects to: Theory and Methodology of DH, Computer Science, Arts and Cultural Studies, History as well as Linguistic and Language Studies
+![Top 5 connections for LOD to disciplines](/usecase/lod.png)
 * these results can also be altered by changing the number of connections being shown or by displaying all available connections (this might slow or even crash the browser window dependent on the total number of connections available)
