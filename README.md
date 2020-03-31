@@ -58,7 +58,7 @@ Note that the top five (or any other selected value) connections from one keywor
 * For each course in this list there is additional literature (from Zotero and Wikidata) available, which is shown by clicking on the respective course
 ![Additional literature for the selected LOD course](/usecase/addlit.png)
 * Now you want to know which disciplines connect to your topic of interest: Linked Open Data
-* On the page keywords you will first see the top 5 connections between all TaDiRAH Objects/Techniques and Disciplines
+* On the page keywords you will first see the top 5 connections between all TaDiRAH Objects/Techniques and Disciplines. One interesting finding can be seen here already if selecting the top 1 co-occurrence. Two pairs are matching each other: `Data` and `Digital Humanities` as well as `Language` and `Linguistic and Language Studies`.
 ![All keywords in a chord diagram](/usecase/keywordsall.png)
 * Since you are interested in the disciplines you can redraw the co-occurrence plot with a finer selection
   * Select all disciplines and the technique Linked Open Data and redraw with this selection
