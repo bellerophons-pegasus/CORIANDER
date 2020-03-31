@@ -10,7 +10,7 @@
 * 	AmeliaBR: https://stackoverflow.com/questions/21813723/change-and-transition-dataset-in-chord-diagram-with-d3
 * For color gradients:
 * 	Tutorial by Nadieh Bremer: https://www.visualcinnamon.com/2016/06/orientation-gradient-d3-chord-diagram
-*   and
+*   and as a similar usage:
 *		Julien Assouline: https://gist.github.com/JulienAssouline/2847e100ac7d4d3981b0f49111e185fe
 *
 */
