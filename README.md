@@ -35,37 +35,67 @@ To add even more references, and because it is openly and easily available, we a
 ### Exploring Co-occurrence of Keywords
 After all this we were not yet done. Another question popped up along the way: Which keywords are frequently used together and which not? Is it possible to see any pattern?
 
-This resulted in the second [page with a chord diagram](https://bellerophons-pegasus.github.io/CORIANDER/chord.html) as centre piece. The chart is based on the co-occurrences of keywords in the courses, i.e. if e.g. Linked Open Data and 
+This resulted in the second [page with a chord diagram](https://bellerophons-pegasus.github.io/CORIANDER/chord.html) as centre piece. The chart is based on the co-occurrences of keywords in the courses, i.e. if e.g. "Linked Open Data" and "Computer Science" are used together in a course, the co-occurrence count is increased.
 
-
+The default view displays all keywords, but for the sake of clarity only shows the five most frequent co-occurrences for each keyword. The available checkboxes and the slider allow for customisation.
 
 ## How To
 1. Clone this repository
-2. Open index.html with your browser (project was developed for Firefox and Chrome)
+2. Open index.html with your browser (ideally Firefox or Chrome; Edge might also work; other browsers were not tested; the page does not work in Internet Explorer)
   * If the page doesn't display:
     * Check if JavaScript is supported or enabled
     * In Firefox 68 local files might be treated as cross origin and won't work. You'll need to change your settings in `about:config` for `privacy.file_unique_origin` (from true to false). See [this issue](https://discourse.mozilla.org/t/firefox-68-local-files-now-treated-as-cross-origin-1558299/42493) for more information.
-3. Alternatively just go to https://bellerophons-pegasus.github.io/CORIANDER/
+3. Alternatively just go to https://bellerophons-pegasus.github.io/CORIANDER/ were the current status of the repository is on display
 4. Happy selecting, sliding and clicking!
 
 ### Updating Source Files
-If you wan't to have the latest literature from e.g. Wikidata or one of the other used sources:
+If you want to have the latest literature from e.g. Wikidata or one of the other used sources:
 1. Execute the corresponding Python script in one of the corresponding subfolders.
   * Sources/courseRegistryData/getCrData.py updates course list
   * Sources/courseRegistryData/getCrDataMat.py updates data for chord diagram
   * Sources/wikidata/queryWikidata.py updates literature list from Wikidata
   * Sources/zotero-DHLit/zotero_json.py updates literature list from Zotero. Note that a file zotero_custom.js is currently provided and used. Literature in there was enriched with more tags.
+  * Sources/mapping.py to update the mapping based on the content in Sources/tadirah-mapping.csv
 
 ## How it Works (i.e. What did we do?)
-TODO
+* We used Python 3 for our Python scripts.
+* For the webpage HTML, CSS and JavaScript was used.
+* For the bar chart we used the [Plotly JavaScript Open Source Graphing Library](https://plotly.com/javascript/)
+* For the chord diagram we used [D3.js](https://d3js.org/)
 
-TaDiRAH:
+### Getting Data from the Course Registry
+Data is fetched with a Python script (Sources/courseRegistryData/getCrData.py) from the DHCR's [public API](https://dhcr.clarin-dariah.eu/api/v1/) and written in JSON format into Soucres/courseRegistryData/index.js for further use by our custom JavaScript.
+
+In another Python script (Sources/courseRegistryData/getCrDataMat) DHCR's data is transformed into more specific arrays (a matrix and two lists) and JSON for the chord diagram and written into Sources/courseRegistryData/dataMat.js.
+
+#### Issues we had with the Course Registry
+* Distinguishing between recent and historical data is not obvious. We assumed a last updated date of 2019 or higher for recent entries.
+* Dates of coures are not all in the same format. This is dealt with during import in the Python script.
+* Dates of about 40 courses are missing, which is why they are not taken into account, thus not displayed.
+* Labels of keywords sometimes do not contain spaces, e.g. `ResearchResults` instead of `Research Results`
+* Some labels of keywords have surrounding whitespace that should be trimmed off (we did so for matching)
+* Some keywords are duplicated (e.g in the course Media Culture, Maastricht -> `Research`; or in the course Initiation in XML-TEI coding of heritage texts (Course) Université Francois-Rabelais (2005) -> `Theory and Methodology of DH` and `Linguistics and Language Studies`)
+
+### Display of Course Data
+For the bar chart and the detail view of courses `index.html` contains the relevant HTML code, which is further expanded with the script `script.js`. Inline comments should help in clarifying what is going on in there.
+
+For the chord diagram `chord.html` contains the relevant HTML code, which is further expanded with the script `scriptChord.js`. Inline comments should help in clarifying what is going on in there.
+
+Layout and pretty optics is done with a custom CSS style sheet `Styling/style.css` and a bit of JavaScript.
+
+
+### Mapping TaDiRAH, the DHCR, Zotero and Wikidata
+In order to be able to fetch additional material matching the keywords used in the courses,
+
+### Mapping TaDiRAH
 * https://github.com/dhtaxonomy/TaDiRAH
 * http://tadirah.dariah.eu/vocab/index.php
 * https://www.wikidata.org/wiki/Wikidata:Property_proposal/TaDiRAH_ID
 
-Zotero:
+### Zotero:
 * https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography
+
+### Wikidata
 
 
 ## More Potential Sources for Enrichment:
@@ -74,13 +104,6 @@ Zotero:
 * TAPoR (successor of DiRT Directory): http://tapor.ca/?goto=pages/useful_links&
 
 ## Problems, summarised
-### Course Registry
-* Distinguishing between recent and historical data not obvious (we assumed a last updated date of 2019 or higher for recent entries)
-* Dates of coures not all in same format. This is dealt with during import in the Python script.
-* Dates of about 40 courses are missing, which is why they are not taken into account
-* Labels of keywords sometimes do not contain spaces, e.g. `ResearchResults` instead of `Research Results`
-* Some labels of keywords have surrounding whitespace that should be trimmed off
-* Some keywords are duplicated (e.g Media Culture, Maastricht -> `Research`; or Initiation in XML-TEI coding of heritage texts (Course) Université Francois-Rabelais (2005) -> `Theory and Methodology of DH` and `Linguistics and Language Studies`)
 
 ### TaDiRAH
 * List of projects using TaDiRAH provided on GitHub repository is outdated
@@ -120,3 +143,7 @@ Zotero:
 * Linked Open Data connects to: Theory and Methodology of DH, Computer Science, Arts and Cultural Studies, History as well as Linguistic and Language Studies
 ![Top 5 connections for LOD to disciplines](/usecase/lod.png)
 * These results can also be altered by changing the maximum number of connections being shown (with the slider) or by displaying all available connections (this might slow or even crash the browser window dependent on the total number of connections available)
+
+
+TODO:
+* queryWikidata.py -> exception
