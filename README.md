@@ -28,7 +28,7 @@ The result can be seen below the bar chart, where all courses matching the chart
 
 Since the keywords are based on the TaDiRAH taxonomy, which is also used elsewhere, we decided to investigate if any of those external sources could be useful for a teaching resource such as the DHCR.
 
-We found, as one example, the [Zotero bibliography "Doing Digital Humanities"](https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography), a curated list of introductory literature references for the Digital Humanities. It also contains a subset of highlighted references, which we further enriched with tags (see [Sources/zotero-DHLit/zotero_custom.js](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/zotero-DHLit/zotero_custom.js)). Now if any of the tags in those references matches the keywords from the current course on display, the respective reference is listed in the modal window ("Additional Literature -> From Zotero"). Furthermore, we added a link (marked with small red Zotero icon) to each keyword that directs the user to the bibliography on Zotero with matching tags already selected.
+We found, as one example, the [Zotero bibliography "Doing Digital Humanities"](https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography), a curated list of introductory literature references for the Digital Humanities. It also contains a subset of highlighted references (tag `*****`), which we further enriched with tags (see [Sources/zotero-DHLit/zotero_custom.js](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/zotero-DHLit/zotero_custom.js)). Now if any of the tags in those references matches the keywords from the current course on display, the respective reference is listed in the modal window ("Additional Literature -> From Zotero"). Furthermore, we added a link (marked with small red Zotero icon) to each keyword that directs the user to the bibliography on Zotero with matching tags already selected.
 
 To add even more references, and because it is openly and easily available, we also crafted a mapping between the TaDiRAH taxonomy and [Wikidata](https://www.wikidata.org) items. With that we were then able to query Wikidata and display resulting references in the modal window. Again, a link (marked with a small green Scholia icon) was added to each keyword that brings the user to Scholia with the respective keyword already set as topic. [Scholia](https://tools.wmflabs.org/scholia/) is a tool developed to fetch publication information from Wikidata.
 
@@ -38,6 +38,9 @@ After all this we were not yet done. Another question popped up along the way: W
 This resulted in the second [page with a chord diagram](https://bellerophons-pegasus.github.io/CORIANDER/chord.html) as centre piece. The chart is based on the co-occurrences of keywords in the courses, i.e. if e.g. "Linked Open Data" and "Computer Science" are used together in a course, the co-occurrence count is increased.
 
 The default view displays all keywords, but for the sake of clarity only shows the five most frequent co-occurrences for each keyword. The available checkboxes and the slider allow for customisation.
+
+Note that XXX
+ausführlicher erläutern-> A fading arc end indicates the connection is not in the counterpart's top x.
 
 ## How To
 1. Clone this repository
@@ -85,48 +88,40 @@ Layout and pretty optics is done with a custom CSS style sheet `Styling/style.cs
 
 
 ### Mapping TaDiRAH, the DHCR, Zotero and Wikidata
-In order to be able to fetch additional material matching the keywords used in the courses,
+In order to be able to fetch additional material a matching of the keywords used in the courses with the other designated sources (Zotero and Wikidata) had to be done.
 
-### Mapping TaDiRAH
-* https://github.com/dhtaxonomy/TaDiRAH
-* http://tadirah.dariah.eu/vocab/index.php
-* https://www.wikidata.org/wiki/Wikidata:Property_proposal/TaDiRAH_ID
+The keywords used in the DHCR are based on [TaDiRAH](https://github.com/dhtaxonomy/TaDiRAH), a community-driven taxonomy of digital research activities in the humanities. The TaDiRAH taxonomy is also available on a [dedicated webpage](http://tadirah.dariah.eu/vocab/index.php).
 
-### Zotero:
-* https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography
+For the mapping the csv file `Sources/tadirah-mapping.csv` was prepared. It contains the machine names and labels of TaDiRAH, which are all aligned with the keywords used in the DHCR, the tags used in Zotero, and matching Wikidata items. Though the disciplines are not part of the TaDiRAH taxonomy we were still able to match them to a few tags in the Zotero bibliography and to Wikidata items.
 
-### Wikidata
-
-
-## More Potential Sources for Enrichment:
-* PARTHENOS Standardization Survival Kit: https://github.com/ParthenosWP4/SSK
-* List of DARIAH contributions at DANS: https://dariah-beta.dans.knaw.nl/info
-* TAPoR (successor of DiRT Directory): http://tapor.ca/?goto=pages/useful_links&
-
-## Problems, summarised
-
-### TaDiRAH
-* List of projects using TaDiRAH provided on GitHub repository is outdated
+#### Issues we had with TaDiRAH
+* The list of projects using TaDiRAH provided on its GitHub repository is outdated
 * TaDiRAH terms are not used consistently across different projects
 * Some terms are very general (e.g. data, link ...)
 * Lack of descriptions for Objects and Techniques
 * Digital Humanities is not a discipline, but an Object, which seems odd; Whereas Theory and Methodology of DH is listed as a discipline
 
-### Zotero Bibliography - Doing Digital Humanities
+#### Issues we had with the [Zotero bibliography "Doing Digital Humanities"](https://www.zotero.org/groups/113737/doing_digital_humanities_-_a_dariah_bibliography)
 * Multiple tags for the same TaDiRAH term are used (e.g. `obj_Infrastructures; object: Infrastructure; Object: Infrastructures` for `Infrastructure`)
-* Though it is a curated list, many entries lack comprehensive tags. Thus, we created an enriched version of the 40 starred references (see [Sources/zotero-DHLit/zotero_custom.js](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/zotero-DHLit/zotero_custom.js))
+* Though it is a curated list, many entries lack comprehensive tags. Thus, we created an enriched version of the 40 starred references (tag `*****`; see [Sources/zotero-DHLit/zotero_custom.js](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/zotero-DHLit/zotero_custom.js))
 * It is a list from DARIAH-DE and therefore contains more German references
 
-### Wikidata
-* Mapping from TaDiRAH to Wikidata items had to be created (see [Sources/tadirah-mapping.csv](https://github.com/bellerophons-pegasus/CORIANDER/blob/master/Sources/tadirah-mapping.csv))
+
+#### Issues we had with mapping to Wikidata
+* We created a [property proposal on Wikidata](https://www.wikidata.org/wiki/Wikidata:Property_proposal/TaDiRAH_ID), which is already ready for creation
+  * This is currently on hold, due to current developments for TaDiRAH announced in [this blog post](https://dhd-blog.org/?p=13108)
 * Not all terms are present as items in Wikidata and would have to be created. We refrained from this task, because we would then still not have any literature references with that topics.
 * Not all terms can be matched precisely. Especially the ones for the disciplines.
-* Some terms are very general, which results in a timeout when querying for the terms and any possible sub-terms (e.g. data).
-* Publications in Wikidata are far from complete. Many do not have any subjects at all.
+* Some terms are very general, which results in a timeout when querying for the terms and any possible sub-terms (e.g. data). This applies to both querying via the Python script `Sources/wikidata/queryWikidata.py` and opening the respective links to Scholia.
+* Publications in Wikidata are far from complete. Many do not have any subjects at all and even more are simply not present on Wikidata.
 * All disciplines are represented on Wikidata, which may result in literature not really relevant for DH courses. This could be improved by honing the query.
 
-## Exemplary Use Case
+### More Potential Sources for Enrichment:
+* PARTHENOS Standardization Survival Kit: https://github.com/ParthenosWP4/SSK
+* List of DARIAH contributions at DANS: https://dariah-beta.dans.knaw.nl/info
+* TAPoR (successor of DiRT Directory): http://tapor.ca/?goto=pages/useful_links&
 
+## Exemplary Use Case
 * Lets say one is interested in the technique Linked Open Data (a total of 98 courses in the CR)
 * Use the courses page with the bar chart and browse through the available courses
 ![Bar Chart with LOD selected](/usecase/start_bar.png)
@@ -147,3 +142,6 @@ In order to be able to fetch additional material matching the keywords used in t
 
 TODO:
 * queryWikidata.py -> exception
+
+Known bugs
+-> labels of chord diagram not always fully visible
