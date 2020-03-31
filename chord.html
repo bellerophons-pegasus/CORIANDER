@@ -6,7 +6,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <!-- Load d3.js -->
   <script src="https://d3js.org/d3.v3.js"></script>
-  <!-- load source file with data for display -->
+  <!-- load source file with data for display; main script is loaded at bottom -->
   <script src="Sources/courseRegistryData/dataMat.js"></script>
   <!-- fonts and stylesheets for layout -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates&display=swap" rel="stylesheet">
@@ -37,30 +37,31 @@
   </p>
   <noscript><p>This page will not work without JavaScript, in order to display the plots, course information and additional literature. You currently are either using a browser not supporting JavaScript or have deactivated it.</p></noscript>
 
+<!-- A few control elements to customise the graph -->
   <div class="control-row">
     <button id="draw-diagram">Redraw with Selection</button>
     <div id="slidercontainer" class="topx">
       <p>Show only top <span id="slidertopx"></span> connections</p>
       <input type="range" min="1" max="10" step="1" value="5" class="slider myRange" id="topxRange">
     </div>
-    <input type="checkbox" id="allConnex" onclick="allConnexFunc()" >Show all connections (this could crash your browser)</input>
+    <div id="checkboxcontainer">
+      <label class="checkcontainer">Show all connections <br><span id="all-warning">(might slow browser)</span>
+        <input type="checkbox" id="allConnex" onclick="allConnexFunc()"></input>
+        <span class="checkmark"></span>
+      </label>
+    </div>
     <div class="link-switch">
       <a href="index.html" class="left-link other-page">Courses</a><a href="chord.html" class="right-link current-page">Keywords</a>
     </div>
     <div id="nomatchoc"></div>
   </div>
 
+<!-- The main graph with keywords for selection-->
 <div id="graphwrapper">
   <form name="keywords" id="keyword-selector"></form>
   <div id="chordgraph"></div>
 </div>
 </div>
-
-
-
-
-
-
 
 
 <!-- FOOTER -->

@@ -208,13 +208,13 @@ function plot(dd, courselist){
     // otherwise an "empty" plot is shown
     if (courselist.length > 0) {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue, selCountry));
+      Plotly.newPlot('graph', plotdata , standardLayout(plotlayout,selValue, selCountry), {displayModeBar: false});
       document.getElementById("courselist").innerHTML="";
       document.getElementById("courselist").appendChild(printcourselisttitle(courselist.length));
       document.getElementById("courselist").appendChild(printcourses(courselist));
     } else {
       document.getElementById("graph").innerHTML="";
-      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , emptyLayout(plotlayout));
+      Plotly.newPlot('graph', [{data: [],  type:'bar'}] , emptyLayout(plotlayout), {displayModeBar: false});
       document.getElementById("courselist").innerHTML="";
     };
 };
