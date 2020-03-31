@@ -33,7 +33,7 @@
 <!-- PLOT & CONTROLS-->
 <div data-num="0">
   <p>
-    Explore the courses by keywords, countries and years. Below the plot a list with courses matching the current selection is displayed. By clicking on one of that courses further information and additional literature from a <a href="https://www.zotero.org/groups/113737/">Zotero bibliography</a> and <a href="https://www.wikidata.org/">Wikidata</a> is displayed. Click on <a href="chord.html">Keywords</a> for a visualisation of relationships. To know more go to <a href="https://github.com/bellerophons-pegasus/CORIANDER">GitHub for the full README</a>.
+    Explore how keywords co-occur with each other in the chord diagram. Select individual keywords and click on 'Redraw with Selection' for customisation. The slider sets the number of most frequent connections to display. Click on <a href="index.html">Courses</a> to explore the courses and get additional literature. To know more go to <a href="https://github.com/bellerophons-pegasus/CORIANDER">GitHub for the full README</a>.
   </p>
   <noscript><p>This page will not work without JavaScript, in order to display the plots, course information and additional literature. You currently are either using a browser not supporting JavaScript or have deactivated it.</p></noscript>
 
@@ -58,7 +58,32 @@
 
 <!-- The main graph with keywords for selection-->
 <div id="graphwrapper">
-  <form name="keywords" id="keyword-selector"></form>
+  <form name="keywords" id="keyword-selector">
+    <div id="disciplines-keys">
+      <h4>Disciplines</h4>
+      <label class="checkcontainer">all
+        <input type="checkbox" id="allDisciplines" onclick="toggleDisc(this, 'disciplines')"></input>
+        <span class="checkmark"></span>
+      </label>
+      <div id="disciplines-keys-wrapper"></div>
+    </div>
+    <div id="objects-keys">
+      <h4>Objects</h4>
+      <label class="checkcontainer">all
+        <input type="checkbox" id="allObjects" onclick="toggleDisc(this, 'objects')"></input>
+        <span class="checkmark"></span>
+      </label>
+      <div id="objects-keys-wrapper"></div>
+    </div>
+    <div id="techniques-keys">
+      <h4>Techniques</h4>
+      <label class="checkcontainer">all
+        <input type="checkbox" id="allTechniques" onclick="toggleDisc(this, 'techniques')"></input>
+        <span class="checkmark"></span>
+      </label>
+      <div id="techniques-keys-wrapper"></div>
+    </div>
+  </form>
   <div id="chordgraph"></div>
 </div>
 </div>

@@ -567,6 +567,8 @@ div.topx input[type=range].myRange {
   max-height: 25.5em;
   overflow-y: auto;
   overflow-x: hidden;
+  border-top: 1px dotted #609f60;
+  padding-top: 0.2em;
 }
 
 #disciplines-keys {
@@ -576,6 +578,8 @@ div.topx input[type=range].myRange {
 #disciplines-keys h4, #techniques-keys h4, #objects-keys h4{
   margin: 0;
   margin-bottom: 0.5em;
+  display: inline-block;
+  margin-right: 0.5em;
 }
 
 /* The container */

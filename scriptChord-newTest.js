@@ -23,38 +23,11 @@
 
 /*
 * Step I : Create checkboxes for keyword selection based on entries in totList.
-* 				 The checkboxes are added to a form element.
+* 				 The checkboxes are added to its corresponding div in a form element.
 */
-var form = document.getElementById("keyword-selector");
-
-// create three divs to group keywords by category
-var catDiscDiv = document.createElement('div');
-catDiscDiv.setAttribute("id", 'disciplines-keys');
-var discTitle = document.createElement('h4');
-discTitle.appendChild(document.createTextNode('Disciplines'));
-catDiscDiv.appendChild(discTitle);
-var catDiscDivDiv = document.createElement('div');
-catDiscDivDiv.setAttribute("id", 'disciplines-keys-wrapper');
-catDiscDiv.appendChild(catDiscDivDiv);
-var catObjDiv = document.createElement('div');
-catObjDiv.setAttribute("id", 'objects-keys');
-var objTitle = document.createElement('h4');
-objTitle.appendChild(document.createTextNode('Objects'));
-catObjDiv.appendChild(objTitle);
-var catObjDivDiv = document.createElement('div');
-catObjDivDiv.setAttribute("id", 'objects-keys-wrapper');
-catObjDiv.appendChild(catObjDivDiv);
-var catTeqDiv = document.createElement('div');
-catTeqDiv.setAttribute("id", 'techniques-keys');
-var teqTitle = document.createElement('h4');
-teqTitle.appendChild(document.createTextNode('Techniques'));
-catTeqDiv.appendChild(teqTitle);
-var catTeqDivDiv = document.createElement('div');
-catTeqDivDiv.setAttribute("id", 'techniques-keys-wrapper');
-catTeqDiv.appendChild(catTeqDivDiv);
-form.appendChild(catDiscDiv);
-form.appendChild(catObjDiv);
-form.appendChild(catTeqDiv);
+var catDiscDiv = document.getElementById("disciplines-keys-wrapper");
+var catObjDiv = document.getElementById("objects-keys-wrapper");
+var catTeqDiv = document.getElementById("techniques-keys-wrapper");
 
 for (i = 0; i < totList.length; i++){
 	// create checkboxe for each keyword
@@ -71,12 +44,22 @@ for (i = 0; i < totList.length; i++){
 	checkboxcontainer.appendChild(checkboxmark);
 	// keyword category depends on where in the list we are
 	if(i < 19){
-		catDiscDivDiv.appendChild(checkboxcontainer);
+		catDiscDiv.appendChild(checkboxcontainer);
 	} else if(i < 55){
-		catObjDivDiv.appendChild(checkboxcontainer);
+		catObjDiv.appendChild(checkboxcontainer);
 	}	else {
-		catTeqDivDiv.appendChild(checkboxcontainer);
+		catTeqDiv.appendChild(checkboxcontainer);
 	};
+};
+
+// Function to select all keywords from a category
+function toggleDisc(source, category){
+	var selectArg = ''.concat('#',category,'-keys-wrapper input[type="checkbox"]')
+  var checkboxes = document.querySelectorAll(selectArg);
+  for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i] != source)
+          checkboxes[i].checked = source.checked;
+  }
 };
 
 /*
