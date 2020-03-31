@@ -102,7 +102,21 @@ Zotero:
 * Publications in Wikidata are far from complete. Many do not have any subjects at all.
 * All disciplines are represented on Wikidata, which may result in literature not really relevant for DH courses. This could be improved by honing the query.
 
+## Exemplary Use Case
 
-## Findings
-
-Text, Text Mining (top 3)
+* Lets say one is interested in the technique Linked Open Data (a total of 98 courses in the CR)
+* Use the courses page with the bar chart and browse through the available courses
+![Bar Chart with LOD selected](/usecase/start_bar.png)
+* You can also select a year and/or a country to narrow down the course list
+* For each course in this list there is additional literature (from Zotero and Wikidata) available, which is shown by clicking on the respective course
+![Additional literature for the selected LOD course](/usecase/addlit.png)
+* Now you want to know which disciplines connect to your topic of interest: Linked Open Data
+* On the page keywords you will first see the top 5 connections between all TaDiRAH Objects/Techniques and Disciplines
+![All keywords in a chord diagram](/usecase/keywordsall.png)
+* Since you are interested in the disciplines you can redraw the co-occurrence plot with a finer selection
+  * Select all disciplines and the technique Linked Open Data and redraw with this selection
+  * Now the top 5 connections between your topic of interest and the disciplines are shown
+![Chord diagram for a specific selection](/usecase/selection.png)
+* Linked Open Data connects to: Theory and Methodology of DH, Computer Science, Arts and Cultural Studies, History as well as Linguistic and Language Studies
+![Top 5 connections for LOD to disciplines](/usecase/lod.png)
+* These results can also be altered by changing the maximum number of connections being shown (with the slider) or by displaying all available connections (this might slow or even crash the browser window dependent on the total number of connections available)
