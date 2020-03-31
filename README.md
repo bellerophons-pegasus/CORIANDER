@@ -70,7 +70,7 @@ Note that the top five (or any other selected value) connections from one keywor
 
 ## How To
 1. Clone this repository
-2. Open index.html with your browser (ideally Firefox or Chrome; Edge might also work; other browsers were not tested; the page does not work in Internet Explorer)
+2. Open index.html with your browser (ideally Firefox or Chrome; Edge also seems to work; other browsers were not tested; the page does not work in Internet Explorer)
   * If the page doesn't display:
     * Check if JavaScript is supported or enabled
     * In Firefox 68 local files might be treated as cross origin and won't work. You'll need to change your settings in `about:config` for `privacy.file_unique_origin` (from true to false). See [this issue](https://discourse.mozilla.org/t/firefox-68-local-files-now-treated-as-cross-origin-1558299/42493) for more information.
