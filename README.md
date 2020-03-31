@@ -1,6 +1,7 @@
 # CORIANDER
 COurse RegIstry stAtistics aNd aDditional matERial - Adding further functionalities to the DH Cource Registry by CLARIN and DARIAH
-https://bellerophons-pegasus.github.io/CORIANDER/
+
+View webpage: https://bellerophons-pegasus.github.io/CORIANDER/
 
 ## Motivation
 This project was started and executed during the second [ACDH-CH Open Data Virtual Hackathon](https://www.oeaw.ac.at/acdh/detail/event/acdh-ch-open-data-virtual-hackathon-round-two/) in March 2020.
@@ -10,7 +11,7 @@ The task was to work with data provided by the [Digital Humanities Course Regist
 ## The Dataset
 The data is provided via an [open API](https://dhcr.clarin-dariah.eu/api/v1/) which outputs a list of courses in json format. For each course several attributes are given: a name, a description, the start date, an url, the language, its type, information about the hosting institution, its city and its country, as well as keywords for three categories. The keyword categories are: Disciplines, TaDiRAH Objects, and TaDiRAH Techniques. [TaDiRAH](https://github.com/dhtaxonomy/TaDiRAH) is a community-driven taxonomy of digital research activities in the humanities.
 
-The full course registry includes a total of 377 course entries, but only 243 are currently maintained and displayed on the DHCR webpage.
+The full course registry includes a total of 377 course entries, but only 243 are currently maintained and displayed on the DHCR webpage. We worked with the full registry, but only include the 329 courses with a start date.
 
 ## Idea(s)
 While the DHCR primarily offers a map based view for course exploration the three keyword categories in the filter options caught our attention. We thought: Why not explore the courses by keywords, with further options to narrow down on countries and start years?
