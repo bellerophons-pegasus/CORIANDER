@@ -933,11 +933,9 @@ function openCourseModul(courseID) {
   };
 }
 
-
 /*
 * Step V : Ends here!
 */
-
 
 
 /*

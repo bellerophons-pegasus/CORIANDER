@@ -70,7 +70,6 @@ with urllib.request.urlopen("https://dhcr.clarin-dariah.eu/api/v1/courses/index?
 
 # A list to store lists with all keywords from each item of the course list
 keyWordList = []
-# TODO: hier könnte man noch course id speichern
 
 # Lists for unique disciplines, objects, techniques, and a list for all together
 disList = []
@@ -126,7 +125,6 @@ for i in totList:
         totDict[i]['color'] = '#9a9a9a'
     for j in totList:
         totDict[i]['coocurrences'][j] = 0
-#        print(totDict[i]['coocurrences'])
 
 # Now each list in keywordlist will be checked and the count of the respective
 # co-occurence pair in totDict is increased

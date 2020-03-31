@@ -10,7 +10,7 @@ If the desired date format is not used it will be corrected accordingly.
 A course without any date information is not included into the dataset.
 The whole dataset is saved into the variable 'data' in the file index.js.
 
-@author: lukas
+@author: lukas and martina
 ########################################################################
 """
 # Import of needed libraries
@@ -38,6 +38,7 @@ with urllib.request.urlopen("https://dhcr.clarin-dariah.eu/api/v1/courses/index"
                         new_date = datetime.strptime(dd, '%Y-%m-%d')
                         new_date_str += dd
                     except ValueError:
+                        # Corrects for a single date format
                         new_date = datetime.strptime(dd, '%Y-%m')
                         new_date = new_date.strftime('%Y-%m-%d')
                         new_date_str += new_date
