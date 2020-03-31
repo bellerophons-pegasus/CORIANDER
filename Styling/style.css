@@ -85,7 +85,7 @@ noscript p{
   top: 6px;*/
   left: -2em;
   height: 1.75em;
-  padding: 0.55em 0 0.2em 0.25em;
+  padding: 0.45em 0 0.4em 0.25em;
   border-left: 2px solid #609f60;
   position: relative;
   pointer-events: none;
@@ -447,7 +447,7 @@ a.sco_link img{
   height: 1.2em;
   margin-left: 1.5em;
   margin-bottom: -0.1em;
-},
+}
 
 /* Styling of additional literature section */
 #modal-section-zotero, #modal-section-wikidata{
@@ -521,6 +521,26 @@ div.topx p{
 
 div.topx input[type=range].myRange {
   margin: -3.5px 0;
+}
+
+/* CHORD show all */
+#checkboxcontainer {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.9em;
+  margin-left: 1em;
+}
+
+#checkboxcontainer .checkcontainer {
+  margin: 0;
+  margin-top: -0.15em;
+}
+
+#checkboxcontainer
+.checkmark {
+  height: 1.3em;
+  width: 1.3em;
+  margin-top: 0.6em;
 }
 
 /* CHORD Keyword checkboxes */
