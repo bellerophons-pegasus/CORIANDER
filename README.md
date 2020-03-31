@@ -13,7 +13,7 @@ The data is provided via an [open API](https://dhcr.clarin-dariah.eu/api/v1/) wh
 The full course registry includes a total of 377 course entries, but only 243 are currently maintained and displayed on the DHCR webpage.
 
 ## Idea(s)
-While the DHCR primarily offers a map based view four course exploration the three keyword categories in the filter options caught our attention. We thought: Why not explore the courses by keywords, with further options to narrow down on countries and start years?
+While the DHCR primarily offers a map based view for course exploration the three keyword categories in the filter options caught our attention. We thought: Why not explore the courses by keywords, with further options to narrow down on countries and start years?
 
 ### Exploration by Keywords
 This resulted into a [page with a bar chart](https://bellerophons-pegasus.github.io/CORIANDER/index.html) as centre piece. The chart gives a very quick overview on the amount of courses for each discipline, object or technique. A country can be selected as well as a specific year. When navigating this it can be very quickly seen, that in some years no courses started and that from 2015 onwards a larger increase in courses is visible.
