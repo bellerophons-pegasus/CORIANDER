@@ -270,11 +270,16 @@ function getMatrix(keywordlist){
 	};
 	// now...if all entries = 0...create an alternate matrix with 1 in die diagonal
 
+  // Warning if selection can not be drawn
 	var nomatchoutput = document.getElementById("nomatchoc");
-	nomatchoutput.innerHTML = 'No Matches for the current Selection';
+	var nomatchoutputp = document.createElement('p');
+	nomatchoutput.appendChild(nomatchoutputp);
+	nomatchoutputp.innerHTML = 'No matches for the current selection. Showing all keywords.';
 	if (maxcheckval == 0) {
+		  nomatchoutput.innerHTML = '';
 			newmatrix = identityMatrix(keywordlist.length);
-			nomatchoutput.innerHTML = 'No Matches for the current Selection';
+			nomatchoutputp.innerHTML = 'No matches for the current selection. Showing all keywords.';
+			nomatchoutput.appendChild(nomatchoutputp);
 	} else {
 		nomatchoutput.innerHTML = '';
 	};
