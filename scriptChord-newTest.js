@@ -223,6 +223,7 @@ var g = d3.select("#chordgraph").append("svg")
 
 
 updateChords(matrixtopx, nameList, totColors);
+// updateChords(matrixtopx, nameList, totColors);
 
 /*
 * Step IV: Collect selected keywords and create custom data matrix
@@ -303,7 +304,8 @@ d3.select("#draw-diagram").on("click", function () {
       values.push(checkbox.value);
   });
 	var newdata = getMatrix(values); // a list with three lists
-  updateChords(newdata[0], newdata[1], newdata[2]);
+	updateChords(newdata[0], newdata[1], newdata[2]);
+	// updateChords(newdata[0], newdata[1], newdata[2]);
 });
 
 //slider oninput
@@ -321,6 +323,7 @@ topxslider.oninput = function() {
 		});
 		var newdata = getMatrix(values); // a list with three lists
 		updateChords(newdata[0], newdata[1], newdata[2]);
+		// updateChords(newdata[0], newdata[1], newdata[2]);
 	};
 };
 
@@ -336,6 +339,7 @@ function allConnexFunc(){
 		});
 		var newdata = getMatrix(values); // a list with three lists
 		updateChords(newdata[0], newdata[1], newdata[2]);
+		// updateChords(newdata[0], newdata[1], newdata[2]);
 
   } else {
 		topxval = topxslider.value;
@@ -348,11 +352,16 @@ function allConnexFunc(){
 		});
 		var newdata = getMatrix(values); // a list with three lists
 		updateChords(newdata[0], newdata[1], newdata[2]);
+		// updateChords(newdata[0], newdata[1], newdata[2]);
   }
 }
 
 
-function getGradID(d){ return "linkGrad" + d.source.index + "--" + d.target.index; }
+
+
+
+
+
 
 /* Create OR update a chord layout from a data matrix */
 function updateChords( matrix, labelsNew, colorlist ) {
@@ -360,31 +369,37 @@ function updateChords( matrix, labelsNew, colorlist ) {
     layout.matrix(matrix);
 
 
+		var colors = d3.scale.ordinal()
+	    .domain(d3.range(labelsNew.length))
+			.range(colorlist);
 
 
+		//Function to create the unique id for each chord gradient
+		function getGradID(d){ return "linkGrad#" + d.source.index + "#" + d.target.index; }
 
-		// color gradients
-    var grads = g.append("defs")
-      .selectAll("linearGradient")
-      .data(layout.chords())
-      .enter()
-      .append("linearGradient")
-      .attr("id", getGradID)
-      .attr("gradientUnits", "userSpaceOnUse")
-      .attr("x1", function(d, i){ return innerRadius * Math.cos((d.source.endAngle-d.source.startAngle) / 2 + d.source.startAngle - Math.PI/2); })
-      .attr("y1", function(d, i){ return innerRadius * Math.sin((d.source.endAngle-d.source.startAngle) / 2 + d.source.startAngle - Math.PI/2); })
-      .attr("x2", function(d,i){ return innerRadius * Math.cos((d.target.endAngle-d.target.startAngle) / 2 + d.target.startAngle - Math.PI/2); })
-      .attr("y2", function(d,i){ return innerRadius * Math.sin((d.target.endAngle-d.target.startAngle) / 2 + d.target.startAngle - Math.PI/2); })
+		//Create the gradients definitions for each chord
+		var grads = g.html("").append("defs").selectAll("linearGradient")
+			.data(layout.chords(), chordKey)
+		  .enter().append("linearGradient")
+		    //Create the unique ID for this specific source-target pairing
+			.attr("id", getGradID)
+			.attr("gradientUnits", "userSpaceOnUse")
+			//Find the location where the source chord starts
+			.attr("x1", function(d,i) { return innerRadius * Math.cos((d.source.endAngle-d.source.startAngle)/2 + d.source.startAngle - Math.PI/2); })
+			.attr("y1", function(d,i) { return innerRadius * Math.sin((d.source.endAngle-d.source.startAngle)/2 + d.source.startAngle - Math.PI/2); })
+			//Find the location where the target chord starts
+			.attr("x2", function(d,i) { return innerRadius * Math.cos((d.target.endAngle-d.target.startAngle)/2 + d.target.startAngle - Math.PI/2); })
+			.attr("y2", function(d,i) { return innerRadius * Math.sin((d.target.endAngle-d.target.startAngle)/2 + d.target.startAngle - Math.PI/2); })
 
-      // set the starting color (at 0%)
-      grads.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", function(d){ return colorlist[d.source.index]})
+		//Set the starting color (at 0%)
+		grads.append("stop")
+			.attr("offset", "0%")
+			.attr("stop-color", function(d){ return colors(d.source.index); });
 
-        //set the ending color (at 100%)
-      grads.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", function(d){ return colorlist[d.target.index]})
+		//Set the ending color (at 100%)
+		grads.append("stop")
+			.attr("offset", "100%")
+			.attr("stop-color", function(d){ return colors(d.target.index); });
 
 
 
@@ -430,7 +445,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		            //even if groups are sorted
 		        })
 		        .style("fill", function (d) {
-		            return colorlist[d.index];
+		            return colors(d.index);
 		        });
 
 
@@ -447,7 +462,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 								//even if groups are sorted
 						})
 						.style("fill", function (d) {
-								return colorlist[d.index];
+								return colors(d.index);
 						})
 		        ;
 
@@ -492,6 +507,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		    /* Create/update the chord paths */
 		    var chordPaths = g.selectAll("path.chord")
 		        .data(layout.chords(), chordKey )
+						.style("fill", function(d){ ;return "url(#" + getGradID(d) + ")"; }) // filling with grad
 						;
 		            //specify a key function to match chords
 		            //between updates
@@ -522,6 +538,10 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		        .attr("opacity", 0)
 		        .remove();
 
+
+
+
+
 		    //update the path shape
 		    chordPaths.transition()
 		        .duration(1500)
@@ -529,9 +549,7 @@ function updateChords( matrix, labelsNew, colorlist ) {
 		        // .style("fill", function (d) {
 		        //     return colorlist[d.source.index];
 		        // })
-
 						.style("fill", function(d){ ;return "url(#" + getGradID(d) + ")"; }) // filling with grad
-
 		        .attrTween("d", chordTween(last_layout))
 		        .transition().duration(100).attr("opacity", 1) //reset opacity
 		    ;
