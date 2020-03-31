@@ -6,6 +6,11 @@ View webpage: https://bellerophons-pegasus.github.io/CORIANDER/
 ##### Table of contents
 [Motivation](#motivation)
 [Dataset](#the-dataset)
+[Idea(s)](#ideas)
+[Exemplary Use Case](#exemplary-use-case)
+[How To](#how-to)
+[How it Works & Issues](#how-it-works-ie-what-did-we-do)
+[Known Bugs](#known-bugs-and-shortcomings)
 
 ## Motivation
 This project was started and executed during the second [ACDH-CH Open Data Virtual Hackathon](https://www.oeaw.ac.at/acdh/detail/event/acdh-ch-open-data-virtual-hackathon-round-two/) in March 2020.
