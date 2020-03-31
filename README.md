@@ -39,8 +39,25 @@ This resulted in the second [page with a chord diagram](https://bellerophons-peg
 
 The default view displays all keywords, but for the sake of clarity only shows the five most frequent co-occurrences for each keyword. The available checkboxes and the slider allow for customisation.
 
-Note that XXX
-ausführlicher erläutern-> A fading arc end indicates the connection is not in the counterpart's top x.
+Note that the top five (or any other selected value) connections from one keyword might not be in the top five of another connected keyword. This is visible with the very thin and fading arcs.
+
+## Exemplary Use Case
+* Lets say one is interested in the technique Linked Open Data (a total of 98 courses in the CR)
+* Use the courses page with the bar chart and browse through the available courses
+![Bar Chart with LOD selected](/usecase/start_bar.png)
+* You can also select a year and/or a country to narrow down the course list
+* For each course in this list there is additional literature (from Zotero and Wikidata) available, which is shown by clicking on the respective course
+![Additional literature for the selected LOD course](/usecase/addlit.png)
+* Now you want to know which disciplines connect to your topic of interest: Linked Open Data
+* On the page keywords you will first see the top 5 connections between all TaDiRAH Objects/Techniques and Disciplines
+![All keywords in a chord diagram](/usecase/keywordsall.png)
+* Since you are interested in the disciplines you can redraw the co-occurrence plot with a finer selection
+  * Select all disciplines and the technique Linked Open Data and redraw with this selection
+  * Now the top 5 connections between your topic of interest and the disciplines are shown
+![Chord diagram for a specific selection](/usecase/selection.png)
+* Linked Open Data connects to: Theory and Methodology of DH, Computer Science, Arts and Cultural Studies, History as well as Linguistic and Language Studies
+![Top 5 connections for LOD to disciplines](/usecase/lod.png)
+* These results can also be altered by changing the maximum number of connections being shown (with the slider) or by displaying all available connections (this might slow or even crash the browser window dependent on the total number of connections available)
 
 ## How To
 1. Clone this repository
@@ -121,27 +138,9 @@ For the mapping the csv file `Sources/tadirah-mapping.csv` was prepared. It cont
 * List of DARIAH contributions at DANS: https://dariah-beta.dans.knaw.nl/info
 * TAPoR (successor of DiRT Directory): http://tapor.ca/?goto=pages/useful_links&
 
-## Exemplary Use Case
-* Lets say one is interested in the technique Linked Open Data (a total of 98 courses in the CR)
-* Use the courses page with the bar chart and browse through the available courses
-![Bar Chart with LOD selected](/usecase/start_bar.png)
-* You can also select a year and/or a country to narrow down the course list
-* For each course in this list there is additional literature (from Zotero and Wikidata) available, which is shown by clicking on the respective course
-![Additional literature for the selected LOD course](/usecase/addlit.png)
-* Now you want to know which disciplines connect to your topic of interest: Linked Open Data
-* On the page keywords you will first see the top 5 connections between all TaDiRAH Objects/Techniques and Disciplines
-![All keywords in a chord diagram](/usecase/keywordsall.png)
-* Since you are interested in the disciplines you can redraw the co-occurrence plot with a finer selection
-  * Select all disciplines and the technique Linked Open Data and redraw with this selection
-  * Now the top 5 connections between your topic of interest and the disciplines are shown
-![Chord diagram for a specific selection](/usecase/selection.png)
-* Linked Open Data connects to: Theory and Methodology of DH, Computer Science, Arts and Cultural Studies, History as well as Linguistic and Language Studies
-![Top 5 connections for LOD to disciplines](/usecase/lod.png)
-* These results can also be altered by changing the maximum number of connections being shown (with the slider) or by displaying all available connections (this might slow or even crash the browser window dependent on the total number of connections available)
-
-
-TODO:
-* queryWikidata.py -> exception
-
-Known bugs
--> labels of chord diagram not always fully visible
+## Known Bugs and Shortcomings
+* In `Sources/wikidata/queryWikidata.py` the exception `except json.decoder.JSONDecodeError` might not work.
+  * Workaround: uncomment that line and use `expect:` instead
+* The labels in the chord diagram are sometimes cut off
+* Webpage was crafted for full desktop view, no mobile version
+* Webpage does not work in Internet Explorer

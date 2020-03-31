@@ -64,6 +64,7 @@ for qid in qidlist:
             print('Success!')
         # on failure
         except json.decoder.JSONDecodeError:
+        # except: # uncomment this line if the one above does not work
             print('... got no valid result')
             print('Server response:', r)
             # try querying with simpler query (no child concepts of topic)
@@ -77,6 +78,7 @@ for qid in qidlist:
                     print('Success!')
                 # on second time failure
                 except json.decoder.JSONDecodeError:
+                # except: # uncomment this line if the one above does not work
                     print('... still no valid result')
                     print('Server response:', r)
                     print('Topic might be too general to query for in reasonable time.')
