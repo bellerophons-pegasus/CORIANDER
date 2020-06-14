@@ -786,7 +786,7 @@ function openCourseModul(courseID) {
             var sco_link = document.createElement('a');
             sco_link.setAttribute("class", 'sco_link');
             sco_link.setAttribute("target", '_blank');
-            sco_link.setAttribute("href", ''.concat('https://tools.wmflabs.org/scholia/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
+            sco_link.setAttribute("href", ''.concat('https://scholia.toolforge.org/topic/', mapping[0][data[i].disciplines[j].name.trim()]['wikidata'] ));
             // link with icon
             var sco_link_icon = document.createElement('img');
             sco_link_icon.setAttribute("src", 'Styling/scholia.ico');
